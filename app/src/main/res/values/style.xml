@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:itemBackground">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="AppTheme.ListViewItem">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/gotham_rounded_book</item>
+    </style>
+    <style name="AppTheme.ListViewItem.OrderSubLine">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black_50</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/gotham_rounded_book</item>
+    </style>
+    <style name="AppTheme.TextAppearance">
+        <item name="android:color">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+    <style name="AppTheme.TextAppearance.Medium14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/gotham_rounded_medium</item>
+    </style>
+    <style name="AppTheme.EmptyView">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="AppTheme.EmptyView.Title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">@dimen/spacing_large</item>
+
+    </style>
+    <style name="AppTheme.EmptyView.Body">
+        <item name="android:textColor">@color/black_50</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:layout_marginStart">@dimen/spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_large</item>
+        <item name="android:layout_marginTop">@dimen/spacing_medium</item>
+    </style>
+    <style name="AppTheme.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/gotham_rounded_medium</item>
+    </style>
+
+    <style name="AppTheme.Button.RoundedButton">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:paddingStart">@dimen/spacing_medium</item>
+        <item name="android:paddingEnd">@dimen/spacing_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="AppTheme.ListViewItem.ChatMessage">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="AppTheme.ListViewItem.ChatMessage.Theirs">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTheme.ListViewItem.ChatMessage.Time">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="AppTheme.ListViewItem.ChatMessage.Mine">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="AppTheme.EditText.ChatMessage">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">12sp</item>
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/gray</item>
+        <item name="colorControlHighlight">@color/gray</item>n
+    </style>
+    <style name="AppTheme.EditText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/gray</item>
+        <item name="colorControlHighlight">@color/gray</item>n
+    </style>
+
+
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_35sdp"
+    android:layout_marginEnd="@dimen/_35sdp"
+    android:background="@drawable/white_radius"
+    android:padding="@dimen/_15sdp"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/are_you_sure_you_finished_laundry_items"
+        android:fontFamily="@font/gotham_rounded_bold"
+        android:textSize="@dimen/_13ssp"
+        android:textColor="@color/black"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="@dimen/_15sdp">
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/gotham_rounded_medium"
+            android:textColor="@color/mid_grey"
+            android:textSize="@dimen/_11ssp"/>
+        <TextView
+            android:id="@+id/finished_laundry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/finished_laundry"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/gotham_rounded_medium"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/_11ssp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.appcompat.widget.LinearLayoutCompat>

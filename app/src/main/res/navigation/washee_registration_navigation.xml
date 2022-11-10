@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/washee_registration_navigation"
+    app:startDestination="@id/washeeIntroFragment">
+
+    <fragment
+        android:id="@+id/washeeIntroFragment"
+        android:name="com.washathomes.views.registration.washeeregistration.WasheeIntroFragment"
+        android:label="fragment_washee_intro"
+        tools:layout="@layout/fragment_washee_intro" >
+        <action
+            android:id="@+id/action_washeeIntroFragment_to_washeeSignUpFragment"
+            app:destination="@id/washeeSignUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washeeSignUpFragment"
+        android:name="com.washathomes.views.registration.washeeregistration.WasheeSignUpFragment"
+        android:label="fragment_washee_sign_up"
+        tools:layout="@layout/fragment_washee_sign_up" />
+</navigation>

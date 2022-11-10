@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/courierHomeFragment"
+        android:icon="@drawable/tab_home"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/courierInboxFragment"
+        android:icon="@drawable/tab_inbox"
+        android:title="@string/title_inbox" />
+
+    <item
+        android:id="@+id/courierWalletFragment"
+        android:icon="@drawable/tab_wallet"
+        android:title="@string/wallet" />
+
+    <item
+        android:id="@+id/courierMoreFragment"
+        android:icon="@drawable/tab_more"
+        android:title="@string/title_more" />
+
+</menu>

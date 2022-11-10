@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/blue"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        android:elevation="4dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:gravity="center"
+                android:text="@string/delivery_info"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp" />
+            <ImageView
+                android:id="@+id/toolbar_back_icon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/_4sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/deliveryInfoFooter"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
+        android:scrollbars="none">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8ssp"
+            android:layout_marginEnd="@dimen/_8ssp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/delivery_info_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8ssp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/progress_active_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_27sdp"
+                    android:layout_marginEnd="@dimen/_27sdp"
+                    android:background="@color/blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/progress_inactive_line"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:background="@color/blue_inactive"
+                    android:elevation="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/progress_step4_image"
+                    app:layout_constraintStart_toStartOf="@id/progress_step2_image"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/progress_step1_image"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/white"
+                    android:elevation="3dp"
+                    android:outlineProvider="none"
+                    android:src="@drawable/progress_state_active_ticked"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/progress_step1_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:text="@string/title_basket"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="@id/progress_step1_image"
+                    app:layout_constraintStart_toStartOf="@id/progress_step1_image"
+                    app:layout_constraintTop_toBottomOf="@id/progress_step1_image" />
+
+                <ImageView
+                    android:id="@+id/progress_step2_image"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/white"
+                    android:elevation="3dp"
+                    android:outlineProvider="none"
+                    android:src="@drawable/progress_state_active_empty"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/progress_active_line"
+                    app:layout_constraintHorizontal_bias="0.33"
+                    app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/progress_step2_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:text="@string/delivery_info"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="@id/progress_step2_image"
+                    app:layout_constraintStart_toStartOf="@id/progress_step2_image"
+                    app:layout_constraintTop_toBottomOf="@id/progress_step2_image"
+                    tools:text="@string/delivery_info" />
+
+                <ImageView
+                    android:id="@+id/progress_step3_image"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/white"
+                    android:elevation="3dp"
+                    android:outlineProvider="none"
+                    android:src="@drawable/progress_state_inactive_empty"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/progress_active_line"
+                    app:layout_constraintHorizontal_bias="0.66"
+                    app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/progress_step3_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:text="@string/overview"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="@id/progress_step3_image"
+                    app:layout_constraintStart_toStartOf="@id/progress_step3_image"
+                    app:layout_constraintTop_toBottomOf="@id/progress_step3_image"
+                    tools:text="@string/overview" />
+
+                <ImageView
+                    android:id="@+id/progress_step4_image"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/white"
+                    android:elevation="3dp"
+                    android:outlineProvider="none"
+                    android:src="@drawable/progress_state_inactive_empty"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/progress_active_line"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/progress_step4_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:maxWidth="80dp"
+                    android:text="@string/payment"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="@id/progress_step4_image"
+                    app:layout_constraintStart_toStartOf="@id/progress_step4_image"
+                    app:layout_constraintTop_toBottomOf="@id/progress_step4_image" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/deliveryServiceSpeedTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/delivery_speed"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/deliveryServiceSpeedNormal"
+                style="@style/Theme.WashHomeApplication.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:theme="@style/Theme.MaterialComponents.Light"
+
+                app:layout_constraintTop_toBottomOf="@id/deliveryServiceSpeedTitle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp">
+
+                    <RadioButton
+                        android:id="@+id/deliveryServiceSpeedNormalRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_tint_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/deliveryServiceSpeedNormalTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_rounded_light"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:text="@string/normal_delivery"
+                        app:layout_constraintStart_toEndOf="@id/deliveryServiceSpeedNormalRadio"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:text="@string/laundry_done_in_48_hours"
+                        android:textColor="@color/black_50"
+                        android:fontFamily="@font/gotham_rounded_light"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintEnd_toStartOf="@id/free"
+                        app:layout_constraintStart_toStartOf="@id/deliveryServiceSpeedNormalTitle"
+                        app:layout_constraintTop_toBottomOf="@id/deliveryServiceSpeedNormalTitle" />
+
+                    <TextView
+                        android:id="@+id/free"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="@string/free"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/deliveryServiceSpeedExpress"
+                style="@style/Theme.WashHomeApplication.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:layout_constraintTop_toBottomOf="@id/deliveryServiceSpeedNormal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp">
+
+                    <RadioButton
+                        android:id="@+id/deliveryServiceSpeedExpressRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:buttonTint="@color/checkbox_tint_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/deliveryServiceSpeedExpressTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gotham_rounded_light"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        android:text="@string/express_delivery"
+                        app:layout_constraintStart_toEndOf="@id/deliveryServiceSpeedExpressRadio"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:text="@string/laundry_done_in_24_hours"
+                        android:textColor="@color/black_50"
+                        android:fontFamily="@font/gotham_rounded_light"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintEnd_toStartOf="@id/deliveryExpressAmount"
+                        app:layout_constraintStart_toStartOf="@id/deliveryServiceSpeedExpressTitle"
+                        app:layout_constraintTop_toBottomOf="@id/deliveryServiceSpeedExpressTitle" />
+
+                    <TextView
+                        android:id="@+id/deliveryExpressAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_bold"
+                        tools:text="($2.50)" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/deliveryOptionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10ssp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/delivery_options"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_bold"
+                app:layout_constraintTop_toBottomOf="@id/delivery_info_progress" />
+
+            <TextView
+                android:id="@+id/delivery_fees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delivery_fee_for_every_5_miles_is"
+                android:fontFamily="@font/gotham_rounded_light"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/black"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/deliveryOptionTitle" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/deliveryOthersCollectLayout"
+                style="@style/Theme.WashHomeApplication.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:layout_constraintTop_toBottomOf="@id/selfDropOffLayout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_4sdp">
+
+                    <RadioButton
+                        android:id="@+id/deliveryOthersCollectRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:checked="true"
+                        android:buttonTint="@color/checkbox_tint_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/deliveryOthersCollectTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/washer_driver_to_collect_amp_return"
+                        android:fontFamily="@font/gotham_rounded_light"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/deliveryOthersCollectAmount"
+                        app:layout_constraintStart_toEndOf="@id/deliveryOthersCollectRadio"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/deliveryOthersCollectAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="($2.50)" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/selfDropOffLayout"
+                style="@style/Theme.WashHomeApplication.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:layout_constraintTop_toBottomOf="@id/delivery_fees">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_4sdp">
+
+                    <RadioButton
+                        android:id="@+id/selfDropOffRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:buttonTint="@color/checkbox_tint_color"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/selfDropOffTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/self_drop_off_amp_pickup"
+                        android:fontFamily="@font/gotham_rounded_light"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/selfDropOffPrice"
+                        app:layout_constraintStart_toEndOf="@id/selfDropOffRadio"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/selfDropOffPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="@string/free"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/pick_up_address_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:layout_constraintTop_toBottomOf="@id/deliveryOthersCollectLayout">
+
+                <TextView
+                    android:id="@+id/pick_up_address_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:text="@string/pick_up_location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/pick_up_deliveryAddressCard"
+                    style="@style/Theme.WashHomeApplication.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:layout_constraintTop_toBottomOf="@id/pick_up_address_title">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:src="@drawable/map_img"/>
+
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/pick_up_time_date"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_bold"
+                app:layout_constraintTop_toBottomOf="@id/deliveryServiceSpeedExpress" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/pick_up_date_layout"
+                style="@style/Theme.WashHomeApplication.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:clickable="true"
+                android:focusable="true"
+                android:theme="@style/Theme.MaterialComponents.Light">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp">
+                    <TextView
+                        android:id="@+id/pick_up_date_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textColor="@color/dark_grey"
+                        android:fontFamily="@font/gotham_rounded_book"
+                        android:text="@string/date"
+                        android:textSize="@dimen/_8ssp"/>
+                    <TextView
+                        android:id="@+id/pick_up_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/pick_up_date_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/gotham_rounded_medium"
+                        android:text="@string/select_date"
+                        android:textSize="@dimen/_10ssp"/>
+                    <ImageView
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        app:layout_constraintBottom_toBottomOf="@id/pick_up_date"
+                        app:layout_constraintTop_toTopOf="@id/pick_up_date"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:src="@drawable/calendar"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/pick_up_time_layout"
+                style="@style/Theme.WashHomeApplication.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:clickable="true"
+                android:focusable="true"
+                android:theme="@style/Theme.MaterialComponents.Light">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp">
+                    <TextView
+                        android:id="@+id/pick_up_time_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:textColor="@color/dark_grey"
+                        android:fontFamily="@font/gotham_rounded_book"
+                        android:text="@string/time"
+                        android:textSize="@dimen/_8ssp"/>
+                    <Spinner
+                        android:id="@+id/pick_up_times_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/pick_up_time_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_10sdp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/switch_same_pick_up_drop_off"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/black"
+                    android:text="@string/i_want_to_use_the_same_pick_up_data_for_drop_off_too"/>
+                <ImageView
+                    android:id="@+id/switch_same_pick_up_drop_off"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/switch_on"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/drop_off_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/drop_off_address_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    app:layout_constraintTop_toBottomOf="@id/deliveryOthersCollectLayout">
+
+                    <TextView
+                        android:id="@+id/drop_off_address_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_bold"
+                        android:text="@string/drop_off_location"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/drop_off_deliveryAddressCard"
+                        style="@style/Theme.WashHomeApplication.CardView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:theme="@style/Theme.MaterialComponents.Light"
+                        app:layout_constraintTop_toBottomOf="@id/drop_off_address_title">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_100sdp"
+                            android:src="@drawable/map_img"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/drop_off_time_date"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    app:layout_constraintTop_toBottomOf="@id/deliveryServiceSpeedExpress" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/drop_off_date_layout"
+                    style="@style/Theme.WashHomeApplication.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:theme="@style/Theme.MaterialComponents.Light">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp">
+                        <TextView
+                            android:id="@+id/drop_off_date_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:textColor="@color/dark_grey"
+                            android:fontFamily="@font/gotham_rounded_book"
+                            android:text="@string/date"
+                            android:textSize="@dimen/_8ssp"/>
+                        <TextView
+                            android:id="@+id/drop_off_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/drop_off_date_title"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/gotham_rounded_medium"
+                            android:text="@string/select_date"
+                            android:textSize="@dimen/_10ssp"/>
+                        <ImageView
+                            android:layout_width="@dimen/_13sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            app:layout_constraintBottom_toBottomOf="@id/drop_off_date"
+                            app:layout_constraintTop_toTopOf="@id/drop_off_date"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginEnd="@dimen/_3sdp"
+                            android:src="@drawable/calendar"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/drop_off_time_layout"
+                    style="@style/Theme.WashHomeApplication.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:theme="@style/Theme.MaterialComponents.Light">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp">
+                        <TextView
+                            android:id="@+id/drop_off_time_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:textColor="@color/dark_grey"
+                            android:fontFamily="@font/gotham_rounded_book"
+                            android:text="@string/time"
+                            android:textSize="@dimen/_8ssp"/>
+                        <Spinner
+                            android:id="@+id/drop_off_times_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/drop_off_time_title"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_10sdp">
+                <TextView
+                    android:id="@+id/insurace_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/switch_insurance"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/black"
+                    android:text="@string/i_want_to_insure_my_laundry_items"/>
+                <ImageView
+                    android:id="@+id/switch_insurance"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/switch_off_gray"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/deliveryInfoFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/light_gray_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/promoCodeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_overlined"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/promoCodeEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:hint="@string/promo_code"
+                android:textSize="@dimen/_12ssp"
+                android:backgroundTint="@color/white"
+                android:textColorHint="@color/mid_grey"
+                android:fontFamily="@font/gotham_rounded_light"
+                app:layout_constraintEnd_toStartOf="@id/promoCodeBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <Button
+                android:id="@+id/promoCodeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/promoCodeLayout"
+                android:fontFamily="@font/gotham_rounded_light"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_10ssp"
+                android:text="@string/apply"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/blue"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/paymentDiscountLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_overlined"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/promoCodeLayout">
+
+            <TextView
+                android:id="@+id/paymentDiscountLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:text="@string/discount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/gotham_rounded_light"/>
+
+            <TextView
+                android:id="@+id/paymentDiscountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/paymentDiscountLabel"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/gotham_rounded_light"
+                tools:text="$15" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/paymentDiscountLayout"
+            android:background="@color/black_trans10"/>
+
+        <TextView
+            android:id="@+id/deliveryCurrentTotalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:text="@string/basket_total"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/gotham_rounded_light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/paymentDiscountLayout" />
+
+        <TextView
+            android:id="@+id/deliveryCurrentTotalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_12ssp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/gotham_rounded_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/deliveryCurrentTotalLabel"
+            tools:text="$15" />
+
+        <TextView
+            android:id="@+id/deliveryInfoNextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_rounded_bold"
+            android:background="@color/blue"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:textAllCaps="false"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="@string/overview"
+            app:layout_constraintTop_toBottomOf="@id/deliveryCurrentTotalLabel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

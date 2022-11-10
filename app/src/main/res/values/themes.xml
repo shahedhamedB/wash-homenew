@@ -1,0 +1,93 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.WashHomeApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue</item>
+        <item name="colorSecondaryVariant">@color/blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.WashHomeApplication.SearchViewStyle">
+        <item name="android:textColorHint">@color/black_trans30</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.SearchViewTheme">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/gotham_rounded_book</item>
+        <item name="queryBackground">@color/light_grey</item>
+        <item name="submitBackground">@color/light_grey</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.Picker">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="colorControlNormal">@color/black_05</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.Picker.HeaderTitle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.Picker.HeaderButton">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.CheckBox">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/checkbox_text_color</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/gotham_rounded_book</item>
+        <item name="android:buttonTint">@color/checkbox_tint_color</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlNormal">@color/green</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/gotham_rounded_medium</item>
+    </style>
+
+    <style name="BottomNavigation.ActiveItemTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/gotham_rounded_bold</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.CardView">
+        <item name="strokeColor">@color/light_grey</item>
+        <item name="strokeWidth">0.6dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="cardCornerRadius">@dimen/_10sdp</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.SwitchCompat" parent="Theme.AppCompat.Light">
+        <item name="colorButtonNormal">@color/blue</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlHighlight">@color/blue</item>
+    </style>
+
+    <style name="Theme.WashHomeApplication.RoundedButton">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:paddingStart">@dimen/_10sdp</item>
+        <item name="android:paddingEnd">@dimen/_10sdp</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CustomSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">@color/gray_switch</item>
+        <item name="android:progressTint">@color/blue</item>
+        <item name="android:colorControlActivated">@color/blue</item>
+    </style>
+</resources>
