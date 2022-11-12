@@ -82,8 +82,8 @@ class CourierOrderDetailsFragment : Fragment() {
         binding.dropOffDate.text = AppDefs.orderHistory.delivery_date
         binding.pickUpTime.text = AppDefs.orderHistory.pickup_time
         binding.dropOffTime.text = AppDefs.orderHistory.delivery_time
-        val taxPercent = AppDefs.deliveryInfoPrices[8].price.toDouble()*100
-        binding.paymentTaxLabel.text = resources.getString(R.string.tax)+" ("+taxPercent+"%)"
+//        val taxPercent = AppDefs.deliveryInfoPrices[8].price.toDouble()*100
+//        binding.paymentTaxLabel.text = resources.getString(R.string.tax)+" ("+taxPercent+"%)"
         binding.paymentCurrentTotalText.text = ""+AppDefs.orderHistory.total_amount
         binding.paymentSubTotalText.text = ""+AppDefs.orderHistory.sub_total
         binding.paymentTaxText.text = ""+AppDefs.orderHistory.tax

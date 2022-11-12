@@ -102,7 +102,7 @@ class CourierProfileDetailsFragment : Fragment() {
 
     private fun initViews(view: View){
         navController = Navigation.findNavController(view)
-        type = "2"
+        type = "3"
         binding.phoneNumberEdt.setText(AppDefs.user.results!!.phone)
         binding.fullNameEdt.setText(AppDefs.user.results!!.name)
         binding.emailAddressEdt.setText(AppDefs.user.results!!.email)
@@ -159,6 +159,7 @@ class CourierProfileDetailsFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, REQUEST_IMAGE_GALLERY)
+            alertBuilder.dismiss()
         }
 
     }
@@ -192,6 +193,8 @@ class CourierProfileDetailsFragment : Fragment() {
             binding.birthdate.text = birthdate
 
         }, year, month, day)
+
+        dpd.datePicker.maxDate = System.currentTimeMillis()
 
         dpd.show()
     }
@@ -230,7 +233,7 @@ class CourierProfileDetailsFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(courierMainActivity, "Null", Toast.LENGTH_LONG).show()
+//                Toast.makeText(courierMainActivity, "Null", Toast.LENGTH_LONG).show()
             }
         }
     }

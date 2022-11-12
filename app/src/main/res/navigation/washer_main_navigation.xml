@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_washerMoreFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_washerMoreFragment_to_washerNotificationsFragment"
+            app:destination="@id/washerNotificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/washerProfileFragment"
@@ -198,7 +201,11 @@
         android:id="@+id/washerWalletFragment"
         android:name="com.washathomes.views.main.washer.wallet.WasherWalletFragment"
         android:label="fragment_washer_wallet"
-        tools:layout="@layout/fragment_washer_wallet" />
+        tools:layout="@layout/fragment_washer_wallet" >
+        <action
+            android:id="@+id/action_washerWalletFragment_to_washerNotificationsFragment"
+            app:destination="@id/washerNotificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/manageServicesFragment"
         android:name="com.washathomes.views.main.washer.more.settings.manageservices.ManageServicesFragment"

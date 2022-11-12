@@ -83,8 +83,8 @@ class WasherOrderDetailsFragment : Fragment() {
         binding.pickUpTime.text = AppDefs.orderHistory.pickup_time
         binding.dropOffTime.text = AppDefs.orderHistory.delivery_time
         binding.viewItems.text = resources.getString(R.string.view_items)+" ("+ AppDefs.orderHistory.orders_items.size+")"
-        val taxPercent = AppDefs.deliveryInfoPrices[8].price.toDouble()*100
-        binding.paymentTaxLabel.text = resources.getString(R.string.tax)+" ("+taxPercent+"%)"
+//        val taxPercent = AppDefs.deliveryInfoPrices[8].price.toDouble()*100
+//        binding.paymentTaxLabel.text = resources.getString(R.string.tax)+" ("+taxPercent+"%)"
         binding.paymentCurrentTotalText.text = ""+AppDefs.orderHistory.total_amount
         binding.paymentSubTotalText.text = ""+AppDefs.orderHistory.sub_total
         binding.paymentTaxText.text = ""+AppDefs.orderHistory.tax

@@ -150,26 +150,25 @@
                             android:id="@+id/favorite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:text="@string/favorites"
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_15ssp"
-                            android:layout_marginBottom="@dimen/_10sdp"
                             android:fontFamily="@font/gotham_rounded_bold"/>
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/items_RV"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                android:paddingBottom="@dimen/_4sdp"
-                                tools:itemCount="3"
-                                android:overScrollMode="ifContentScrolls"
-                                tools:listitem="@layout/item_layout"
-                                android:visibility="visible"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/items_RV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:paddingBottom="@dimen/_4sdp"
+                            tools:itemCount="3"
+                            android:overScrollMode="ifContentScrolls"
+                            tools:listitem="@layout/item_layout"
+                            android:visibility="gone"/>
 
                         <LinearLayout
                             android:id="@+id/no_favorites_layout"
@@ -177,13 +176,12 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             android:orientation="vertical">
 
                             <ImageView
                                 android:layout_width="@dimen/_100sdp"
                                 android:layout_height="@dimen/_100sdp"
-                                android:layout_marginTop="@dimen/_10sdp"
                                 android:src="@drawable/no_favorites" />
 
                             <TextView
@@ -198,7 +196,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/_10sdp"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:layout_marginBottom="@dimen/_10sdp"
+                                android:layout_marginStart="@dimen/_50sdp"
+                                android:layout_marginEnd="@dimen/_50sdp"
                                 android:gravity="center_horizontal"
                                 android:lineSpacingExtra="6sp"
                                 android:text="@string/no_favorite_howto"
@@ -238,7 +239,7 @@
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp"
                             android:src="@drawable/whatsapp"
-                             android:layout_marginEnd="@dimen/_10sdp"/>
+                            android:layout_marginEnd="@dimen/_10sdp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -297,7 +298,7 @@
             android:clickable="true"
             android:focusable="true"
             android:paddingStart="@dimen/_20sdp"
-            android:paddingEnd="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">

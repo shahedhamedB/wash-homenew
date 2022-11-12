@@ -79,6 +79,7 @@ class ManageServicesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
         onClick()
+        getServices()
     }
 
     private fun initViews(view: View){
@@ -169,6 +170,7 @@ class ManageServicesFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, REQUEST_IMAGE_GALLERY)
+            alertBuilder.dismiss()
         }
 
     }

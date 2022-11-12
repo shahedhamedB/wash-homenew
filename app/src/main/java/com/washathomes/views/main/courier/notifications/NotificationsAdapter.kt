@@ -31,9 +31,19 @@ class NotificationsAdapter(
         holder.description.text = notification.title
         holder.title.text = notification.title
 
+        if (notification.is_read == "0"){
+            holder.itemView.setBackgroundColor(context!!.resources.getColor(R.color.blue_inactive30))
+        }else{
+            holder.itemView.setBackgroundColor(context!!.resources.getColor(R.color.off_white))
+        }
+
         holder.delete.setOnClickListener { courierNotificationsFragment.deleteNotification(notification) }
 
-        holder.itemView.setOnClickListener { courierNotificationsFragment.readNotification(notification) }
+        holder.itemView.setOnClickListener {
+            if (notification.is_read == "0"){
+                courierNotificationsFragment.readNotification(notification)
+            }
+        }
     }
 
     override fun getItemCount(): Int {

@@ -113,6 +113,7 @@ class BasketFragment : Fragment() {
                     cart = response.body()!!.results
                     AppDefs.cartData = cart
                     binding.basketTotal.text = ""+cart.sub_total
+                    AppDefs.subTotal = cart.sub_total
                     if (cart.CartItem.size == 0){
                         binding.basketLayout.visibility = View.GONE
                         binding.emptyLayout.visibility = View.VISIBLE

@@ -79,19 +79,33 @@
                     android:weightSum="3">
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="@dimen/_8sdp"
                         android:background="@drawable/rounded_view_white">
-                        <TextView
-                            android:id="@+id/total_all"
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/_8sdp"
-                            android:gravity="center"
-                            android:fontFamily="@font/gotham_rounded_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10ssp"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="@string/total_earnings"
+                                android:fontFamily="@font/gotham_rounded_medium"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp"/>
+                            <TextView
+                                android:id="@+id/total_all"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:gravity="center"
+                                android:fontFamily="@font/gotham_rounded_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </com.google.android.material.card.MaterialCardView>
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
@@ -99,31 +113,60 @@
                         android:layout_weight="1"
                         android:layout_margin="@dimen/_8sdp"
                         android:background="@drawable/rounded_view_white">
-                        <TextView
-                            android:id="@+id/total_paid"
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/_8sdp"
-                            android:gravity="center"
-                            android:fontFamily="@font/gotham_rounded_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12ssp"/>
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="@string/payments_received"
+                                android:fontFamily="@font/gotham_rounded_medium"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp"/>
+                            <TextView
+                                android:id="@+id/total_paid"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/_8sdp"
+                                android:gravity="center"
+                                android:fontFamily="@font/gotham_rounded_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </com.google.android.material.card.MaterialCardView>
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="@dimen/_8sdp"
                         android:background="@drawable/rounded_view_white">
-                        <TextView
-                            android:id="@+id/payment_next"
+                        <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/_8sdp"
-                            android:gravity="center"
-                            android:fontFamily="@font/gotham_rounded_bold"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12ssp"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="@string/next_payment"
+                                android:fontFamily="@font/gotham_rounded_medium"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp"/>
+
+                            <TextView
+                                android:id="@+id/payment_next"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_8sdp"
+                                android:gravity="center"
+                                android:fontFamily="@font/gotham_rounded_bold"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_12ssp"/>
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </com.google.android.material.card.MaterialCardView>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

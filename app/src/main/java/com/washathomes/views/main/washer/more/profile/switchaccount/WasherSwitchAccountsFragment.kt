@@ -210,6 +210,7 @@ class WasherSwitchAccountsFragment : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putString(AppDefs.ID_KEY, AppDefs.user.results!!.id)
 
+        AppDefs.user.results!!.sigup_type = accountType
         val gson = Gson()
         val json = gson.toJson(AppDefs.user)
         editor.putString(AppDefs.USER_KEY, json)

@@ -2,6 +2,7 @@ package com.washathomes.views.main.courier.home
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.washathomes.apputils.appdefs.AppDefs
@@ -38,7 +41,9 @@ class CourierHomeFragment : Fragment() {
     lateinit var navController: NavController
     var activeOrders: ArrayList<ActiveOrder> = ArrayList()
     var pendingOrders: ArrayList<PendingOrder> = ArrayList()
+    var notifications: ArrayList<Notification> = ArrayList()
     var type = "active"
+    var token = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +68,8 @@ class CourierHomeFragment : Fragment() {
         setData()
         onClick()
         getActiveOrders()
+        getNotifications()
+        getToken()
     }
 
     private fun initViews(view: View){
@@ -75,6 +82,7 @@ class CourierHomeFragment : Fragment() {
         }
         binding.washerHomeWelcome.text = resources.getString(R.string.hey_there)+" "+ AppDefs.user.results!!.name
         binding.washerHomeSwitchAvailability.isChecked = AppDefs.user.results!!.dreiver_available == "1"
+        getOrders("1")
     }
 
     private fun onClick(){
@@ -107,7 +115,12 @@ class CourierHomeFragment : Fragment() {
             }
             binding.refreshLayout.isRefreshing = false
         }
-        binding.toolbarLayout.toolbarLeftIcon.setOnClickListener { navController.navigate(CourierHomeFragmentDirections.actionCourierHomeFragmentToCourierNotificationsFragment()) }
+        binding.toolbarLayout.notifications.setOnClickListener {
+            navController.navigate(CourierHomeFragmentDirections.actionCourierHomeFragmentToCourierNotificationsFragment()) }
+        binding.toolbarLayout.toolbarLeftIcon.setOnClickListener {
+            navController.navigate(CourierHomeFragmentDirections.actionCourierHomeFragmentToCourierNotificationsFragment()) }
+        binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener {
+            navController.navigate(CourierHomeFragmentDirections.actionCourierHomeFragmentToCourierNotificationsFragment()) }
     }
 
     private fun changeAvailability(){
@@ -285,6 +298,151 @@ class CourierHomeFragment : Fragment() {
         editor.putString(AppDefs.USER_KEY, json)
         editor.putString(AppDefs.TYPE_KEY, "3")
         editor.apply()
+    }
+
+    private fun getOrders(status: String){
+//        binding.progressBar.visibility = View.VISIBLE
+        val statusStr = StatusStr(status)
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val languagesCall: Call<OrderHistoryResponse> =
+            retrofit.create(RetrofitAPIs::class.java).getCourierOrderHistory(statusStr)
+        languagesCall.enqueue(object : Callback<OrderHistoryResponse> {
+            override fun onResponse(call: Call<OrderHistoryResponse>, response: Response<OrderHistoryResponse>) {
+                binding.progressBar.visibility = View.GONE
+                if (response.isSuccessful) {
+                    binding.washerHomeNumberCompletedOrder.text = ""+response.body()!!.results.size+" "+resources.getString(R.string.completed_orders)
+                }else{
+                    val gson = Gson()
+                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    Toast.makeText(
+                        courierMainActivity,
+                        errorResponse.status.massage.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<OrderHistoryResponse>, t: Throwable) {
+                Toast.makeText(courierMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun getNotifications(){
+        notifications.clear()
+        val userTypeObj = UserTypeObj("2")
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val notificationsCall: Call<Notifications> =
+            retrofit.create(RetrofitAPIs::class.java).getNotifications(userTypeObj)
+        notificationsCall.enqueue(object : Callback<Notifications> {
+            override fun onResponse(call: Call<Notifications>, response: Response<Notifications>) {
+                if (response.isSuccessful){
+                    notifications = response.body()!!.results.notifications
+                    checkNewNotifications()
+                }else{
+                    val gson = Gson()
+                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    Toast.makeText(courierMainActivity, errorResponse.status.massage.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Notifications>, t: Throwable) {
+                Toast.makeText(courierMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun checkNewNotifications(){
+        var counter = 0
+        for (notification in notifications){
+            if (notification.is_read == "0"){
+                counter++
+            }
+        }
+        if (counter>0){
+            binding.toolbarLayout.toolbarNotifyBadge.visibility = View.VISIBLE
+            binding.toolbarLayout.toolbarNotifyBadge.text = counter.toString()
+        }else{
+            binding.toolbarLayout.toolbarNotifyBadge.visibility = View.GONE
+        }
+    }
+
+    private fun getToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task: Task<String?> ->
+                if (!task.isSuccessful) {
+                    Log.w(
+                        "FAILED",
+                        "Fetching FCM registration token failed",
+                        task.exception
+                    )
+                    return@addOnCompleteListener
+                }
+                token = task.result!!
+                updateToken()
+            }
+    }
+
+    private fun updateToken(){
+        val token = Token(token, "1")
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val notificationsCall: Call<UserData> =
+            retrofit.create(RetrofitAPIs::class.java).updateToken(token)
+        notificationsCall.enqueue(object : Callback<UserData> {
+            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
+                if (response.isSuccessful){
+                    AppDefs.user = response.body()!!
+                    saveUserToSharedPreferences()
+                }else{
+                    val gson = Gson()
+                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    Toast.makeText(courierMainActivity, errorResponse.status.massage.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserData>, t: Throwable) {
+                Toast.makeText(courierMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
 }

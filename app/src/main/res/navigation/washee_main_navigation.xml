@@ -223,6 +223,9 @@
         <action
             android:id="@+id/action_navigation_inbox_to_washeeChatFragment"
             app:destination="@id/washeeChatFragment" />
+        <action
+            android:id="@+id/action_navigation_inbox_to_washeeNotificationsFragment"
+            app:destination="@id/washeeNotificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/washeeChatFragment"

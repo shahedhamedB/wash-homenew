@@ -74,9 +74,6 @@ class OrderInProgressFragment : Fragment() {
         initViews(view)
         onClick()
         setData()
-        binding.messageBtn.setOnClickListener{
-            openChatScreen()
-        }
     }
 
     private fun initViews(view: View){
@@ -88,6 +85,9 @@ class OrderInProgressFragment : Fragment() {
         binding.toolbarBackIcon.setOnClickListener { navController.popBackStack() }
         binding.directionsBtn.setOnClickListener { openGoogleMaps() }
         binding.directionsActionBtn.setOnClickListener { pickedUpOrderPopUp() }
+        binding.messageBtn.setOnClickListener{
+            openChatScreen()
+        }
     }
 
     private fun setData(){
