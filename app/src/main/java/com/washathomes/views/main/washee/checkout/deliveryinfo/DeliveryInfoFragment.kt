@@ -256,8 +256,8 @@ class DeliveryInfoFragment : Fragment() {
     }
 
     private fun calculateTotal(){
-        var total = AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" ")).toDouble()
-        val currency = AppDefs.cartData.total_price.substring(AppDefs.cartData.total_price.indexOf(" "))
+        var total = AppDefs.subTotal.substring(0, AppDefs.subTotal.indexOf(" ")).toDouble()
+        val currency = AppDefs.subTotal.substring(AppDefs.subTotal.indexOf(" "))
         total += currentExpressValue + currentDeliveryFee + currentInsuranceValue
         binding.deliveryCurrentTotalText.text = ""+total + currency
 

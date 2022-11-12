@@ -156,7 +156,7 @@ class WasherNotificationsFragment : Fragment() {
     }
 
     fun readNotification(notification: Notification){
-        binding.progressBar.visibility = View.VISIBLE
+//        binding.progressBar.visibility = View.VISIBLE
         val notificationId = NotificationId(notification.id)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(

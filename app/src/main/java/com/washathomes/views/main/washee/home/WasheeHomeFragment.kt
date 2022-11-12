@@ -9,6 +9,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.washathomes.apputils.appdefs.AppDefs
@@ -54,12 +57,14 @@ class WasheeHomeFragment : Fragment() {
     var categories: ArrayList<Category> = ArrayList()
     var categoryItems: ArrayList<CategoryItem> = ArrayList()
     var filteredCategoryItems: ArrayList<CategoryItem> = ArrayList()
+    var notifications: ArrayList<Notification> = ArrayList()
     var ads: ArrayList<Ad> = ArrayList()
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val LOCATION_CODE = 100
     var latitude = ""
     var longitude = ""
     var postalCode = ""
+    var token = ""
     var selectedCategory = ""
     var isOptionsVisible = false
 
@@ -84,10 +89,12 @@ class WasheeHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
         onClick()
+        getNotifications()
         getCurrentLocation()
         getCart()
         getCategories()
         getPrices()
+        getToken()
     }
 
     private fun initViews(view: View){
@@ -124,6 +131,8 @@ class WasheeHomeFragment : Fragment() {
         binding.contactUs.setOnClickListener { openWebPageInBrowser() }
 
         binding.toolbarLayout.toolbarLeftIcon.setOnClickListener { navController.navigate(WasheeHomeFragmentDirections.actionNavigationHomeToWasheeNotificationsFragment()) }
+        binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener { navController.navigate(WasheeHomeFragmentDirections.actionNavigationHomeToWasheeNotificationsFragment()) }
+        binding.toolbarLayout.clLeft.setOnClickListener { navController.navigate(WasheeHomeFragmentDirections.actionNavigationHomeToWasheeNotificationsFragment()) }
 
         binding.homeSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
@@ -682,6 +691,123 @@ class WasheeHomeFragment : Fragment() {
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }
+    }
+
+    private fun getNotifications(){
+        notifications.clear()
+        val userTypeObj = UserTypeObj("1")
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val notificationsCall: Call<Notifications> =
+            retrofit.create(RetrofitAPIs::class.java).getNotifications(userTypeObj)
+        notificationsCall.enqueue(object : Callback<Notifications> {
+            override fun onResponse(call: Call<Notifications>, response: Response<Notifications>) {
+                if (response.isSuccessful){
+                    notifications = response.body()!!.results.notifications
+                    checkNewNotifications()
+                }else{
+                    val gson = Gson()
+                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    Toast.makeText(washeeMainActivity, errorResponse.status.massage.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Notifications>, t: Throwable) {
+                Toast.makeText(washeeMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun checkNewNotifications(){
+        var counter = 0
+        for (notification in notifications){
+            if (notification.is_read == "0"){
+                counter++
+            }
+        }
+        if (counter>0){
+            binding.toolbarLayout.toolbarNotifyBadge.visibility = View.VISIBLE
+            binding.toolbarLayout.toolbarNotifyBadge.text = counter.toString()
+        }else{
+            binding.toolbarLayout.toolbarNotifyBadge.visibility = View.GONE
+        }
+    }
+
+    private fun getToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task: Task<String?> ->
+                if (!task.isSuccessful) {
+                    Log.w(
+                        "FAILED",
+                        "Fetching FCM registration token failed",
+                        task.exception
+                    )
+                    return@addOnCompleteListener
+                }
+                token = task.result!!
+                updateToken()
+            }
+    }
+
+    private fun updateToken(){
+        val token = Token(token, "1")
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val notificationsCall: Call<UserData> =
+            retrofit.create(RetrofitAPIs::class.java).updateToken(token)
+        notificationsCall.enqueue(object : Callback<UserData> {
+            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
+                if (response.isSuccessful){
+                    AppDefs.user = response.body()!!
+                    saveUserToSharedPreferences()
+                }else{
+                    val gson = Gson()
+                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    Toast.makeText(washeeMainActivity, errorResponse.status.massage.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserData>, t: Throwable) {
+                Toast.makeText(washeeMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun saveUserToSharedPreferences() {
+        val sharedPreferences =
+            washeeMainActivity.getSharedPreferences(AppDefs.SHARED_PREF_KEY, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(AppDefs.ID_KEY, AppDefs.user.results!!.id)
+
+        val gson = Gson()
+        val json = gson.toJson(AppDefs.user)
+        editor.putString(AppDefs.USER_KEY, json)
+        editor.putString(AppDefs.TYPE_KEY, "1")
+        editor.apply()
     }
 
     private fun requestPermission(){

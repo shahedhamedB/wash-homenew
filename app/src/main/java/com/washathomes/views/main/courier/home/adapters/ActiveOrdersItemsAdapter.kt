@@ -34,6 +34,7 @@ class ActiveOrdersItemsAdapter(
         holder.date.text = activeOrder.date
         holder.price.text = ""+activeOrder.total_amount
         holder.orderStatus.text = activeOrder.status_title
+        holder.orderState.text = activeOrder.state_title
 
         if (activeOrder.status == "0" || activeOrder.status == "1"){
             holder.orderState.setTextColor(context!!.resources.getColor(R.color.mid_grey))

@@ -57,6 +57,9 @@ interface RetrofitAPIs {
     @GET("delete_user")
     fun deleteAccount(): Call<BooleanResponse>
 
+    @POST("update_token")
+    fun updateToken(@Body token: Token): Call<UserData>
+
     //WasheeMain
     @GET("cat_list")
     fun getCategories(): Call<Categories>
@@ -126,6 +129,9 @@ interface RetrofitAPIs {
 
     @GET("order_list_buyer_chat")
     fun getWasheeInbox(): Call<InboxMessages>
+
+    @POST("washee_order_delete")
+    fun cancelOrder(@Body deleteOrder:DeleteOrder): Call<BooleanResponse>
 
     //Washer
 

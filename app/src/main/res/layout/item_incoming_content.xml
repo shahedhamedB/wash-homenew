@@ -14,9 +14,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".25"
+            app:layout_constraintWidth_percent=".3"
             android:fontFamily="@font/gotham_rounded_book"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_8ssp"
             android:textColor="@color/black"
             tools:text="test" />
 
@@ -24,11 +24,11 @@
             android:id="@+id/status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:src="@drawable/ic_access_time"
+            android:src="@drawable/ic_access_time"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_amount"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".25" />
+            app:layout_constraintWidth_percent=".1" />
 
         <TextView
             android:id="@+id/tv_order_no"
@@ -37,7 +37,7 @@
             android:gravity="center"
             tools:text="#1210111"
             android:fontFamily="@font/gotham_rounded_book"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_8ssp"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/status"
@@ -51,12 +51,13 @@
             android:gravity="center"
             tools:text="Jun 21"
             android:fontFamily="@font/gotham_rounded_book"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_8ssp"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_order_no"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".20" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent=".3" />
 
         <View
             android:layout_width="0dp"

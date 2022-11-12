@@ -33,6 +33,7 @@ class WasherAvailabilityFragment : Fragment() {
     lateinit var binding: FragmentWasherAvailabilityBinding
     lateinit var navController: NavController
     lateinit var washerMainActivity: WasherMainActivity
+    lateinit var isAvailable: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,12 +60,26 @@ class WasherAvailabilityFragment : Fragment() {
 
     private fun initViews(view: View){
         navController = Navigation.findNavController(view)
+        isAvailable = AppDefs.user.results!!.washer_available!!
         binding.washerAvailabilitySwitchButton.isChecked = AppDefs.user.results!!.washer_available == "1"
     }
 
     private fun onClick(){
         binding.toolbarBackIcon.setOnClickListener { navController.popBackStack() }
-        binding.washerAvailabilityNext.setOnClickListener { changeAvailability() }
+        binding.washerAvailabilitySwitchButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                isAvailable = "1"
+            }else{
+                isAvailable = "0"
+            }
+        }
+        binding.washerAvailabilityNext.setOnClickListener {
+            if (isAvailable != AppDefs.user.results!!.washer_available!!){
+                changeAvailability()
+            }else{
+                navController.popBackStack()
+            }
+        }
     }
 
     private fun changeAvailability(){

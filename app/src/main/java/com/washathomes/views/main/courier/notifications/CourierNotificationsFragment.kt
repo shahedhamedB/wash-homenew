@@ -71,7 +71,7 @@ class CourierNotificationsFragment : Fragment() {
     private fun getNotifications(){
         binding.progressBar.visibility = View.VISIBLE
         notifications.clear()
-        val userTypeObj = UserTypeObj("2")
+        val userTypeObj = UserTypeObj("3")
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
@@ -156,7 +156,7 @@ class CourierNotificationsFragment : Fragment() {
     }
 
     fun readNotification(notification: Notification){
-        binding.progressBar.visibility = View.VISIBLE
+//        binding.progressBar.visibility = View.VISIBLE
         val notificationId = NotificationId(notification.id)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(

@@ -13,3 +13,6 @@ data class ServiceItem(val id: String, val title: String)
 data class OrderHistoryObj(val status: String, val page: String)
 
 data class CreateOrderObj(val lat: String, val long: String, val zip_code: String, val type_pymant: String, val payment_id_to_charge: String, val payment_provider_id: String)
+
+data class DeleteOrder(val order_id: String, val feedback: String)
+

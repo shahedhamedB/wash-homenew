@@ -302,6 +302,12 @@
     <string name="please_check_your_network_connection_and_try_again" />
     <string name="error_connection_not_found" />
     <string name="buyer" />
-
+    <string name="cancel_order">Cancel Order</string>
+    <string name="reason_for_deleting">Reason for Deleting</string>
+    <string name="submit">Submit</string>
+    <string name="order_delete_reason_hint">Can you tell us why you deleted the order?</string>
+    <string name="order_deleted_successfully">Order deleted successfully!</string>
+    <string name="phone_starts_0">Phone number can\'t start with 0 !</string>
+    <string name="payments_received">Payments received</string>
 
 </resources>

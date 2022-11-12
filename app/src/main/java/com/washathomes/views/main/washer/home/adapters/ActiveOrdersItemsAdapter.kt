@@ -34,6 +34,7 @@ class ActiveOrdersItemsAdapter(
         holder.date.text = activeOrder.date
         holder.price.text = ""+activeOrder.total_amount
         holder.orderStatus.text = activeOrder.status_title
+        holder.orderState.text = activeOrder.state_title
 
         if (activeOrder.status == "0" || activeOrder.status == "1"){
             holder.orderState.setTextColor(context!!.resources.getColor(R.color.mid_grey))
@@ -46,7 +47,7 @@ class ActiveOrdersItemsAdapter(
         }else if (activeOrder.status == "2" || activeOrder.status == "7"){
             holder.orderState.setTextColor(context!!.resources.getColor(R.color.blue))
             holder.leftIndicator.setBackgroundColor(context!!.resources.getColor(R.color.blue))
-//            Glide.with(context!!).load(R.drawable.order_status_bullet_blue).into(holder.bulletIndicator)
+            Glide.with(context!!).load(R.drawable.order_status_bullet_blue).into(holder.bulletIndicator)
         }else{
             holder.orderState.setTextColor(context!!.resources.getColor(R.color.red))
             holder.leftIndicator.setBackgroundColor(context!!.resources.getColor(R.color.red))

@@ -83,7 +83,12 @@ class WasheeChatsFragment : Fragment() {
         binding.inboxList.adapter = adapter
 
 
-
+        binding.toolbarLayout.toolbarLeftIcon.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionNavigationInboxToWasheeNotificationsFragment()) }
+        binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionNavigationInboxToWasheeNotificationsFragment()) }
+        binding.toolbarLayout.clLeft.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionNavigationInboxToWasheeNotificationsFragment()) }
+        binding.toolbarLayout.toolbarBasketIcon.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionWasheeChatsFragmentToBasketFragment()) }
+        binding.toolbarLayout.clRight.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionWasheeChatsFragmentToBasketFragment()) }
+        binding.toolbarLayout.toolbarBasketBadge.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionWasheeChatsFragmentToBasketFragment()) }
 
 
     }
