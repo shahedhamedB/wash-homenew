@@ -17,10 +17,22 @@
             android:layout_height="match_parent">
             <include
                 android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 layout="@layout/toolbar_layout"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+            <include
+                android:id="@+id/toolbar_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/washer_toolbar_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/inbox_list"
