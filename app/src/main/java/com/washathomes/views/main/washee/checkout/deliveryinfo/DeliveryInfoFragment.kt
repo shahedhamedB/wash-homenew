@@ -158,10 +158,14 @@ class DeliveryInfoFragment : Fragment() {
         }
         binding.dropOffDateLayout.setOnClickListener {
             isPickUp = false
-            if (deliverySpeed == "0"){
-                openDatePicker(2)
+            if (pickUpDate.isEmpty()){
+                Toast.makeText(washeeMainActivity, resources.getString(R.string.choose_pick_up_date), Toast.LENGTH_SHORT).show()
             }else{
-                openDatePicker(1)
+                if (deliverySpeed == "0"){
+                    openDatePicker(2)
+                }else{
+                    openDatePicker(1)
+                }
             }
         }
         binding.switchInsurance.setOnClickListener {

@@ -309,5 +309,6 @@
     <string name="order_deleted_successfully">Order deleted successfully!</string>
     <string name="phone_starts_0">Phone number can\'t start with 0 !</string>
     <string name="payments_received">Payments received</string>
+    <string name="choose_pick_up_date">Please choose pick up date!</string>
 
 </resources>
