@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chatRoom"
+            type="com.washathomes.apputils.modules.chatmodel.ChatRoom" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:cardElevation="@dimen/zero">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/spacing_small"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingEnd="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_medium">
+
+            <ImageView
+                android:id="@+id/inbox_profile"
+                android:layout_width="@dimen/icon_size_xxlarge"
+                android:layout_height="@dimen/icon_size_xxlarge"
+                android:src="@drawable/artboard_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/inbox_sender"
+                style="@style/AppTheme.TextAppearance.Medium14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:text="@{String.format(@string/order_no_prefix, chatRoom.orderId)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/inbox_profile"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Order #312331" />
+
+            <TextView
+                android:id="@+id/inbox_text"
+                style="@style/AppTheme.ListViewItem.OrderSubLine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:maxLines="1"
+                app:layout_constraintEnd_toStartOf="@id/inbox_time"
+                app:layout_constraintStart_toEndOf="@id/inbox_profile"
+                app:layout_constraintTop_toBottomOf="@id/inbox_sender"
+                tools:text="I will deliver your order later I will deliver your order laterI will deliver your order laterI will deliver your order laterI will deliver your order later..." />
+
+            <TextView
+                android:id="@+id/inbox_time"
+                style="@style/AppTheme.ListViewItem.OrderSubLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xsmall"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/inbox_text"
+                tools:text="9:20 am" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

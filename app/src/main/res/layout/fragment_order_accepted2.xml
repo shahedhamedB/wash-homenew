@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.main.courier.home.orderaccepted.OrderAcceptedFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/blue"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        android:elevation="4dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:gravity="center"
+                android:text="@string/order_accepted"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp" />
+            <ImageView
+                android:id="@+id/toolbar_back_icon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/white">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@id/overviewInfoFooter"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/order_placed_order_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Order #189092"
+                    android:fontFamily="@font/gotham_rounded_book"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/black_50"/>
+
+                <TextView
+                    android:id="@+id/order_placed_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/order_placed_order_no"
+                    android:text="@string/order_placed_on"
+                    android:fontFamily="@font/gotham_rounded_medium"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/black_50"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/pending_overview_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/order_placed_status">
+
+                    <View
+                        android:id="@+id/progress_active_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:background="@color/blue"
+                        app:layout_constraintBottom_toBottomOf="@id/progress_step1_image"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/progress_step1_image" />
+
+                    <View
+                        android:id="@+id/progress_inactive_line"
+                        android:layout_width="0dp"
+                        android:layout_height="3dp"
+                        android:background="@color/blue_inactive"
+                        android:elevation="1dp"
+                        app:layout_constraintBottom_toBottomOf="@id/progress_step1_image"
+                        app:layout_constraintEnd_toEndOf="@id/progress_step4_image"
+                        app:layout_constraintStart_toStartOf="@id/progress_step2_image"
+                        app:layout_constraintTop_toTopOf="@id/progress_step1_image" />
+                    <ImageView
+                        android:id="@+id/progress_step1_image"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@color/white"
+                        android:elevation="3dp"
+                        android:outlineProvider="none"
+                        android:src="@drawable/progress_state_active_ticked"
+                        app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxWidth="80dp"
+                        android:text="@string/order_placed"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_bold"
+                        android:textColor="@color/blue"
+                        app:layout_constraintEnd_toEndOf="@id/progress_step1_image"
+                        app:layout_constraintStart_toStartOf="@id/progress_step1_image"
+                        app:layout_constraintTop_toBottomOf="@id/progress_step1_image" />
+
+                    <ImageView
+                        android:id="@+id/progress_step2_image"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@color/white"
+                        android:elevation="3dp"
+                        android:outlineProvider="none"
+                        android:src="@drawable/progress_state_active_ticked"
+                        app:layout_constraintEnd_toEndOf="@id/progress_active_line"
+                        app:layout_constraintHorizontal_bias="0.33"
+                        app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                        app:layout_constraintTop_toTopOf="@id/progress_step1_image"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxWidth="80dp"
+                        android:text="@string/order_accepted"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_bold"
+                        android:textColor="@color/blue"
+                        app:layout_constraintEnd_toEndOf="@id/progress_step2_image"
+                        app:layout_constraintStart_toStartOf="@id/progress_step2_image"
+                        app:layout_constraintTop_toBottomOf="@id/progress_step2_image" />
+
+                    <ImageView
+                        android:id="@+id/progress_step3_image"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@color/white"
+                        android:elevation="3dp"
+                        android:outlineProvider="none"
+                        android:src="@drawable/progress_state_inactive_empty"
+                        app:layout_constraintEnd_toEndOf="@id/progress_active_line"
+                        app:layout_constraintHorizontal_bias="0.66"
+                        app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                        app:layout_constraintTop_toTopOf="@id/progress_step1_image"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxWidth="80dp"
+                        android:text="@string/order_status_in_progress"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_book"
+                        android:textColor="@color/blue_inactive"
+                        app:layout_constraintEnd_toEndOf="@id/progress_step3_image"
+                        app:layout_constraintStart_toStartOf="@id/progress_step3_image"
+                        app:layout_constraintTop_toBottomOf="@id/progress_step3_image" />
+
+                    <ImageView
+                        android:id="@+id/progress_step4_image"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@color/white"
+                        android:elevation="3dp"
+                        android:outlineProvider="none"
+                        android:src="@drawable/progress_state_inactive_empty"
+                        app:layout_constraintEnd_toEndOf="@id/progress_active_line"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@id/progress_active_line"
+                        app:layout_constraintTop_toTopOf="@id/progress_step1_image"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxWidth="80dp"
+                        android:text="@string/order_status_completed"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/gotham_rounded_book"
+                        android:textColor="@color/blue_inactive"
+                        app:layout_constraintEnd_toEndOf="@id/progress_step4_image"
+                        app:layout_constraintStart_toStartOf="@id/progress_step4_image"
+                        app:layout_constraintTop_toBottomOf="@id/progress_step4_image" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/pending_overview_current_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:drawableStart="@drawable/ic_hourglass"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:text="@string/awaiting_driver_confirmation"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    android:textSize="@dimen/_15ssp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pending_overview_progress" />
+
+                <TextView
+                    android:id="@+id/overviewDeliveryTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/collection_and_return"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pending_overview_current_status" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/overviewDeliveryLayout"
+                    style="@style/Theme.WashHomeApplication.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/rounded_view_white"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:layout_constraintTop_toBottomOf="@id/overviewDeliveryTitle">
+
+                    <TextView
+                        android:id="@+id/overviewDeliveryOptionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        tools:text="@string/washee"
+                        android:fontFamily="@font/gotham_rounded_medium"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_10ssp"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/overviewAddressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/delivery_address"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/overviewDeliveryLayout" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/overviewAddressLayout"
+                    style="@style/Theme.WashHomeApplication.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:layout_constraintTop_toBottomOf="@id/overviewAddressTitle">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp">
+
+                        <TextView
+                            android:id="@+id/completeBuyerNameText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Buyer Name"
+                            android:textSize="@dimen/_10ssp"
+                            android:fontFamily="@font/gotham_rounded_bold"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:id="@+id/overviewDeliveryAddressText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:maxLines="5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/completeBuyerNameText"
+                            tools:text="371 Burgers Road, East Ham London E6 2ET"
+                            android:fontFamily="@font/gotham_rounded_light"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/black"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/overviewServiceSpeedTitle"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/service_speed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/overviewAddressLayout" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/overviewServiceSpeedLayout"
+                    style="@style/Theme.WashHomeApplication.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/rounded_view_white"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:layout_constraintTop_toBottomOf="@id/overviewServiceSpeedTitle">
+
+                    <TextView
+                        android:id="@+id/overviewServiceSpeedText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        tools:text="@string/normal_delivery"
+                        android:fontFamily="@font/gotham_rounded_light"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/black"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/overviewCollectionTimesTitle"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/collection_return_times"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/overviewServiceSpeedLayout" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/overviewCollectionTimesLayout"
+                    style="@style/Theme.WashHomeApplication.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/rounded_view_white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    app:layout_constraintTop_toBottomOf="@id/overviewCollectionTimesTitle">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp">
+
+                        <TextView
+                            android:id="@+id/overviewCollectionTimeTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:lineSpacingExtra="6sp"
+                            android:maxLines="1"
+                            android:text="@string/collection_time"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:fontFamily="@font/gotham_rounded_light"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/blue"/>
+
+                        <TextView
+                            android:id="@+id/overviewCollectionTimeDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:textColor="@color/black_50"
+                            app:layout_constraintStart_toStartOf="@id/overviewCollectionTimeTitle"
+                            app:layout_constraintTop_toBottomOf="@id/overviewCollectionTimeTitle"
+                            tools:text="Mon June 24"
+                            android:fontFamily="@font/gotham_rounded_light"
+                            android:textSize="@dimen/_10ssp"/>
+
+                        <TextView
+                            android:id="@+id/overviewCollectionTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            app:layout_constraintStart_toStartOf="@id/overviewCollectionTimeTitle"
+                            app:layout_constraintTop_toBottomOf="@id/overviewCollectionTimeDay"
+                            tools:text="16:00 - 17:00"
+                            android:fontFamily="@font/gotham_rounded_light"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:id="@+id/overviewCollectionArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:src="@drawable/long_right_arrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/overviewCollectionRightArrow"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription"
+                            app:tint="@color/mid_grey" />
+
+                        <TextView
+                            android:id="@+id/overviewReturnTimeTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:lineSpacingExtra="6sp"
+                            android:maxLines="1"
+                            android:text="@string/return_time"
+                            app:layout_constraintStart_toEndOf="@id/overviewCollectionArrow"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:fontFamily="@font/gotham_rounded_light"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/blue"/>
+
+                        <TextView
+                            android:id="@+id/overviewReturnTimeDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:textColor="@color/black_50"
+                            app:layout_constraintStart_toStartOf="@id/overviewReturnTimeTitle"
+                            app:layout_constraintTop_toBottomOf="@id/overviewReturnTimeTitle"
+                            tools:text="Mon June 24"
+                            android:fontFamily="@font/gotham_rounded_light"
+                            android:textSize="@dimen/_10ssp"/>
+
+                        <TextView
+                            android:id="@+id/overviewReturnTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            app:layout_constraintStart_toStartOf="@id/overviewReturnTimeTitle"
+                            app:layout_constraintTop_toBottomOf="@id/overviewReturnTimeDay"
+                            tools:text="16:00 - 17:00"
+                            android:fontFamily="@font/gotham_rounded_light"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:id="@+id/overviewCollectionRightArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:src="@drawable/right_arrow"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/mid_grey" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/view_items_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/overviewCollectionTimesLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_gravity="end"
+                    android:background="@drawable/rounded_view_blue_radius"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingBottom="@dimen/_3sdp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_15sdp">
+                    <TextView
+                        android:id="@+id/view_items"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_items"
+                        android:fontFamily="@font/gotham_rounded_medium"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_10ssp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/rounded_right_arrow"
+                        app:tint="@color/blue" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <TextView
+                    android:id="@+id/totalEarningsValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="@id/view_items_layout"
+                    app:layout_constraintStart_toStartOf="@id/overviewCollectionTimesLayout"
+                    app:layout_constraintTop_toTopOf="@id/view_items_layout"
+                    tools:text="$20.00"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/overviewInfoFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/directionsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/directionsActionBtn"
+                app:layout_constraintEnd_toStartOf="@id/messageBtn"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:orientation="horizontal"
+                android:padding="@dimen/_7sdp"
+                android:visibility="gone"
+                android:background="@drawable/rounded_button">
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_map_location_pin"
+                    android:layout_marginEnd="@dimen/_3sdp"/>
+                <TextView
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_rounded_medium"
+                    android:textAllCaps="false"
+                    app:cornerRadius="@dimen/_15sdp"
+                    android:text="@string/see_on_map"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/messageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/directionsActionBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/directionsBtn"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:orientation="horizontal"
+                android:padding="@dimen/_7sdp"
+                android:background="@drawable/rounded_button">
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_message"
+                    android:layout_marginEnd="@dimen/_3sdp"/>
+                <TextView
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_rounded_medium"
+                    android:textAllCaps="false"
+                    app:cornerRadius="@dimen/_15sdp"
+                    android:text="@string/message"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/directionsActionBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:orientation="horizontal"
+                android:padding="@dimen/_7sdp"
+                android:background="@drawable/rounded_button">
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_circle_right"
+                    android:layout_marginEnd="@dimen/_3sdp"/>
+                <TextView
+                    android:id="@+id/collect"
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gotham_rounded_medium"
+                    android:textAllCaps="false"
+                    app:cornerRadius="@dimen/_15sdp"
+                    android:text="@string/collected_laundry_items"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

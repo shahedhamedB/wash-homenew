@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="@dimen/_4sdp">
+    <TextView
+        android:id="@+id/order_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:drawableStart="@drawable/ic_time_clock"
+        android:drawablePadding="@dimen/_4sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1:00pm-2:00pm"
+        android:fontFamily="@font/gotham_rounded_medium"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/black"/>
+    <com.google.android.material.card.MaterialCardView
+        android:theme="@style/Theme.MaterialComponents.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/order_clock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:background="@drawable/rounded_view_white"
+        app:cardCornerRadius="@dimen/_8sdp">
+
+        <View
+            android:id="@+id/order_left_indicator"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="@color/blue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/order_no_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/order_state"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_8sdp">
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_parcel"
+                    android:layout_marginEnd="@dimen/_3sdp"/>
+                <TextView
+                    android:id="@+id/order_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:autoSizeMinTextSize="@dimen/_8sdp"
+                    android:textSize="@dimen/_10ssp"
+                    android:fontFamily="@font/gotham_rounded_book"
+                    android:textColor="@color/black"
+                    tools:text="#3678490"
+                    tools:targetApi="o" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+            <TextView
+                android:id="@+id/order_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue"
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/order_no_layout"
+                app:layout_constraintBottom_toBottomOf="@id/order_no_layout"
+                android:text="Order Placed" />
+
+            <TextView
+                android:id="@+id/order_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintEnd_toStartOf="@id/order_next"
+                app:layout_constraintTop_toTopOf="@id/order_no_layout"
+                app:layout_constraintBottom_toBottomOf="@id/order_no_layout"
+                tools:text="21 Jun"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_book"
+                android:textColor="@color/black_50"/>
+
+            <TextView
+                android:id="@+id/order_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="@id/order_no_layout"
+                app:layout_constraintTop_toBottomOf="@id/order_no_layout"
+                tools:text="$2.50"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_book"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/order_bullet_indicator"
+                android:layout_width="@dimen/_5sdp"
+                android:layout_height="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                app:layout_constraintBottom_toBottomOf="@id/order_price"
+                app:layout_constraintEnd_toStartOf="@id/order_status"
+                app:layout_constraintTop_toTopOf="@id/order_price"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_book"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/order_price"
+                android:text="Awaiting Confirmation"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_book"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/order_next"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/right_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black_50" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

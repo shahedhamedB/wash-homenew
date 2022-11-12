@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="@dimen/_8sdp">
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/vest_male" />
+
+    <TextView
+        android:id="@+id/review_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@id/item_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="T-Shirt (Men)"
+        android:fontFamily="@font/gotham_rounded_medium"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/_10ssp"/>
+
+    <TextView
+        android:id="@+id/review_item_services"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:layout_constraintStart_toStartOf="@id/review_item_name"
+        app:layout_constraintTop_toBottomOf="@id/review_item_name"
+        tools:text="Wash &amp; Dry, Iron, Hang"
+        android:fontFamily="@font/gotham_rounded_light"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/review_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/review_item_name"
+        app:layout_constraintTop_toBottomOf="@id/review_item_services"
+        tools:text="$3.50"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/gotham_rounded_book"/>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/view_items_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/view_notes"
+            android:textColor="@color/blue"
+            android:fontFamily="@font/gotham_rounded_bold"
+            android:textSize="@dimen/_10ssp"/>
+        <ImageView
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:src="@drawable/rounded_right_arrow"
+            app:tint="@color/blue" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/review_item_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black_trans10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

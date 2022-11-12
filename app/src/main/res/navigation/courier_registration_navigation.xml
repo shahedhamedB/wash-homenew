@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/courier_registration_navigation"
+    app:startDestination="@id/courierIntroFragment">
+
+    <fragment
+        android:id="@+id/courierIntroFragment"
+        android:name="com.washathomes.views.registration.courierregistration.CourierIntroFragment"
+        android:label="fragment_courier_intro"
+        tools:layout="@layout/fragment_courier_intro" >
+        <action
+            android:id="@+id/action_courierIntroFragment_to_courierSignUpFragment"
+            app:destination="@id/courierSignUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courierSignUpFragment"
+        android:name="com.washathomes.views.registration.courierregistration.CourierSignUpFragment"
+        android:label="fragment_courier_sign_up"
+        tools:layout="@layout/fragment_courier_sign_up" >
+        <action
+            android:id="@+id/action_courierSignUpFragment_to_courierDrivingDataFragment"
+            app:destination="@id/courierDrivingDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/courierDrivingDataFragment"
+        android:name="com.washathomes.views.registration.courierregistration.CourierDrivingDataFragment"
+        android:label="fragment_courier_driving_data"
+        tools:layout="@layout/fragment_courier_driving_data" />
+</navigation>

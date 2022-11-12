@@ -1,0 +1,80 @@
+{
+  "project_info": {
+    "project_number": "291249091772",
+    "firebase_url": "https://washathome-app-1566988459160.firebaseio.com",
+    "project_id": "washathome-app-1566988459160",
+    "storage_bucket": "washathome-app-1566988459160.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291249091772:android:99ed1a927a5c79756a4cb9",
+        "android_client_info": {
+          "package_name": "com.washathomes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291249091772-0snt6me17m06417selnmln6448kgm74u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.washathomes",
+            "certificate_hash": "989c1c6465f49d6afa9195b9891f4c8348f00f74"
+          }
+        },
+        {
+          "client_id": "291249091772-ecger7dcnd6hve64b9je61aag38udfqh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.washathomes",
+            "certificate_hash": "07630e05f89c3fd618e4695571170d7628a73f92"
+          }
+        },
+        {
+          "client_id": "291249091772-h6u30jqgcsr2thvqf385huqqku1euojt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.washathomes",
+            "certificate_hash": "b44278d43d4404365cbf69dea4bd83794b33ce04"
+          }
+        },
+        {
+          "client_id": "291249091772-ul3c39hi7ke24me1abb95e8teirj2pdi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.washathomes",
+            "certificate_hash": "d8f43dba5d0921928ec21de7ba1fc97b00a227f7"
+          }
+        },
+        {
+          "client_id": "291249091772-3vp5j0vtvjsio4hh4i1vln0vt87i3ogn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoT3bkzkQBQfONexfbQhSsuyX9pPkaATc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291249091772-3vp5j0vtvjsio4hh4i1vln0vt87i3ogn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "291249091772-4p7u9vtcfeq0nnqort2rd22u9vqhpcq2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.washathome.app",
+                "app_store_id": "1497913758"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

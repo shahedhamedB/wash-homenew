@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/washer_registration_navigation"
+    app:startDestination="@id/washerIntroFragment">
+
+    <fragment
+        android:id="@+id/washerIntroFragment"
+        android:name="com.washathomes.views.registration.washerregistration.WasherIntroFragment"
+        android:label="fragment_washer_intro"
+        tools:layout="@layout/fragment_washer_intro" >
+        <action
+            android:id="@+id/action_washerIntroFragment_to_washerSignUpFragment"
+            app:destination="@id/washerSignUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerSignUpFragment"
+        android:name="com.washathomes.views.registration.washerregistration.WasherSignUpFragment"
+        android:label="fragment_washer_sign_up"
+        tools:layout="@layout/fragment_washer_sign_up" >
+        <action
+            android:id="@+id/action_washerSignUpFragment_to_washerDrivingDataFragment"
+            app:destination="@id/washerDrivingDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerDrivingDataFragment"
+        android:name="com.washathomes.views.registration.washerregistration.WasherDrivingDataFragment"
+        android:label="fragment_washer_driving_data"
+        tools:layout="@layout/fragment_washer_driving_data" >
+        <action
+            android:id="@+id/action_washerDrivingDataFragment_to_washerServicesDataFragment"
+            app:destination="@id/washerServicesDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerServicesDataFragment"
+        android:name="com.washathomes.views.registration.washerregistration.WasherServicesDataFragment"
+        android:label="fragment_washer_services_data"
+        tools:layout="@layout/fragment_washer_services_data" />
+</navigation>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/off_white"
+    tools:context=".views.main.washer.more.settings.pickupreturn.PickupReturnFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/blue"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        android:elevation="4dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15ssp" />
+            <ImageView
+                android:id="@+id/toolbar_back_icon"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/washer_pickup_and_return_item_switch_button"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:thumbTint="@color/white"
+            app:track="@drawable/track_selector" />
+
+        <TextView
+            android:id="@+id/washer_pickup_and_return_item_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:fontFamily="@font/gotham_rounded_medium"
+            android:text="@string/i_m_able_to_pick_up_and_return_items"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/washer_pickup_and_return_item_switch_button"
+            app:layout_constraintEnd_toStartOf="@id/washer_pickup_and_return_item_switch_button"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/washer_pickup_and_return_item_switch_button" />
+
+        <TextView
+            android:id="@+id/washer_pickup_and_return_header_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:alpha="0.5"
+            android:fontFamily="@font/gotham_rounded_book"
+            android:textSize="@dimen/_10ssp"
+            android:text="@string/if_you_switch_off_your_availability_you_re_not_going_to_be"
+            android:textColor="@color/black_18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_item_header" />
+
+        <TextView
+            android:id="@+id/washer_pickup_and_return_distance_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:fontFamily="@font/gotham_rounded_medium"
+            android:text="@string/maximum_delivery_distance"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toStartOf="@id/washer_pickup_and_return_distance_mil_number"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_header_desc" />
+
+        <TextView
+            android:id="@+id/washer_pickup_and_return_distance_mil_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:fontFamily="@font/gotham_rounded_book"
+            android:minWidth="40dp"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintBottom_toBottomOf="@id/washer_pickup_and_return_distance_header"
+            app:layout_constraintEnd_toStartOf="@id/washer_pickup_and_return_distance_miles"
+            app:layout_constraintTop_toTopOf="@id/washer_pickup_and_return_distance_header" />
+
+        <TextView
+            android:id="@+id/washer_pickup_and_return_distance_miles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:fontFamily="@font/gotham_rounded_book"
+            android:text="@string/miles"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintBottom_toBottomOf="@id/washer_pickup_and_return_distance_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_header_desc"
+            app:layout_constraintTop_toTopOf="@id/washer_pickup_and_return_distance_header" />
+
+        <SeekBar
+            android:id="@+id/washer_pickup_and_return_seekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:max="10"
+            android:theme="@style/CustomSeekBar"
+            app:layout_constraintEnd_toEndOf="@id/washer_pickup_and_return_distance_miles"
+            app:layout_constraintStart_toStartOf="@id/washer_pickup_and_return_distance_header"
+            app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_distance_header" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/washer_pickup_and_return_express_switch_button"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_seekbar"
+            app:thumbTint="@color/white"
+            app:track="@drawable/track_selector" />
+
+        <TextView
+            android:id="@+id/washer_pickup_and_return_express_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:fontFamily="@font/gotham_rounded_medium"
+            android:text="@string/express_service"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="@id/washer_pickup_and_return_express_switch_button"
+            app:layout_constraintEnd_toStartOf="@id/washer_pickup_and_return_express_switch_button"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/washer_pickup_and_return_express_switch_button" />
+
+        <TextView
+            android:id="@+id/washer_pickup_and_return_express_header_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:alpha="0.5"
+            android:fontFamily="@font/gotham_rounded_book"
+            android:text="@string/when_you_opt_in_for_express_services_you_ll_be_required_to_carry_them_out_within_24_hours"
+            android:textColor="@color/black_18"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_express_header" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/washer_pickup_return_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_express_header_desc"
+            app:layout_constraintVertical_bias="1.0"
+            android:fontFamily="@font/gotham_rounded_medium"
+            android:textAllCaps="false"
+            app:cornerRadius="@dimen/_15sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

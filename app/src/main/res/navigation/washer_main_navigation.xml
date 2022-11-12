@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/washer_main_navigation"
+    app:startDestination="@id/washerHomeFragment">
+
+    <fragment
+        android:id="@+id/washerHomeFragment"
+        android:name="com.washathomes.views.main.washer.home.WasherHomeFragment"
+        android:label="fragment_washer_home"
+        tools:layout="@layout/fragment_washer_home" >
+        <action
+            android:id="@+id/action_washerHomeFragment_to_orderPlacedFragment"
+            app:destination="@id/orderPlacedFragment" />
+        <action
+            android:id="@+id/action_washerHomeFragment_to_orderPlacedOverviewFragment"
+            app:destination="@id/orderPlacedOverviewFragment" />
+        <action
+            android:id="@+id/action_washerHomeFragment_to_orderAcceptedFragment"
+            app:destination="@id/orderAcceptedFragment" />
+        <action
+            android:id="@+id/action_washerHomeFragment_to_orderInProgressFragment"
+            app:destination="@id/orderInProgressFragment" />
+        <action
+            android:id="@+id/action_washerHomeFragment_to_orderDeliveredFragment"
+            app:destination="@id/orderDeliveredFragment" />
+        <action
+            android:id="@+id/action_washerHomeFragment_to_washerNotificationsFragment"
+            app:destination="@id/washerNotificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerMoreFragment"
+        android:name="com.washathomes.views.main.washer.more.WasherMoreFragment"
+        android:label="fragment_washer_more"
+        tools:layout="@layout/fragment_washer_more" >
+        <action
+            android:id="@+id/action_washerMoreFragment_to_washerProfileFragment"
+            app:destination="@id/washerProfileFragment" />
+        <action
+            android:id="@+id/action_washerMoreFragment_to_washerAvailabilityFragment"
+            app:destination="@id/washerAvailabilityFragment" />
+        <action
+            android:id="@+id/action_washerMoreFragment_to_washerWebViewFragment"
+            app:destination="@id/washerWebViewFragment" />
+        <action
+            android:id="@+id/action_washerMoreFragment_to_washerOrderHistoryFragment"
+            app:destination="@id/washerOrderHistoryFragment" />
+        <action
+            android:id="@+id/action_washerMoreFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_washerMoreFragment_to_washerNotificationsFragment"
+            app:destination="@id/washerNotificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerProfileFragment"
+        android:name="com.washathomes.views.main.washer.more.profile.WasherProfileFragment"
+        android:label="fragment_washer_profile"
+        tools:layout="@layout/fragment_washer_profile" >
+        <action
+            android:id="@+id/action_washerProfileFragment_to_washerSwitchAccountsFragment"
+            app:destination="@id/washerSwitchAccountsFragment" />
+        <action
+            android:id="@+id/action_washerProfileFragment_to_washerProfileDetailsFragment"
+            app:destination="@id/washerProfileDetailsFragment" />
+        <action
+            android:id="@+id/action_washerProfileFragment_to_washerSwitchLanguageFragment"
+            app:destination="@id/washerSwitchLanguageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerAvailabilityFragment"
+        android:name="com.washathomes.views.main.washer.more.availability.WasherAvailabilityFragment"
+        android:label="fragment_washer_availability"
+        tools:layout="@layout/fragment_washer_availability" />
+    <fragment
+        android:id="@+id/washerWebViewFragment"
+        android:name="com.washathomes.views.main.washer.more.webview.WasherWebViewFragment"
+        android:label="fragment_washer_web_view"
+        tools:layout="@layout/fragment_washer_web_view" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerOrderHistoryFragment"
+        android:name="com.washathomes.views.main.washer.more.orderhistory.WasherOrderHistoryFragment"
+        android:label="fragment_washer_order_history"
+        tools:layout="@layout/fragment_washer_order_history" >
+        <action
+            android:id="@+id/action_washerOrderHistoryFragment_to_washerOrderDetailsFragment"
+            app:destination="@id/washerOrderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerSwitchAccountsFragment"
+        android:name="com.washathomes.views.main.washer.more.profile.switchaccount.WasherSwitchAccountsFragment"
+        android:label="fragment_washer_switch_accounts"
+        tools:layout="@layout/fragment_washer_switch_accounts" />
+    <fragment
+        android:id="@+id/washerProfileDetailsFragment"
+        android:name="com.washathomes.views.main.washer.more.profile.profiledetails.WasherProfileDetailsFragment"
+        android:label="fragment_washer_profile_details"
+        tools:layout="@layout/fragment_washer_profile_details" />
+    <fragment
+        android:id="@+id/washerSwitchLanguageFragment"
+        android:name="com.washathomes.views.main.washer.more.profile.language.WasherSwitchLanguageFragment"
+        android:label="fragment_washer_switch_language"
+        tools:layout="@layout/fragment_washer_switch_language" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.washathomes.views.main.washer.more.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_pickupReturnFragment"
+            app:destination="@id/pickupReturnFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_manageServicesFragment"
+            app:destination="@id/manageServicesFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_identificationFragment"
+            app:destination="@id/identificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pickupReturnFragment"
+        android:name="com.washathomes.views.main.washer.more.settings.pickupreturn.PickupReturnFragment"
+        android:label="fragment_pickup_return"
+        tools:layout="@layout/fragment_pickup_return" />
+    <fragment
+        android:id="@+id/orderPlacedFragment"
+        android:name="com.washathomes.views.main.washer.home.orderplaced.OrderPlacedFragment"
+        android:label="fragment_order_placed2"
+        tools:layout="@layout/fragment_order_placed2" />
+    <fragment
+        android:id="@+id/orderPlacedOverviewFragment"
+        android:name="com.washathomes.views.main.washer.home.orderplaced.OrderPlacedOverviewFragment"
+        android:label="fragment_order_placed_overview"
+        tools:layout="@layout/fragment_order_placed_overview" >
+        <argument
+            android:name="washerPending"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_orderPlacedOverviewFragment_to_washerViewItemsFragment"
+            app:destination="@id/washerViewItemsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerViewItemsFragment"
+        android:name="com.washathomes.views.main.washer.home.viewitems.WasherViewItemsFragment"
+        android:label="fragment_washer_view_items"
+        tools:layout="@layout/fragment_washer_view_items" >
+        <argument
+            android:name="isPending"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderAcceptedFragment"
+        android:name="com.washathomes.views.main.washer.home.orderaccepted.OrderAcceptedFragment"
+        android:label="fragment_order_accepted"
+        tools:layout="@layout/fragment_order_accepted" >
+        <action
+            android:id="@+id/action_orderAcceptedFragment_to_washerViewItemsFragment"
+            app:destination="@id/washerViewItemsFragment" />
+        <action
+            android:id="@+id/action_orderAcceptedFragment_to_washeeChatFragment2"
+            app:destination="@id/washeeChatFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerInboxFragment"
+        android:name="com.washathomes.views.main.washee.chats.WasheeChatsFragment"
+        android:label="fragment_washee_chats"
+        tools:layout="@layout/fragment_washee_chats" >
+
+        <action
+            android:id="@+id/action_washerInboxFragment_to_washeeChatFragment2"
+            app:destination="@id/washeeChatFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderInProgressFragment"
+        android:name="com.washathomes.views.main.washer.home.orderinprogress.OrderInProgressFragment"
+        android:label="fragment_order_in_progress2"
+        tools:layout="@layout/fragment_order_in_progress2" >
+        <action
+            android:id="@+id/action_orderInProgressFragment_to_washerViewItemsFragment"
+            app:destination="@id/washerViewItemsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDeliveredFragment"
+        android:name="com.washathomes.views.main.washer.home.orderdelivered.OrderDeliveredFragment"
+        android:label="fragment_order_delivered"
+        tools:layout="@layout/fragment_order_delivered" >
+        <action
+            android:id="@+id/action_orderDeliveredFragment_to_orderReviewFragment4"
+            app:destination="@id/orderReviewFragment4" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerNotificationsFragment"
+        android:name="com.washathomes.views.main.washer.notifications.WasherNotificationsFragment"
+        android:label="fragment_washer_notifications"
+        tools:layout="@layout/fragment_washer_notifications" />
+    <fragment
+        android:id="@+id/washerWalletFragment"
+        android:name="com.washathomes.views.main.washer.wallet.WasherWalletFragment"
+        android:label="fragment_washer_wallet"
+        tools:layout="@layout/fragment_washer_wallet" >
+        <action
+            android:id="@+id/action_washerWalletFragment_to_washerNotificationsFragment"
+            app:destination="@id/washerNotificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageServicesFragment"
+        android:name="com.washathomes.views.main.washer.more.settings.manageservices.ManageServicesFragment"
+        android:label="fragment_manage_services"
+        tools:layout="@layout/fragment_manage_services" />
+    <fragment
+        android:id="@+id/identificationFragment"
+        android:name="com.washathomes.views.main.washer.more.settings.identification.IdentificationFragment"
+        android:label="fragment_identification"
+        tools:layout="@layout/fragment_identification" />
+    <fragment
+        android:id="@+id/washerOrderDetailsFragment"
+        android:name="com.washathomes.views.main.washer.more.orderhistory.WasherOrderDetailsFragment"
+        android:label="fragment_washer_order_details"
+        tools:layout="@layout/fragment_washer_order_details" >
+        <action
+            android:id="@+id/action_washerOrderDetailsFragment_to_washerViewOrderItemsFragment"
+            app:destination="@id/washerViewOrderItemsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/washerViewOrderItemsFragment"
+        android:name="com.washathomes.views.main.washer.more.orderhistory.WasherViewOrderItemsFragment"
+        android:label="fragment_washer_view_order_items"
+        tools:layout="@layout/fragment_washer_view_order_items" />
+    <fragment
+        android:id="@+id/orderReviewFragment4"
+        android:name="com.washathomes.views.main.washer.home.orderreview.OrderReviewFragment"
+        android:label="fragment_order_review"
+        tools:layout="@layout/fragment_order_review" />
+    <fragment
+        android:id="@+id/washeeChatFragment2"
+        android:name="com.washathomes.views.main.washee.chats.WasheeChatFragment"
+        android:label="WasheeChatFragment" >
+        <argument
+            android:name="chat"
+            app:argType="com.washathomes.apputils.modules.chatmodel.ChatRoom"/>
+    </fragment>
+</navigation>

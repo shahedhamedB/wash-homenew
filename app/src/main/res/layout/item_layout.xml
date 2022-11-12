@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        app:cardCornerRadius="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Shorts"
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:id="@+id/item_favorite"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:src="@drawable/ic_baseline_favorite_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_title"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/item_icon"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_title"
+                tools:ignore="ContentDescription"
+                android:src="@drawable/vest_male" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/services_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/item_icon"
+                app:layout_constraintTop_toTopOf="@id/item_icon">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/services_RV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    tools:itemCount="1"/>
+            </androidx.core.widget.NestedScrollView>
+
+
+            <TextView
+                android:id="@+id/item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:fontFamily="@font/gotham_rounded_book"
+                android:textColor="@color/blue"
+                app:layout_constraintBottom_toTopOf="@id/notes_edt"
+                app:layout_constraintEnd_toEndOf="@id/item_icon"
+                app:layout_constraintStart_toStartOf="@id/item_icon"
+                app:layout_constraintTop_toBottomOf="@id/item_icon"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="$2.50" />
+
+            <TextView
+                android:id="@+id/add_to_basket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/add_to_basket_draw"
+                android:gravity="center"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:text="@string/add_to_basket"
+                android:textColor="@color/button_blue_tint_selector"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintBottom_toTopOf="@+id/notes_edt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/services_layout"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <EditText
+                android:id="@+id/notes_edt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/services_layout"
+                app:layout_constraintStart_toStartOf="@+id/item_icon"
+                app:layout_constraintTop_toBottomOf="@id/add_to_basket"
+                android:hint="@string/item_notes_hint"
+                android:textSize="@dimen/_10ssp"
+                android:padding="@dimen/_10ssp"
+                android:fontFamily="@font/gotham_rounded_book"
+                android:textColor="@color/mid_grey"
+                android:textColorHint="@color/mid_grey"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/rounded_view_light_gray_radius"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>

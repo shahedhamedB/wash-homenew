@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.appcompat.widget.AppCompatCheckBox
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/service_CB"
+    style="@style/Theme.WashHomeApplication.CheckBox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_8sdp"
+    android:checkMark="@drawable/check_rect"
+    android:text="@string/wash_and_dry" />
