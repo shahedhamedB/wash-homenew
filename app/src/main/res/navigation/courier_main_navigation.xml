@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_courierInboxFragment_to_washeeChatFragment3"
             app:destination="@id/washeeChatFragment3" />
+        <action
+            android:id="@+id/action_courierInboxFragment_to_courierNotificationsFragment"
+            app:destination="@id/courierNotificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderPlacedFragment2"
