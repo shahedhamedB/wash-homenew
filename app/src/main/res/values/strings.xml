@@ -309,5 +309,7 @@
     <string name="order_deleted_successfully">Order deleted successfully!</string>
     <string name="phone_starts_0">Phone number can\'t start with 0 !</string>
     <string name="payments_received">Payments received</string>
+    <string name="choose_services">Please select at least 1 service!</string>
+    <string name="phone_exists">Phone already exists.</string>
 
 </resources>

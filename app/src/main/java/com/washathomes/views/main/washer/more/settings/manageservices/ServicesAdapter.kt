@@ -33,21 +33,21 @@ class ServicesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val service: Service = services[position]
 
-        if (service.isSelected!!){
+//        service.isSelected = service.status == "1"
+
+        if (service.status == "1"){
             Glide.with(context!!).load(service.icon_selected).into(holder.serviceImage)
+            holder.serviceLayout.setBackgroundColor(context!!.resources.getColor(R.color.blue))
         }else{
             Glide.with(context!!).load(service.icon).into(holder.serviceImage)
+            holder.serviceLayout.setBackgroundColor(context!!.resources.getColor(R.color.light_grey))
         }
         holder.serviceTitle.text = service.title
         holder.serviceCV.setOnClickListener {
-            if (service.isSelected!!){
-                Glide.with(context!!).load(service.icon).into(holder.serviceImage)
-                service.isSelected = false
-                holder.serviceLayout.setBackgroundColor(context!!.resources.getColor(R.color.light_grey))
+            if (service.status == "1"){
+                service.status = "0"
             }else{
-                service.isSelected = true
-                holder.serviceLayout.setBackgroundColor(context!!.resources.getColor(R.color.blue))
-                Glide.with(context!!).load(service.icon_selected).into(holder.serviceImage)
+                service.status = "1"
             }
             notifyDataSetChanged()
         }

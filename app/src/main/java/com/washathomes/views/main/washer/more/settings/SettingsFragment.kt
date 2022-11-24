@@ -52,6 +52,7 @@ class SettingsFragment : Fragment() {
         binding.menuLinePickupReturn.setOnClickListener { navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToPickupReturnFragment()) }
         binding.menuLineIdentificationUpload.setOnClickListener { navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToIdentificationFragment()) }
         binding.menuLineManageService.setOnClickListener { navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToManageServicesFragment()) }
+        binding.menuLinePickupReturn.setOnClickListener { navController.navigate(SettingsFragmentDirections.actionSettingsFragmentToPickupReturnFragment()) }
     }
 
 

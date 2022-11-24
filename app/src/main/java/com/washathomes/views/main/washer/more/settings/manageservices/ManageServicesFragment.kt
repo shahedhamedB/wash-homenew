@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,6 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.washathomes.apputils.appdefs.AppDefs
 import com.washathomes.apputils.appdefs.Urls
@@ -57,6 +59,7 @@ class ManageServicesFragment : Fragment() {
     var washingMachineImage = ""
     var dryerImage = ""
     var extraImage = ""
+    lateinit var userDocuments: UserDocuments
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,11 +90,12 @@ class ManageServicesFragment : Fragment() {
     }
 
     private fun onClick(){
+        binding.toolbarBackIcon.setOnClickListener { navController.popBackStack() }
         binding.uploadWashingMachineImage.setOnClickListener {
             imageType = 1
             imagePickerPopUp()
         }
-        binding.uploadDryerImage.setOnClickListener {
+        binding.uploadExtraImage2.setOnClickListener {
             imageType = 2
             imagePickerPopUp()
         }
@@ -99,7 +103,19 @@ class ManageServicesFragment : Fragment() {
             imageType = 3
             imagePickerPopUp()
         }
-        binding.doneBtn.setOnClickListener { updateUser() }
+        binding.doneBtn.setOnClickListener {
+            val servicesAvailable: ArrayList<ServiceAvailable> = ArrayList()
+            for (service in services){
+                if (service.status == "1"){
+                    servicesAvailable.add(ServiceAvailable(service.id))
+                }
+            }
+            if (servicesAvailable.isEmpty()){
+                Toast.makeText(washerMainActivity, resources.getString(R.string.choose_services), Toast.LENGTH_SHORT).show()
+            }else{
+                updateUser(servicesAvailable)
+            }
+        }
     }
 
     private fun getServices(){
@@ -129,6 +145,7 @@ class ManageServicesFragment : Fragment() {
                     setServicesAdapter()
                     binding.progressBar.visibility = View.GONE
                     binding.servicesLayout.visibility = View.VISIBLE
+                    getUserDocuments()
                 }
             }
 
@@ -140,9 +157,51 @@ class ManageServicesFragment : Fragment() {
     }
 
     private fun setServicesAdapter() {
-        val servicesAdapter = ServicesAdapter(this, (services))
+        val servicesAdapter = ServicesAdapter(this, services)
         binding.servicesRV.adapter = servicesAdapter
         binding.servicesRV.layoutManager = LinearLayoutManager(washerMainActivity, RecyclerView.HORIZONTAL, false)
+
+    }
+
+    private fun getUserDocuments(){
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val servicesCall: Call<UserDocs> =
+            retrofit.create(RetrofitAPIs::class.java).getUserDocs()
+        servicesCall.enqueue(object : Callback<UserDocs> {
+            override fun onResponse(call: Call<UserDocs>, response: Response<UserDocs>) {
+                if (response.isSuccessful){
+                    userDocuments = response.body()!!.results
+                    if (userDocuments.machine_image.isNotEmpty()){
+                        binding.uploadWashingMachineImageLayout.visibility = View.GONE
+                        Glide.with(washerMainActivity).load(userDocuments.machine_image).into(binding.washingMachineImage)
+                    }
+                    if (userDocuments.dryer_image.isNotEmpty()){
+                        binding.uploadExtraImageLayout2.visibility = View.GONE
+                        Glide.with(washerMainActivity).load(userDocuments.dryer_image).into(binding.extraImage2)
+                    }
+                    if (userDocuments.extra_image.isNotEmpty()){
+                        binding.uploadExtraImageLayout.visibility = View.GONE
+                        Glide.with(washerMainActivity).load(userDocuments.extra_image).into(binding.extraImage)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<UserDocs>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun imagePickerPopUp() {
@@ -184,13 +243,7 @@ class ManageServicesFragment : Fragment() {
         }
     }
     
-    private fun updateUser(){
-        val servicesAvailable: ArrayList<ServiceAvailable> = ArrayList()
-        for (service in services){
-            if (service.isSelected!!){
-                servicesAvailable.add(ServiceAvailable(service.id))
-            }
-        }
+    private fun updateUser(servicesAvailable: ArrayList<ServiceAvailable>){
         val userParams = UpdateServicesData(serviceAvailable, expressAvailable, servicesAvailable, washingMachineImage, dryerImage, extraImage)
         binding.progressBar.visibility = View.VISIBLE
         val okHttpClient = OkHttpClient.Builder().apply {
@@ -232,9 +285,7 @@ class ManageServicesFragment : Fragment() {
         editor.putString(AppDefs.USER_KEY, json)
         editor.putString(AppDefs.TYPE_KEY, "2")
         editor.apply()
-        val registrationIntent = Intent(washerMainActivity, WasherMainActivity::class.java)
-        startActivity(registrationIntent)
-        washerMainActivity.finish()
+        navController.popBackStack()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -248,9 +299,9 @@ class ManageServicesFragment : Fragment() {
                     washingMachineImage = washerMainActivity.convertToBase64(imageBitmap)!!
                 }
                 2 -> {
-                    binding.uploadDryerImageLayout.visibility = View.GONE
+                    binding.uploadExtraImageLayout2.visibility = View.GONE
                     val imageBitmap = data?.extras?.get("data") as Bitmap
-                    binding.dryerImage.setImageBitmap(imageBitmap)
+                    binding.extraImage2.setImageBitmap(imageBitmap)
                     dryerImage = washerMainActivity.convertToBase64(imageBitmap)!!
                 }
                 3 -> {
@@ -270,10 +321,10 @@ class ManageServicesFragment : Fragment() {
                     washingMachineImage = washerMainActivity.convertToBase64(imageBitmap)!!
                 }
                 2 -> {
-                    binding.uploadDryerImageLayout.visibility = View.GONE
+                    binding.uploadExtraImageLayout2.visibility = View.GONE
                     val inputStream: InputStream = requireContext().contentResolver.openInputStream(data!!.data!!)!!
                     val imageBitmap = BitmapFactory.decodeStream(inputStream)
-                    binding.dryerImage.setImageBitmap(imageBitmap)
+                    binding.extraImage2.setImageBitmap(imageBitmap)
                     dryerImage = washerMainActivity.convertToBase64(imageBitmap)!!
                 }
                 3 -> {

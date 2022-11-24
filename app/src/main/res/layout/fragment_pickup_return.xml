@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,7 +36,7 @@
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/gotham_rounded_bold"
                 android:gravity="center"
-                android:text="@string/settings"
+                android:text="@string/pickup_return"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15ssp" />
             <ImageView
@@ -154,8 +155,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:max="10"
+            android:min="20"
             android:theme="@style/CustomSeekBar"
+            android:progress="100"
             app:layout_constraintEnd_toEndOf="@id/washer_pickup_and_return_distance_miles"
             app:layout_constraintStart_toStartOf="@id/washer_pickup_and_return_distance_header"
             app:layout_constraintTop_toBottomOf="@id/washer_pickup_and_return_distance_header" />
@@ -210,7 +212,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_20sdp"
-            android:text="@string/next"
+            android:text="@string/update"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -221,5 +223,15 @@
             app:cornerRadius="@dimen/_15sdp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,8 @@
 package com.washathomes.views.main.washer.home
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,6 +50,7 @@ class WasherHomeFragment : Fragment() {
     var longitude = ""
     var postalCode = ""
     var token = ""
+    var isOptionsVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -121,9 +124,42 @@ class WasherHomeFragment : Fragment() {
             }
             binding.refreshLayout.isRefreshing = false
         }
+        binding.optionsFB.setOnClickListener {
+            if (isOptionsVisible){
+                isOptionsVisible = false
+                binding.optionsLayout.visibility = View.GONE
+            }else{
+                isOptionsVisible = true
+                binding.optionsLayout.visibility = View.VISIBLE
+            }
+        }
+        binding.chatWithUs.setOnClickListener {
+            openWhatsApp(AppDefs.deliveryInfoPrices[11].price)
+        }
+        binding.callUs.setOnClickListener { callPhone() }
+        binding.contactUs.setOnClickListener { openWebPageInBrowser() }
         binding.toolbarLayout.notifications.setOnClickListener { navController.navigate(WasherHomeFragmentDirections.actionWasherHomeFragmentToWasherNotificationsFragment()) }
         binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener { navController.navigate(WasherHomeFragmentDirections.actionWasherHomeFragmentToWasherNotificationsFragment()) }
         binding.toolbarLayout.toolbarLeftIcon.setOnClickListener { navController.navigate(WasherHomeFragmentDirections.actionWasherHomeFragmentToWasherNotificationsFragment()) }
+    }
+
+    private fun openWhatsApp(num: String) {
+        val url = "https://api.whatsapp.com/send?phone="+num
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
+    }
+
+    private fun callPhone(){
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:"+AppDefs.deliveryInfoPrices[12].price)
+        startActivity(intent)
+    }
+
+    private fun openWebPageInBrowser() {
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(AppDefs.deliveryInfoPrices[13].price))
+        startActivity(browserIntent)
     }
 
     private fun changeAvailability(){

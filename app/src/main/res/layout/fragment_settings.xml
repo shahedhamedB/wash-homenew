@@ -75,7 +75,7 @@
             android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             android:paddingEnd="@dimen/_8sdp"
             android:paddingStart="@dimen/_15sdp">
 

@@ -235,6 +235,7 @@
                     android:layout_marginStart="@dimen/_40sdp"
                     android:layout_marginEnd="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_15sdp"
+                    android:min="20"
                     android:progress="100"/>
                 <TextView
                     android:id="@+id/miles"

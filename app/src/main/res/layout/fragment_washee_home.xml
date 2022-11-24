@@ -37,7 +37,7 @@
                 android:layout_height="0dp"
                 android:focusableInTouchMode="true">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/home_user_profile_image"
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_50sdp"

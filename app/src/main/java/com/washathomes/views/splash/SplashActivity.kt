@@ -105,6 +105,7 @@ class SplashActivity : AppCompatActivity() {
             id != null && user != null-> {
                 AppDefs.user = gson.fromJson(user, UserData::class.java)
                 LocaleHelper.setAppLocale(AppDefs.user.results!!.language_code, this)
+                AppDefs.lang = AppDefs.user.results!!.language_code
                 if (type == "1"){
                     val mainIntent = Intent(this, WasheeMainActivity::class.java)
                     startActivity(mainIntent)

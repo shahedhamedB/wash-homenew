@@ -36,14 +36,23 @@ interface RetrofitAPIs {
     @POST("driving_data")
     fun updateDrivingData(@Body userParams: UpdateDrivingData): Call<UserData>
 
+    @POST("driving_data")
+    fun updatePickupReturn(@Body userParams: UpdatePickupReturn): Call<UserData>
+
     @GET("get_service")
     fun getServices(): Call<Services>
+
+    @GET("get_user_document")
+    fun getUserDocs(): Call<UserDocs>
 
     @POST("services_update")
     fun updateServicesData(@Body userParams: UpdateServicesData): Call<UserData>
 
     @POST("update_sign_in")
     fun updateSignIn(@Body userTypeObj: UserTypeObj): Call<UserData>
+
+    @POST("check_phone_update")
+    fun checkPhone(@Body phone: Phone): Call<BooleanResponse>
 
     @POST("get_notifications")
     fun getNotifications(@Body userTypeObj: UserTypeObj): Call<Notifications>
