@@ -18,13 +18,12 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -34,6 +33,9 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.*
 import com.google.gson.Gson
 import com.washathomes.apputils.appdefs.AppDefs
 import com.washathomes.apputils.appdefs.Urls
@@ -41,6 +43,8 @@ import com.washathomes.apputils.modules.UpdateUser
 import com.washathomes.apputils.modules.UserData
 import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.R
+import com.washathomes.apputils.modules.BooleanResponse
+import com.washathomes.apputils.modules.Phone
 import com.washathomes.views.main.washee.WasheeMainActivity
 import com.washathomes.views.splash.SplashActivity
 import com.washathomes.databinding.FragmentProfileDetailsBinding
@@ -54,6 +58,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.InputStream
 import java.util.*
+import java.util.concurrent.TimeUnit
+
 @AndroidEntryPoint
 class ProfileDetailsFragment : Fragment() {
 
@@ -66,6 +72,10 @@ class ProfileDetailsFragment : Fragment() {
     private val REQUEST_CODE = 110
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     val args: ProfileDetailsFragmentArgs by navArgs()
+    var code = ""
+    var codeBySystem: String = ""
+    lateinit var mAuth: FirebaseAuth
+    lateinit var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     var type = ""
     var latitude = ""
     var longitude = ""
@@ -74,6 +84,7 @@ class ProfileDetailsFragment : Fragment() {
     var image = ""
     var fullName = ""
     var email = ""
+    var phone = ""
     var gender = ""
     var birthdate = ""
     
@@ -105,6 +116,7 @@ class ProfileDetailsFragment : Fragment() {
     private fun initViews(view: View){
         navController = Navigation.findNavController(view)
         type = args.type
+        mAuth = FirebaseAuth.getInstance()
         binding.phoneNumberEdt.setText(AppDefs.user.results!!.phone)
         binding.fullNameEdt.setText(AppDefs.user.results!!.name)
         binding.emailAddressEdt.setText(AppDefs.user.results!!.email)
@@ -114,6 +126,23 @@ class ProfileDetailsFragment : Fragment() {
             Glide.with(washeeMainActivity).load(AppDefs.user.results!!.image).into(binding.profileImage)
         }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(washeeMainActivity)
+        mCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            override fun onCodeSent(s: String, forceResendingToken: PhoneAuthProvider.ForceResendingToken) {
+                super.onCodeSent(s, forceResendingToken)
+                codeBySystem = s
+            }
+
+            override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
+                val code = phoneAuthCredential.smsCode
+                if (code != null) {
+
+                }
+            }
+
+            override fun onVerificationFailed(e: FirebaseException) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun onClick(){
@@ -305,17 +334,67 @@ class ProfileDetailsFragment : Fragment() {
     private fun checkValidation(){
         fullName = binding.fullNameEdt.text.toString()
         email = binding.emailAddressEdt.text.toString()
-        if (fullName.isEmpty()){
-            binding.fullNameEdt.error = resources.getString(R.string.fill_feild)
-        }else if (email.isEmpty()){
-            binding.emailAddressEdt.error = resources.getString(R.string.fill_feild)
-        }else{
-            updateUser()
+        phone = binding.phoneNumberEdt.text.toString()
+        when {
+            fullName.isEmpty() -> {
+                binding.fullNameEdt.error = resources.getString(R.string.fill_feild)
+            }
+            email.isEmpty() -> {
+                binding.emailAddressEdt.error = resources.getString(R.string.fill_feild)
+            }
+            phone.isEmpty() -> {
+                binding.phoneNumberEdt.error = resources.getString(R.string.fill_feild)
+            }
+            else -> {
+                if (AppDefs.user.results!!.phone != phone){
+                    checkPhone()
+                }else{
+                    updateUser()
+                }
+            }
         }
     }
 
+    private fun checkPhone(){
+        val userParams = Phone(phone)
+        binding.progressBar.visibility = View.VISIBLE
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val updateUserCall: Call<BooleanResponse> =
+            retrofit.create(RetrofitAPIs::class.java).checkPhone(userParams)
+        updateUserCall.enqueue(object : Callback<BooleanResponse> {
+            override fun onResponse(call: Call<BooleanResponse>, response: Response<BooleanResponse>) {
+                binding.progressBar.visibility = View.GONE
+                if (response.isSuccessful){
+                    if (response.body()!!.results){
+                        verifyPhonePopUp()
+                    }else{
+                        Toast.makeText(washeeMainActivity, resources.getString(R.string.phone_exists), Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    Toast.makeText(washeeMainActivity, resources.getString(R.string.phone_exists), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
+                binding.progressBar.visibility = View.GONE
+            }
+
+        })
+    }
+
     private fun updateUser(){
-        val userParams = UpdateUser(fullName, AppDefs.user.results!!.phone, email, gender, birthdate, latitude, longitude, address, postalCode, "1", image, "")
+        val userParams = UpdateUser(fullName, phone, email, gender, birthdate, latitude, longitude, address, postalCode, "1", image, "")
         binding.progressBar.visibility = View.VISIBLE
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
@@ -343,6 +422,34 @@ class ProfileDetailsFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun verifyPhonePopUp(){
+        val alertView: View =
+            LayoutInflater.from(context).inflate(R.layout.otp_popup, null)
+        val alertBuilder = AlertDialog.Builder(context).setView(alertView).show()
+        alertBuilder.show()
+        alertBuilder.setCancelable(false)
+
+        alertBuilder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val cancel: TextView = alertView.findViewById(R.id.cancel)
+        val verify: TextView = alertView.findViewById(R.id.verify_btn)
+        val verificationCodeEdt: EditText = alertView.findViewById(R.id.verificationCodeEdt)
+
+        sendVerificationCodeToUser(phone)
+
+        cancel.setOnClickListener { alertBuilder.dismiss() }
+        verify.setOnClickListener {
+            val code = verificationCodeEdt.text.toString()
+            if (code.isNotEmpty()){
+                verifyCode(code)
+                washeeMainActivity.hideKeyboard()
+                alertBuilder.dismiss()
+            }
+
+
+        }
     }
 
     private fun saveUserToSharedPreferences() {
@@ -375,6 +482,44 @@ class ProfileDetailsFragment : Fragment() {
         }else if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
             dispatchTakePictureIntent()
         }
+    }
+
+    private fun verifyCode(code: String) {
+        binding.progressBar.visibility = View.VISIBLE
+        val credential = PhoneAuthProvider.getCredential(codeBySystem, code)
+        signInWithPhoneAuthCredential(credential)
+    }
+
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        mAuth.signInWithCredential(credential).addOnCompleteListener(
+            washeeMainActivity
+        ) { task: Task<AuthResult?> ->
+            if (task.isSuccessful) {
+                Toast.makeText(context, "Verification completed", Toast.LENGTH_LONG).show()
+                AppDefs.firebaseUser = task.result!!.user!!
+                Log.d("uId",AppDefs.firebaseUser.uid)
+                Log.d("uPhone", AppDefs.firebaseUser.phoneNumber!!)
+                updateUser()
+            } else {
+                if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    Toast.makeText(
+                        context,
+                        "Verification not completed! Try again",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun sendVerificationCodeToUser(phoneNumber: String) {
+        val options = PhoneAuthOptions.newBuilder(mAuth)
+            .setPhoneNumber(phoneNumber) // Phone number to verify
+            .setTimeout(2L, TimeUnit.SECONDS) // Timeout and unit
+            .setActivity(washeeMainActivity) // Activity (for callback binding)
+            .setCallbacks(mCallbacks) // OnVerificationStateChangedCallbacks
+            .build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
 }

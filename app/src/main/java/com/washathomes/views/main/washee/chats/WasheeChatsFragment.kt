@@ -112,6 +112,7 @@ class WasheeChatsFragment : Fragment() {
 
 
     }
+
     private fun setInbox() {
 
         if (viewModel.chatList.isNullOrEmpty()) {
@@ -170,6 +171,7 @@ class WasheeChatsFragment : Fragment() {
 
 
     }
+
     fun checkRes(query:Query){
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {

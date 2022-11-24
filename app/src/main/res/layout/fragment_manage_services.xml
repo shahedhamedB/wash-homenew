@@ -156,20 +156,21 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/upload_dryer_image"
+                    android:id="@+id/upload_extra_image2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     app:cardCornerRadius="@dimen/_10sdp"
                     app:cardElevation="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp">
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/light_grey">
                         <ImageView
-                            android:id="@+id/dryer_image"
+                            android:id="@+id/extra_image2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -177,7 +178,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/upload_dryer_image_layout"
+                            android:id="@+id/upload_extra_image_layout2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -198,6 +199,7 @@
                                 android:layout_marginTop="@dimen/_7sdp"/>
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/upload_extra_image"

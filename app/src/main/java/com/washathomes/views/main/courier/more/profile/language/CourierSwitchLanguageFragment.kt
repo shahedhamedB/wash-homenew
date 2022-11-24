@@ -137,6 +137,7 @@ class CourierSwitchLanguageFragment : Fragment() {
     }
 
     private fun getLanguages(){
+        AppDefs.languages.clear()
         val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()).build()
         val languagesCall: Call<Languages> =

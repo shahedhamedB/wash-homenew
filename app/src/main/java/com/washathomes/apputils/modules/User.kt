@@ -2,7 +2,7 @@ package com.washathomes.apputils.modules
 
 data class UserLogin(val phone: String?, val language_code: String?, val fcm_token: String?, val type_token: String?)
 data class UserData(val token: String?, val results: User?)
-data class User (val id: String?, val name: String?, val email:String?, val phone: String?,
+data class User (val id: String?, val name: String?, val email:String?, var phone: String?,
                  val gender: String?, val birthdate: String?, val image: String?, val id_image: String?,
                  var sigup_type: String?, val washee_status: String?, val washer_status: String?, val courier_status: String?,
                  var washer_available: String?, val express: String?, var dreiver_available: String?, val dreiver_type: String?,
@@ -19,3 +19,5 @@ data class UpdateDrivingData(val dreiver_available: String?, val dreiver_type: S
 
 data class UpdateServicesData(val washer_available: String?, val express: String?, val servcie: ArrayList<ServiceAvailable>, val machine_image: String?
 , val dryer_image: String?, val extra_image: String?)
+
+data class UpdatePickupReturn(val dreiver_available: String?, val dreiver_miles: String?, val express: String?)
