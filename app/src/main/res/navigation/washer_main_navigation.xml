@@ -173,6 +173,9 @@
         <action
             android:id="@+id/action_washerInboxFragment_to_washeeChatFragment2"
             app:destination="@id/washeeChatFragment2" />
+        <action
+            android:id="@+id/action_washerInboxFragment_to_washerNotificationsFragment"
+            app:destination="@id/washerNotificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderInProgressFragment"

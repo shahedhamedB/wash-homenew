@@ -54,7 +54,9 @@ class ActiveOrdersItemsAdapter(
             Glide.with(context!!).load(R.drawable.order_status_bullet_red).into(holder.bulletIndicator)
         }
 
-        holder.itemView.setOnClickListener { washerHomeFragment.orderDetails(activeOrder) }
+        holder.itemView.setOnClickListener {
+            washerHomeFragment.orderDetails(activeOrder)
+        }
     }
 
     override fun getItemCount(): Int {

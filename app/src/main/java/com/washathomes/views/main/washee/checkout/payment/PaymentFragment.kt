@@ -71,7 +71,7 @@ class PaymentFragment : Fragment() {
     private var paymentMethod: PaymentMethod? = null
     private val LOCATION_CODE = 100
     lateinit var intentResponse: IntentResponse
-    val clientKey = "ATWUSgGrSAamf7geOE5oZFxWHEVqaByhq95Nu_wzVr9vOABQRE3Zj8t9SM7J922Uup93eqNSvt2WtFAg"
+    val clientKey = "AVq5k6xrbGYF5xyf3aWf6e4Nw-5En6A9cscPkRIWHMZK-iymZk0mDVxe-OmuG6S72YQJOkxvl8BII36q"
     val PAYPAL_REQUEST_CODE = 123
 
     // Paypal Configuration Object

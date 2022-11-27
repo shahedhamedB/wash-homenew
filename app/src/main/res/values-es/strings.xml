@@ -270,4 +270,11 @@
     <string name="picked_laundry_items">artículos de lavandería recogidos</string>
     <string name="delivery_service">Servicio de entrega</string>
     <string name="favorites">Favoritos</string>
+    <string name="delete_account">Eliminar cuenta</string>
+    <string name="delete_account_desc">¿Estás seguro de que quieres eliminar tu cuenta?</string>
+    <string name="selected_card_summary">Terminar en</string>
+    <string name="payment_autharization_error_message">No podemos autenticar su método de pago. Elija otro método de pago y vuelva a intentarlo.</string>
+    <string name="no_messages_available">No hay mensajes disponibles</string>
+    <string name="chat_message_hint">Escriba su mensaje...</string>
+    <string name="order_no_prefix">Pedido #%s</string>
 </resources>

@@ -147,7 +147,7 @@ class CourierIdentificationFragment : Fragment() {
             override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
                 AppDefs.user = response.body()!!
                 binding.progressBar.visibility = View.GONE
-                navController.navigate(WasherSignUpFragmentDirections.actionWasherSignUpFragmentToWasherDrivingDataFragment())
+                navController.popBackStack()
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {

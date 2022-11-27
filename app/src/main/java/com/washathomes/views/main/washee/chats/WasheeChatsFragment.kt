@@ -82,16 +82,37 @@ class WasheeChatsFragment : Fragment() {
         binding.inboxList.layoutManager = LinearLayoutManager(context)
         binding.inboxList.adapter = adapter
 
+        when (AppDefs.user.results!!.sigup_type) {
+            "1" -> {
+                binding.toolbarLayout.root.visibility = View.VISIBLE
+                binding.toolbarLayout2.root.visibility = View.GONE
+                binding.toolbarLayout.toolbarLeftIcon.setOnClickListener { findNavController().navigate(R.id.action_navigation_inbox_to_washeeNotificationsFragment) }
+                binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener { findNavController().navigate(R.id.action_navigation_inbox_to_washeeNotificationsFragment)}
+                binding.toolbarLayout.clLeft.setOnClickListener { findNavController().navigate(R.id.action_navigation_inbox_to_washeeNotificationsFragment) }
+                binding.toolbarLayout.toolbarBasketIcon.setOnClickListener { findNavController().navigate(R.id.action_washeeChatsFragment_to_basketFragment) }
+                binding.toolbarLayout.clRight.setOnClickListener { findNavController().navigate(R.id.action_washeeChatsFragment_to_basketFragment) }
+                binding.toolbarLayout.toolbarBasketBadge.setOnClickListener { findNavController().navigate(R.id.action_washeeChatsFragment_to_basketFragment) }
+            }
+            "2" -> {
+                binding.toolbarLayout.root.visibility = View.GONE
+                binding.toolbarLayout2.root.visibility = View.VISIBLE
+                binding.toolbarLayout2.notifications.setOnClickListener { findNavController().navigate(R.id.action_washerInboxFragment_to_washerNotificationsFragment) }
+                binding.toolbarLayout2.toolbarLeftIcon.setOnClickListener { findNavController().navigate(R.id.action_washerInboxFragment_to_washerNotificationsFragment) }
+                binding.toolbarLayout2.toolbarNotifyBadge.setOnClickListener { findNavController().navigate(R.id.action_washerInboxFragment_to_washerNotificationsFragment) }
+            }
+            "3" -> {
+                binding.toolbarLayout.root.visibility = View.GONE
+                binding.toolbarLayout2.root.visibility = View.VISIBLE
+                binding.toolbarLayout2.notifications.setOnClickListener { findNavController().navigate(R.id.action_courierInboxFragment_to_courierNotificationsFragment) }
+                binding.toolbarLayout2.toolbarLeftIcon.setOnClickListener { findNavController().navigate(R.id.action_courierInboxFragment_to_courierNotificationsFragment) }
+                binding.toolbarLayout2.toolbarNotifyBadge.setOnClickListener { findNavController().navigate(R.id.action_courierInboxFragment_to_courierNotificationsFragment) }
+            }
+        }
 
-        binding.toolbarLayout.toolbarLeftIcon.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionNavigationInboxToWasheeNotificationsFragment()) }
-        binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionNavigationInboxToWasheeNotificationsFragment()) }
-        binding.toolbarLayout.clLeft.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionNavigationInboxToWasheeNotificationsFragment()) }
-        binding.toolbarLayout.toolbarBasketIcon.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionWasheeChatsFragmentToBasketFragment()) }
-        binding.toolbarLayout.clRight.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionWasheeChatsFragmentToBasketFragment()) }
-        binding.toolbarLayout.toolbarBasketBadge.setOnClickListener { navController.navigate(WasheeChatsFragmentDirections.actionWasheeChatsFragmentToBasketFragment()) }
 
 
     }
+
     private fun setInbox() {
 
         if (viewModel.chatList.isNullOrEmpty()) {
@@ -150,6 +171,7 @@ class WasheeChatsFragment : Fragment() {
 
 
     }
+
     fun checkRes(query:Query){
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {

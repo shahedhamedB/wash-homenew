@@ -126,7 +126,6 @@ class WasheeHomeFragment : Fragment() {
         binding.chatWithUs.setOnClickListener {
             openWhatsApp(AppDefs.deliveryInfoPrices[11].price)
         }
-
         binding.callUs.setOnClickListener { callPhone() }
         binding.contactUs.setOnClickListener { openWebPageInBrowser() }
 

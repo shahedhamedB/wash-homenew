@@ -191,6 +191,7 @@ class WasherServicesDataFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, REQUEST_IMAGE_GALLERY)
+            alertBuilder.dismiss()
         }
 
     }
@@ -209,20 +210,25 @@ class WasherServicesDataFragment : Fragment() {
             if (washingMachineImage.isEmpty() || dryerImage.isEmpty()){
                 Toast.makeText(washerRegistrationActivity, resources.getString(R.string.upload_images), Toast.LENGTH_SHORT).show()
             }else{
-                updateUser()
+                val servicesAvailable: ArrayList<ServiceAvailable> = ArrayList()
+                for (service in services){
+                    if (service.isSelected!!){
+                        servicesAvailable.add(ServiceAvailable(service.id))
+                    }
+                }
+                if (servicesAvailable.isEmpty()){
+                    Toast.makeText(washerRegistrationActivity, resources.getString(R.string.choose_services), Toast.LENGTH_SHORT).show()
+                }else{
+                    updateUser(servicesAvailable)
+                }
+
             }
         }else{
             Toast.makeText(washerRegistrationActivity, resources.getString(R.string.enable_services_availability), Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun updateUser(){
-        val servicesAvailable: ArrayList<ServiceAvailable> = ArrayList()
-        for (service in services){
-            if (service.isSelected!!){
-                servicesAvailable.add(ServiceAvailable(service.id))
-            }
-        }
+    private fun updateUser(servicesAvailable: ArrayList<ServiceAvailable>){
         val userParams = UpdateServicesData(serviceAvailable, expressAvailable, servicesAvailable, washingMachineImage, dryerImage, extraImage)
         binding.progressBar.visibility = View.VISIBLE
         val okHttpClient = OkHttpClient.Builder().apply {

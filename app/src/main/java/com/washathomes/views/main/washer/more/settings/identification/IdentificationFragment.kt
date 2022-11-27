@@ -147,7 +147,8 @@ class IdentificationFragment : Fragment() {
             override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
                 AppDefs.user = response.body()!!
                 binding.progressBar.visibility = View.GONE
-                navController.navigate(WasherSignUpFragmentDirections.actionWasherSignUpFragmentToWasherDrivingDataFragment())
+                navController.popBackStack()
+//                navController.navigate(WasherSignUpFragmentDirections.actionWasherSignUpFragmentToWasherDrivingDataFragment())
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
@@ -160,12 +161,12 @@ class IdentificationFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-                binding.uploadIDLayout.visibility = View.GONE
+//                binding.uploadIDLayout.visibility = View.GONE
                 val imageBitmap = data?.extras?.get("data") as Bitmap
                 binding.washerUploadIdentificationImage.setImageBitmap(imageBitmap)
                 idImage = washerMainActivity.convertToBase64(imageBitmap)!!
         }else if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == Activity.RESULT_OK){
-                binding.uploadIDLayout.visibility = View.GONE
+//                binding.uploadIDLayout.visibility = View.GONE
                 val inputStream: InputStream = requireContext().contentResolver.openInputStream(data!!.data!!)!!
                 val imageBitmap = BitmapFactory.decodeStream(inputStream)
                 binding.washerUploadIdentificationImage.setImageBitmap(imageBitmap)

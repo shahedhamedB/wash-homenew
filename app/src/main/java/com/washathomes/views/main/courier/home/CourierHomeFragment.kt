@@ -1,6 +1,8 @@
 package com.washathomes.views.main.courier.home
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -44,6 +46,7 @@ class CourierHomeFragment : Fragment() {
     var notifications: ArrayList<Notification> = ArrayList()
     var type = "active"
     var token = ""
+    var isOptionsVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -121,6 +124,39 @@ class CourierHomeFragment : Fragment() {
             navController.navigate(CourierHomeFragmentDirections.actionCourierHomeFragmentToCourierNotificationsFragment()) }
         binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener {
             navController.navigate(CourierHomeFragmentDirections.actionCourierHomeFragmentToCourierNotificationsFragment()) }
+        binding.optionsFB.setOnClickListener {
+            if (isOptionsVisible){
+                isOptionsVisible = false
+                binding.optionsLayout.visibility = View.GONE
+            }else{
+                isOptionsVisible = true
+                binding.optionsLayout.visibility = View.VISIBLE
+            }
+        }
+        binding.chatWithUs.setOnClickListener {
+            openWhatsApp(AppDefs.deliveryInfoPrices[11].price)
+        }
+        binding.callUs.setOnClickListener { callPhone() }
+        binding.contactUs.setOnClickListener { openWebPageInBrowser() }
+    }
+
+    private fun openWhatsApp(num: String) {
+        val url = "https://api.whatsapp.com/send?phone="+num
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
+    }
+
+    private fun callPhone(){
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:"+AppDefs.deliveryInfoPrices[12].price)
+        startActivity(intent)
+    }
+
+    private fun openWebPageInBrowser() {
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(AppDefs.deliveryInfoPrices[13].price))
+        startActivity(browserIntent)
     }
 
     private fun changeAvailability(){
