@@ -567,7 +567,7 @@ class WasheeHomeFragment : Fragment() {
     }
     
     fun addFavorite(itemId: String){
-        binding.progressBar.visibility = View.VISIBLE
+//        binding.progressBar.visibility = View.VISIBLE
         val itemsObj = Favorite(itemId)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
@@ -588,7 +588,7 @@ class WasheeHomeFragment : Fragment() {
                 binding.homeLayout.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful){
-                    getCategoryItems(selectedCategory)
+//                    getCategoryItems(selectedCategory)
                 }else{
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
@@ -606,7 +606,7 @@ class WasheeHomeFragment : Fragment() {
     }
 
     fun removeFavorite(itemId: String){
-        binding.progressBar.visibility = View.VISIBLE
+//        binding.progressBar.visibility = View.VISIBLE
         val itemsObj = Favorite(itemId)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
@@ -627,7 +627,7 @@ class WasheeHomeFragment : Fragment() {
                 binding.homeLayout.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful){
-                    getCategoryItems(selectedCategory)
+//                    getCategoryItems(selectedCategory)
                 }else{
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
