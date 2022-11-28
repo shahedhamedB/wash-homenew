@@ -4,6 +4,7 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="google_places_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDbXBHvxxRJpsIMfvZEkVVkLdQ98IDQO-Q</string>
     <string name="stripe_publishable_key" translatable="false">pk_live_51HqxCmGNvYMhrs1aR40MglH7IH11khbzfL93y8fd39NhMuYVgdHx988swtWvWkAK2jFqzU4CqbjhyquHR3n4ms4q00toAXwS9g</string>
+<!--    <string name="stripe_publishable_key" translatable="false">pk_test_51HqxCmGNvYMhrs1av0rfgi2UuVUxa5AEi4KPt7pD1tyWTd8O6Al0qPDTgSMdidKbcKTFJfANxczlvWxWrFT23WD200kTWhKq4G</string>-->
     <string name="facebook_app_id" translatable="false">664236841938762</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb664236841938762</string>
     <string name="facebook_client_token" translatable="false">e04b2afbef4be8c6748cc5d377c56a1f</string>

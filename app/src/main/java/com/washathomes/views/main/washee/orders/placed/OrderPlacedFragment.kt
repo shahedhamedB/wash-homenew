@@ -67,7 +67,11 @@ class OrderPlacedFragment : Fragment() {
 
     private fun initViews(view: View){
         navController = Navigation.findNavController(view)
-
+        if (AppDefs.washeeActiveOrder.status == "1"){
+            binding.cancelOrder.visibility = View.GONE
+        }else{
+            binding.cancelOrder.visibility = View.VISIBLE
+        }
     }
 
     private fun onClick(){

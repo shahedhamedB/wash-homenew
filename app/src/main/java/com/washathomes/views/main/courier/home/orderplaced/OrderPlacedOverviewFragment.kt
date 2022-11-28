@@ -87,7 +87,9 @@ class OrderPlacedOverviewFragment : Fragment() {
             getAddress(AppDefs.pendingOrder.pickup_lat.toDouble(), AppDefs.pendingOrder.picku_long.toDouble())
             binding.pendingOverviewCurrentStatus.visibility = View.GONE
             binding.actionButtonsLayout.visibility = View.VISIBLE
-            binding.completeBuyerNameText.text = AppDefs.pendingOrder.washee_name!!.name
+            if (AppDefs.pendingOrder.washee_name != null){
+                binding.completeBuyerNameText.text = AppDefs.pendingOrder.washee_name!!.name
+            }
             if (AppDefs.pendingOrder.is_delivery_pickup == "1"){
                 binding.overviewDeliveryOptionText.text = resources.getString(R.string.washer_driver_to_collect_amp_return)
             }else{
@@ -147,7 +149,7 @@ class OrderPlacedOverviewFragment : Fragment() {
             latitude,
             longitude,
             1
-        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        ) as List<Address> // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         deliveryAddress = addresses[0].getAddressLine(0)

@@ -533,7 +533,7 @@ class DeliveryInfoFragment : Fragment() {
             latitude,
             longitude,
             1
-        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        ) as List<Address>// Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
         if (type == "0"){
             pickUpAddress = addresses[0].getAddressLine(0)

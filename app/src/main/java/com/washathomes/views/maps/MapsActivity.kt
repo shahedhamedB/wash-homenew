@@ -303,7 +303,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
         val geocoder = Geocoder(this, Locale.getDefault())
         var addresses: List<Address?>? = null
         return try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)as List<Address>
             addresses[0]
         } catch (e: IOException) {
             null

@@ -253,7 +253,8 @@ class OverviewFragment : Fragment() {
                     if (AppDefs.cartData.discount.substring(0, AppDefs.cartData.discount.indexOf(" ")) == AppDefs.cartData.sub_total.substring(0, AppDefs.cartData.sub_total.indexOf(" "))){
                         createOrder()
                     }else{
-                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
+                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
+//                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
                     }
                 }else{
                     val gson = Gson()
@@ -350,7 +351,7 @@ class OverviewFragment : Fragment() {
             latitude,
             longitude,
             1
-        ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        ) as List<Address>// Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
 //        address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         if (addresses[0].postalCode != null){
