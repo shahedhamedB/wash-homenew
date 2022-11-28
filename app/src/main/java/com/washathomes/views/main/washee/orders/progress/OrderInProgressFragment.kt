@@ -95,8 +95,8 @@ class OrderInProgressFragment : Fragment() {
         binding.orderConfirmedDate.text = resources.getString(R.string.order_confirmed_on)+" "+ AppDefs.washeeActiveOrder.time+" "+ AppDefs.washeeActiveOrder.date
         if (AppDefs.washeeActiveOrder.status == "4" || AppDefs.washeeActiveOrder.status == "5" || AppDefs.washeeActiveOrder.status == "7"){
             binding.headerSubDescription.visibility = View.GONE
-            binding.driverLabel.visibility = View.VISIBLE
-            binding.driverName.visibility = View.VISIBLE
+            binding.driverLabel.visibility = View.GONE
+            binding.driverName.visibility = View.GONE
             binding.directionsBtn.visibility = View.GONE
             binding.directionsActionBtn.visibility = View.GONE
             binding.pickupDate.text = AppDefs.washeeActiveOrder.pickup_date

@@ -41,7 +41,7 @@ class WasheeMainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.basketFragment || destination.id == R.id.deliveryInfoFragment || destination.id == R.id.overviewFragment || destination.id == R.id.viewItemsFragment || destination.id == R.id.paymentFragment) {
+            if(destination.id == R.id.basketFragment || destination.id == R.id.deliveryInfoFragment || destination.id == R.id.overviewFragment || destination.id == R.id.viewItemsFragment || destination.id == R.id.paymentFragment || destination.id == R.id.washeePaymentFragment) {
                 bottomNavigationView.visibility = View.GONE
             } else {
                 bottomNavigationView.visibility = View.VISIBLE
