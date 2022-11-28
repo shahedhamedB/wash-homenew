@@ -71,8 +71,12 @@ class CategoryItemsAdapter(
         holder.fav.setOnClickListener {
             if (item.favorite == "0"){
                 washeeHomeFragment.addFavorite(item.id)
+                item.favorite = "1"
+                notifyDataSetChanged()
             }else{
                 washeeHomeFragment.removeFavorite(item.id)
+                item.favorite = "0"
+                notifyDataSetChanged()
             }
         }
     }

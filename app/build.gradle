@@ -228,8 +228,8 @@ dependencies {
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
     //payment
-    implementation 'com.google.android.gms:play-services-wallet:18.0.0'
-    implementation 'com.stripe:stripe-android:20.11.0'
+    implementation 'com.google.android.gms:play-services-wallet:19.1.0'
+    implementation 'com.stripe:stripe-android:20.16.1'
     implementation 'com.paypal.sdk:paypal-android-sdk:2.14.6'
     //Location
     implementation 'com.google.android.gms:play-services-maps:18.1.0'

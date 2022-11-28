@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_overviewFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_overviewFragment_to_washeePaymentFragment"
+            app:destination="@id/washeePaymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewItemsFragment"
@@ -241,4 +244,9 @@
         android:name="com.washathomes.views.main.washee.orders.review.OrderReviewFragment"
         android:label="fragment_order_review2"
         tools:layout="@layout/fragment_order_review2" />
+    <fragment
+        android:id="@+id/washeePaymentFragment"
+        android:name="com.washathomes.views.main.washee.checkout.payment.WasheePaymentFragment"
+        android:label="fragment_washee_payment"
+        tools:layout="@layout/fragment_washee_payment" />
 </navigation>
