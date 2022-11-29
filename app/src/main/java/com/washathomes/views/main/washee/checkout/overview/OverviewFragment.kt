@@ -253,8 +253,9 @@ class OverviewFragment : Fragment() {
                     if (AppDefs.cartData.discount.substring(0, AppDefs.cartData.discount.indexOf(" ")) == AppDefs.cartData.sub_total.substring(0, AppDefs.cartData.sub_total.indexOf(" "))){
                         createOrder()
                     }else{
-                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
-//                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
+                      //  navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
+                       navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
+
                     }
                 }else{
                     val gson = Gson()

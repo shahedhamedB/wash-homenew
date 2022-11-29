@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.gson.Gson
@@ -26,8 +27,11 @@ import com.washathomes.apputils.modules.ErrorResponse
 import com.washathomes.apputils.modules.OrderObj
 import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.R
+import com.washathomes.apputils.modules.chatmodel.ChatRoom
 import com.washathomes.views.main.washer.WasherMainActivity
 import com.washathomes.databinding.FragmentOrderInProgress2Binding
+import com.washathomes.retrofit.Resource
+import com.washathomes.views.main.washee.chats.WasheeInboxViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -45,7 +49,7 @@ class OrderInProgressFragment : Fragment() {
     lateinit var washerMainActivity: WasherMainActivity
     lateinit var navController: NavController
     var deliveryAddress = ""
-
+    private val viewModel by viewModels<WasheeInboxViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,10 +76,15 @@ class OrderInProgressFragment : Fragment() {
 
     private fun initViews(view: View){
         navController = Navigation.findNavController(view)
+        binding.messageBtn.setOnClickListener {
+
+            openChatScreen()
+        }
         when (AppDefs.activeOrder.status) {
             "5" -> {
                 binding.directionsBtn.visibility = View.GONE
                 binding.collect.text = resources.getString(R.string.finished_laundry)
+
             }
             "6" -> {
                 if (AppDefs.activeOrder.washer_is_delevery == "1"){
@@ -269,6 +278,34 @@ class OrderInProgressFragment : Fragment() {
         val uri = String.format(Locale.ENGLISH, "geo:%f,%f", AppDefs.activeOrder.lat.toFloat(), AppDefs.activeOrder.long.toFloat())
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         startActivity(intent)
+    }
+    fun openChatScreen() {
+
+        viewModel.getSellerOrdersChat(AppDefs.user.token!!)
+
+        viewModel.getBuyerOrderChatStatus.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            when (it!!.status) {
+                Resource.Status.SUCCESS -> {
+                    var result=it.data!!.results.filter{ it.id == AppDefs.activeOrder.id.toString()}.firstOrNull()
+
+
+                    val navController = Navigation.findNavController(binding.root)
+
+                    navController.navigate(
+                       OrderInProgressFragmentDirections.actionOrderInProgressFragmentToWasheeChatFragment2(
+                            ChatRoom(orderId=result!!.id, roomKey=result!!.id, buyerId=result!!.washee_id, sellerId=result!!.washer_id, driverId=result!!.courier_id, messages=ArrayList())
+                        )
+                    )
+
+                }
+                Resource.Status.ERROR -> {
+
+                }
+            }
+
+        })
+
+
     }
 
 }

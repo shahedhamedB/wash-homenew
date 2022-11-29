@@ -45,6 +45,7 @@ import com.washathomes.databinding.FragmentWasheePaymentBinding
 import com.washathomes.model.stripe.IntentResponse
 import com.washathomes.util.payment.StripeClient
 import com.washathomes.views.main.washee.WasheeMainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.json.JSONArray
@@ -55,7 +56,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
-
+@AndroidEntryPoint
 class WasheePaymentFragment : Fragment() {
 
     lateinit var binding: FragmentWasheePaymentBinding
