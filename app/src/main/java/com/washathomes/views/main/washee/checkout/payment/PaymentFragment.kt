@@ -299,6 +299,8 @@ class PaymentFragment : Fragment() {
             idempotencyKey = idempotencyKey,
             callback = object : ApiResultCallback<PaymentMethod> {
                 override fun onSuccess(result: PaymentMethod) {
+
+
                 }
 
                 override fun onError(e: Exception) {
@@ -531,13 +533,15 @@ class PaymentFragment : Fragment() {
                 if (confirm != null) {
                     try {
                         // Getting the payment details
-                        val paymentDetails = confirm.toJSONObject().toString(4)
+                       /* val paymentDetails = confirm.toJSONObject().toString(4)
                         // on below line we are extracting json response and displaying it in a text view.
                         val payObj = JSONObject(paymentDetails)
                         val payID = payObj.getJSONObject("response").getString("id")
                         val state = payObj.getJSONObject("response").getString("state")
                         createOrder(payID)
-//                        paymentTV.setText("Payment $state\n with payment id is $payID")
+//                        paymentTV.setText("Payment $state\n with payment id is $payID")*/
+
+                        Log.d("FuturePaymentExample", confirm.toJSONObject().toString(4));
                     } catch (e: JSONException) {
                         // handling json exception on below line
                         Log.e("Error", "an extremely unlikely failure occurred: ", e)

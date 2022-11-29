@@ -51,6 +51,7 @@ class WasherWalletFragment : Fragment() {
         if (context is WasherMainActivity) {
             washerMainActivity = context
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
