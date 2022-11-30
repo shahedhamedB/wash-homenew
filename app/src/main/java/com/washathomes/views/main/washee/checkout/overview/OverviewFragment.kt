@@ -124,6 +124,7 @@ class OverviewFragment : Fragment() {
         binding.paymentSubTotalText.text = ""+AppDefs.cartData.sub_total
         binding.paymentTaxText.text = ""+AppDefs.cartData.taks
         binding.paymentDiscountText.text = ""+AppDefs.cartData.discount
+        binding.paymentDeliveryText.text = ""+AppDefs.cartData.delivery_pickup_amount
 //        calculateTotal(0.00)
     }
 
@@ -253,9 +254,8 @@ class OverviewFragment : Fragment() {
                     if (AppDefs.cartData.discount.substring(0, AppDefs.cartData.discount.indexOf(" ")) == AppDefs.cartData.sub_total.substring(0, AppDefs.cartData.sub_total.indexOf(" "))){
                         createOrder()
                     }else{
-                      //  navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
-                       navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
-
+//                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
+                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
                     }
                 }else{
                     val gson = Gson()
