@@ -247,9 +247,12 @@ class WasheeChatsFragment : Fragment() {
         viewModel.getBuyerOrderChatStatus.observe(viewLifecycleOwner, Observer {
             when (it!!.status) {
                 Resource.Status.SUCCESS -> {
+                    if (!it.data!!.results.isNullOrEmpty()){
+                        viewModel.orders=it.data!!.results
+                        getbuyerfromfirebas()
+                    }
 
-                    viewModel.orders=it.data!!.results
-                    getbuyerfromfirebas()
+
 
                 }
                 Resource.Status.ERROR -> {

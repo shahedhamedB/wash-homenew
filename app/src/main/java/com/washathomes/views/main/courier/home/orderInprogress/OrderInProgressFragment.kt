@@ -83,6 +83,7 @@ class OrderInProgressFragment : Fragment() {
 
     private fun initViews(view: View){
         navController = Navigation.findNavController(view)
+
         when (AppDefs.activeOrder.status) {
             "2" -> {
                 binding.directionsActionBtn.visibility = View.VISIBLE
