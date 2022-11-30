@@ -1,7 +1,12 @@
 package com.washathomes.views.main.washer.home
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +14,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
@@ -35,6 +43,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class WasherHomeFragment : Fragment() {
@@ -45,6 +55,8 @@ class WasherHomeFragment : Fragment() {
     var activeOrders: ArrayList<ActiveOrder> = ArrayList()
     var pendingOrders: ArrayList<PendingOrder> = ArrayList()
     var notifications: ArrayList<Notification> = ArrayList()
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private val LOCATION_CODE = 100
     var type = "active"
     var latitude = ""
     var longitude = ""
@@ -74,13 +86,16 @@ class WasherHomeFragment : Fragment() {
         initViews(view)
         setData()
         onClick()
+        getCurrentLocation()
         getActiveOrders()
         getNotifications()
         getToken()
+        getPrices()
     }
 
     private fun initViews(view: View){
         navController = Navigation.findNavController(view)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(washerMainActivity)
     }
 
     private fun setData(){
@@ -141,6 +156,44 @@ class WasherHomeFragment : Fragment() {
         binding.toolbarLayout.notifications.setOnClickListener { navController.navigate(WasherHomeFragmentDirections.actionWasherHomeFragmentToWasherNotificationsFragment()) }
         binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener { navController.navigate(WasherHomeFragmentDirections.actionWasherHomeFragmentToWasherNotificationsFragment()) }
         binding.toolbarLayout.toolbarLeftIcon.setOnClickListener { navController.navigate(WasherHomeFragmentDirections.actionWasherHomeFragmentToWasherNotificationsFragment()) }
+    }
+
+    private fun getPrices(){
+        val locationObj = LocationObj(latitude, longitude, postalCode)
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val getCartCall: Call<DeliveryInfoPrices> =
+            retrofit.create(RetrofitAPIs::class.java).getDeliveryInfo(locationObj)
+        getCartCall.enqueue(object : Callback<DeliveryInfoPrices> {
+            override fun onResponse(call: Call<DeliveryInfoPrices>, response: Response<DeliveryInfoPrices>) {
+                if (response.isSuccessful){
+                    AppDefs.deliveryInfoPrices = response.body()!!.results
+                }else{
+                    val gson = Gson()
+                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    Toast.makeText(
+                        washerMainActivity,
+                        errorResponse.status.massage.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<DeliveryInfoPrices>, t: Throwable) {
+                Toast.makeText(washerMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun openWhatsApp(num: String) {
@@ -522,5 +575,100 @@ class WasherHomeFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun getCurrentLocation(){
+//        if (checkPermissions()){
+//            if (isLocationEnabled()){
+//                if (ActivityCompat.checkSelfPermission(
+//                        washeeRegistrationActivity,
+//                        Manifest.permission.ACCESS_FINE_LOCATION
+//                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+//                        washeeRegistrationActivity,
+//                        Manifest.permission.ACCESS_COARSE_LOCATION
+//                    ) != PackageManager.PERMISSION_GRANTED
+//                ) {
+//                    requestPermission()
+//                    return
+//                }
+//                fusedLocationProviderClient.lastLocation.addOnCompleteListener(washeeRegistrationActivity){ task ->
+//                    val location: Location? = task.result
+//                    if (location != null){
+//                        latitude = ""+location.latitude
+//                        longitude = ""+location.longitude
+//                        getAddress(location.latitude, location.longitude)
+//                    }else{
+//                        Toast.makeText(washeeRegistrationActivity, "Null", Toast.LENGTH_LONG).show()
+//                    }
+//                }
+//            }else{
+//                Toast.makeText(washeeRegistrationActivity, resources.getString(R.string.turn_on_location), Toast.LENGTH_SHORT).show()
+//                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//                startActivity(intent)
+//            }
+//        }else{
+//            requestPermission()
+//        }
+        if (ActivityCompat.checkSelfPermission(
+                washerMainActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                washerMainActivity,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermission()
+            return
+        }
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener(washerMainActivity){ task ->
+            val location: Location? = task.result
+            if (location != null){
+                latitude = ""+location.latitude
+                longitude = ""+location.longitude
+                getAddress(location.latitude, location.longitude)
+            }else{
+                Toast.makeText(washerMainActivity, "Null", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun getAddress(latitude: Double, longitude: Double){
+        val geocoder: Geocoder
+        val addresses: List<Address>
+        geocoder = Geocoder(washerMainActivity, Locale.getDefault())
+
+        addresses = geocoder.getFromLocation(
+            latitude,
+            longitude,
+            1
+        ) as List<Address>// Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+
+//        address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+        if (addresses[0].postalCode != null){
+            postalCode = addresses[0].postalCode
+        }
+    }
+
+    private fun requestPermission(){
+        ActivityCompat.requestPermissions(
+            washerMainActivity, arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION),
+            LOCATION_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_CODE){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getCurrentLocation()
+            }
+        }
     }
 }

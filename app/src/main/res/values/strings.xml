@@ -229,6 +229,7 @@
     <string name="delivery_payment">Delivey Payment</string>
     <string name="wash_home_fee">Washee Fee</string>
     <string name="total_earnings">Total Earnings</string>
+    <string name="delivery_fees">Delivery Fees</string>
     <string name="reject">Reject</string>
     <string name="accept">Accept</string>
     <string name="pickup_return">Pickup &amp; Return</string>
