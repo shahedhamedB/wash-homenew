@@ -298,11 +298,11 @@
                 <com.paypal.checkout.paymentbutton.PaymentButtonContainer
                     android:id="@+id/payment_button_container"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/paymentGooglePayLayout"
-                    app:paypal_button_color="black"
+                    app:paypal_button_color="white"
                     app:paypal_button_enabled="true"
                     app:paypal_button_label="pay"
                     app:paypal_button_shape="rectangle"
