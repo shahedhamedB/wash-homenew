@@ -8,25 +8,26 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.washathomes.R
 import com.washathomes.apputils.appdefs.AppDefs
 import com.washathomes.apputils.appdefs.Urls
 import com.washathomes.apputils.modules.*
 import com.washathomes.apputils.remote.RetrofitAPIs
-import com.washathomes.R
-import com.washathomes.views.main.washee.WasheeMainActivity
 import com.washathomes.databinding.FragmentOverviewBinding
+import com.washathomes.views.main.washee.WasheeMainActivity
+import com.washathomes.views.main.washee.checkout.payment.CheckOutActivity
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -36,6 +37,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+
 @AndroidEntryPoint
 class OverviewFragment : Fragment() {
 
@@ -254,8 +256,13 @@ class OverviewFragment : Fragment() {
                     if (AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" ")) == "0"){
                         createOrder()
                     }else{
-//                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
-                        navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
+
+                      //  navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
+                      // navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
+                        val intent = Intent(requireContext(), CheckOutActivity::class.java)
+                        startActivity(intent)
+
+
                     }
                 }else{
                     val gson = Gson()

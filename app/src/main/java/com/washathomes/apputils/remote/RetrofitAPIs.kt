@@ -1,6 +1,7 @@
 package com.washathomes.apputils.remote
 
 import com.washathomes.apputils.modules.*
+import com.washathomes.apputils.modules.payment.CustomerResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -127,6 +128,8 @@ interface RetrofitAPIs {
     @POST("create_orders")
     fun createOrder(@Body orderObj: CreateOrderObj):Call<BooleanResponse>
 
+    @POST("customers")
+    fun createCustomers():Call<CustomerResponse>
     @POST("get_ads")
     fun getAds(@Body locationObj: LocationObj):Call<Ads>
 
