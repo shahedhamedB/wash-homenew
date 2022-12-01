@@ -346,7 +346,13 @@ class WasherProfileDetailsFragment : Fragment() {
             }
             else -> {
                 if (AppDefs.user.results!!.phone != phone){
-                    checkPhone()
+                    if (phone.startsWith("00")){
+                        phone.replace("00", "+")
+                    }else if (phone.length != 13){
+                        Toast.makeText(washerMainActivity, resources.getString(R.string.phone_number_format), Toast.LENGTH_SHORT).show()
+                    }else{
+                        checkPhone()
+                    }
                 }else{
                     updateUser()
                 }

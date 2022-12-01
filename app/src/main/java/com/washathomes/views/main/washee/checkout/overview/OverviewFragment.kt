@@ -253,7 +253,7 @@ class OverviewFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful) {
 //                    createOrder()
-                    if (AppDefs.cartData.discount.substring(0, AppDefs.cartData.discount.indexOf(" ")) == AppDefs.cartData.sub_total.substring(0, AppDefs.cartData.sub_total.indexOf(" "))){
+                    if (AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" ")) == "0"){
                         createOrder()
                     }else{
 

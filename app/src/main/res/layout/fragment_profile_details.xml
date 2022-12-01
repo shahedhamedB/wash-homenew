@@ -158,7 +158,7 @@
                         android:textSize="@dimen/_11ssp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:hint="00000000000"
+                        android:hint="+17730000000"
                         android:inputType="phone"
                         android:imeOptions="actionNext"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
