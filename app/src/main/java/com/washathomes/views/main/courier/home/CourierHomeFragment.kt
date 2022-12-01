@@ -104,7 +104,7 @@ class CourierHomeFragment : Fragment() {
         }
         binding.washerHomeWelcome.text = resources.getString(R.string.hey_there)+" "+ AppDefs.user.results!!.name
         binding.washerHomeSwitchAvailability.isChecked = AppDefs.user.results!!.dreiver_available == "1"
-        getOrders("1")
+//        getOrders("1")
     }
 
     private fun onClick(){
@@ -276,7 +276,11 @@ class CourierHomeFragment : Fragment() {
             override fun onResponse(call: Call<ActiveOrders>, response: Response<ActiveOrders>) {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful){
-                    activeOrders = response.body()!!.results
+                    for (order in response.body()!!.results){
+                        if (order.Orders.size != 0){
+                            activeOrders.add(order)
+                        }
+                    }
                     setActiveOrdersAdapter()
                 }else{
 //                    val gson = Gson()
@@ -321,7 +325,11 @@ class CourierHomeFragment : Fragment() {
             override fun onResponse(call: Call<PendingOrders>, response: Response<PendingOrders>) {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful){
-                    pendingOrders = response.body()!!.results
+                    for (order in response.body()!!.results){
+                        if (order.Orders.size != 0){
+                            pendingOrders.add(order)
+                        }
+                    }
                     setPendingOrdersAdapter()
                 }else{
                     val gson = Gson()
