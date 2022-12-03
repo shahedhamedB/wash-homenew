@@ -12,11 +12,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -35,6 +30,7 @@ import com.paypal.checkout.order.AppContext
 import com.paypal.checkout.order.Order
 import com.paypal.checkout.order.PurchaseUnit
 import com.stripe.android.PaymentConfiguration
+import com.stripe.android.databinding.PaymentFlowActivityBinding
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import com.washathomes.R
@@ -44,6 +40,9 @@ import com.washathomes.apputils.modules.BooleanResponse
 import com.washathomes.apputils.modules.CreateOrderObj
 import com.washathomes.apputils.modules.ErrorResponse
 import com.washathomes.apputils.modules.payment.CustomerResponse
+import com.washathomes.apputils.modules.payment.ephemeral.EphemeralModel
+import com.washathomes.apputils.modules.payment.ephemeral.EphemeralResponse
+import com.washathomes.apputils.modules.payment.paymentintent.PaymentIntentResponse
 import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.databinding.ActivityCheckoutBinding
 import com.washathomes.views.main.washee.WasheeMainActivity
@@ -59,12 +58,13 @@ import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.annotation.ElementType
 import java.util.*
 
 
 @AndroidEntryPoint
 class CheckOutActivity : AppCompatActivity() {
-   lateinit var binding: ActivityCheckoutBinding
+    lateinit var binding: ActivityCheckoutBinding
     var latitude = ""
     var longitude = ""
     var postalCode = ""
@@ -76,17 +76,22 @@ class CheckOutActivity : AppCompatActivity() {
     private val LOAD_PAYMENT_DATA_REQUEST_CODE = 991
     lateinit var paymentSheet: PaymentSheet
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
-  //  lateinit var paymentIntentClientSecret: String
+
+
+    lateinit var customerId: String
+    lateinit var ephemeralKeys: String
+    lateinit var clientSecret:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binding = ActivityCheckoutBinding.inflate(layoutInflater)
+        binding = ActivityCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
 
         getCurrentLocation()
-       getPayPal()
+        getPayPal()
         setData()
 
         paymentsClient = PaymentsUtil.createPaymentsClient(this)
@@ -97,38 +102,23 @@ class CheckOutActivity : AppCompatActivity() {
             applicationContext,
             STRIPUPLISHTKEY
         )
-        getStripss()
-        //binding.paymentCreditCardLayout.setOnClickListener {   presentPaymentSheet() }
-
-
-
-    }
-
-    private fun getStrips() {
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
-       /* "https://api.stripe.com/v1/customers".httpPost().responseJson { _, _, result ->
-            if (result is com.github.kittinunf.result.Result.Success) {
-                val responseJson = result.get().obj()
-               paymentIntentClientSecret = responseJson.getString("paymentIntent")
-                customerConfig = PaymentSheet.CustomerConfiguration(
-                    responseJson.getString("customer"),
-                    responseJson.getString("ephemeralKey")
-                )
-                val publishableKey = responseJson.getString("publishableKey")
-                PaymentConfiguration.init(this, publishableKey)
-            }
-        }*/
+        getStripss()
+        binding.paymentCreditCardLayout.setOnClickListener {    PaymentFlow() }
 
 
     }
-    private fun getStripss(){
+
+
+
+    private fun getStripss() {
 
 
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
-                  //  builder.header("Content-Type", "application/json; charset=UTF-8")
+                    //  builder.header("Content-Type", "application/json; charset=UTF-8")
                     builder.header("Authorization", "Bearer $STRIPSSECRITKEY")
                     return@Interceptor chain.proceed(builder.build())
                 }
@@ -139,40 +129,178 @@ class CheckOutActivity : AppCompatActivity() {
         val updateDeliveryCall: Call<CustomerResponse> =
             retrofit.create(RetrofitAPIs::class.java).createCustomers()
         updateDeliveryCall.enqueue(object : Callback<CustomerResponse> {
-            override fun onResponse(call: Call<CustomerResponse>, response: Response<CustomerResponse>) {
+            override fun onResponse(
+                call: Call<CustomerResponse>,
+                response: Response<CustomerResponse>
+            ) {
 
                 if (response.isSuccessful) {
                     Log.d("thisdata", response.body()!!.id)
+                    customerId = response.body()!!.id
+                    getEphericalKey(customerId)
 
 
-                }else{
+                } else {
                     val gson = Gson()
-                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
-                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    val type = object :
+                        TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(
+                        response.errorBody()!!.charStream(),
+                        type
+                    ) // errorResponse is an instance of ErrorResponse that will contain details about the error
 
                 }
             }
 
             override fun onFailure(call: Call<CustomerResponse>, t: Throwable) {
-                Toast.makeText(this@CheckOutActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@CheckOutActivity,
+                    resources.getString(R.string.internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
-  /*  fun presentPaymentSheet() {
+
+    private fun getEphericalKey(customerId: String) {
+
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    //builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", "Bearer $STRIPSSECRITKEY")
+                    builder.header("Stripe-Version", "2022-11-15")
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(URLSTRIPS).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val updateDeliveryCall: Call<EphemeralResponse> =
+            retrofit.create(RetrofitAPIs::class.java).createPhemeralKeys(hashMapOf(
+
+                "customer" to (customerId)
+            ))
+        updateDeliveryCall.enqueue(object : Callback<EphemeralResponse> {
+            override fun onResponse(
+                call: Call<EphemeralResponse>,
+                response: Response<EphemeralResponse>
+            ) {
+
+                if (response.isSuccessful) {
+                    Log.d("thisdata", response.body()!!.id)
+                    ephemeralKeys=response.body()!!.id
+                    getClientSecret(customerId,ephemeralKeys)
+
+
+                } else {
+                    val gson = Gson()
+                    val type = object :
+                        TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(
+                        response.errorBody()!!.charStream(),
+                        type
+
+                    ) // errorResponse is an instance of ErrorResponse that will contain details about the error
+
+                    Log.d("thisdata", errorResponse.toString())
+
+                }
+            }
+
+            override fun onFailure(call: Call<EphemeralResponse>, t: Throwable) {
+                Toast.makeText(
+                    this@CheckOutActivity,
+                    resources.getString(R.string.internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+
+    }
+
+    private fun getClientSecret(customerId: String, ephemeralKeys: String) {
+
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    //builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", "Bearer $STRIPSSECRITKEY")
+
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(URLSTRIPS).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val updateDeliveryCall: Call<PaymentIntentResponse> =
+            retrofit.create(RetrofitAPIs::class.java).createPaymentIntents(hashMapOf(
+
+                "customer" to (customerId),
+                "amount" to (1000),
+                "currency" to ("eur"),
+                "automatic_payment_methods[enabled]" to (true)
+
+            ))
+        updateDeliveryCall.enqueue(object : Callback<PaymentIntentResponse> {
+            override fun onResponse(
+                call: Call<PaymentIntentResponse>,
+                response: Response<PaymentIntentResponse>
+            ) {
+
+                if (response.isSuccessful) {
+                    Log.d("thisdata", response.body()!!.client_secret)
+                    clientSecret=response.body()!!.client_secret
+
+
+
+
+
+                } else {
+                    val gson = Gson()
+                    val type = object :
+                        TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(
+                        response.errorBody()!!.charStream(),
+                        type
+
+                    ) // errorResponse is an instance of ErrorResponse that will contain details about the error
+
+                    Log.d("thisdata", errorResponse.toString())
+
+                }
+            }
+
+            override fun onFailure(call: Call<PaymentIntentResponse>, t: Throwable) {
+                Toast.makeText(
+                    this@CheckOutActivity,
+                    resources.getString(R.string.internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+    private fun PaymentFlow() {
         paymentSheet.presentWithPaymentIntent(
-            paymentIntentClientSecret,
+            clientSecret,
             PaymentSheet.Configuration(
-                merchantDisplayName = "My merchant name",
-                customer = customerConfig,
-                // Set `allowsDelayedPaymentMethods` to true if your business
-                // can handle payment methods that complete payment after a delay, like SEPA Debit and Sofort.
-                allowsDelayedPaymentMethods = true
+                "abc company",
+                PaymentSheet.CustomerConfiguration(
+                    customerId,
+                    ephemeralKeys
+                )
             )
         )
-    }*/
+    }
+
+
+
 
     fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
-        when(paymentSheetResult) {
+        when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
                 print("Canceled")
             }
@@ -182,6 +310,8 @@ class CheckOutActivity : AppCompatActivity() {
             is PaymentSheetResult.Completed -> {
                 // Display for example, an order confirmation screen
                 print("Completed")
+
+                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -211,14 +341,17 @@ class CheckOutActivity : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "Unfortunately, Google Pay is not available on this device",
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_LONG
+            ).show();
         }
     }
 
     private fun requestPayment() {
 
         binding.paymentGooglePayLayout.isClickable = false
-        val amount: Double = AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" ")).toDouble()
+        val amount: Double =
+            AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
+                .toDouble()
         val paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(amount.toLong())
         if (paymentDataRequestJson == null) {
             Log.e("RequestPayment", "Can't fetch payment data request")
@@ -227,7 +360,8 @@ class CheckOutActivity : AppCompatActivity() {
         val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
         if (request != null) {
             AutoResolveHelper.resolveTask(
-                paymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE)
+                paymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE
+            )
         }
     }
 
@@ -264,7 +398,8 @@ class CheckOutActivity : AppCompatActivity() {
 
         try {
             // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
-            val paymentMethodData = JSONObject(paymentInformation).getJSONObject("paymentMethodData")
+            val paymentMethodData =
+                JSONObject(paymentInformation).getJSONObject("paymentMethodData")
             val billingName = paymentMethodData.getJSONObject("info")
                 .getJSONObject("billingAddress").getString("name")
             Log.d("BillingName", paymentMethodData.toString())
@@ -272,9 +407,11 @@ class CheckOutActivity : AppCompatActivity() {
             Toast.makeText(this, "Successfully received payment ", Toast.LENGTH_LONG).show()
 
             // Logging token string.
-            Log.d("GooglePaymentToken", paymentMethodData
-                .getJSONObject("tokenizationData")
-                .getString("token"))
+            Log.d(
+                "GooglePaymentToken", paymentMethodData
+                    .getJSONObject("tokenizationData")
+                    .getString("token")
+            )
 
         } catch (e: JSONException) {
             Log.e("handlePaymentSuccess", "Error: " + e.toString())
@@ -286,9 +423,10 @@ class CheckOutActivity : AppCompatActivity() {
         Log.w("loadPaymentData failed", String.format("Error code: %d", statusCode))
     }
 
-    fun getPayPal(){
-        val amount: String = AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
-       binding.paymentButtonContainer.setup(
+    fun getPayPal() {
+        val amount: String =
+            AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
+        binding.paymentButtonContainer.setup(
             createOrder =
             CreateOrder { createOrderActions ->
                 val order =
@@ -325,7 +463,7 @@ class CheckOutActivity : AppCompatActivity() {
         )
     }
 
-    private fun createOrder(id: String){
+    private fun createOrder(id: String) {
         binding.progressBar.visibility = View.VISIBLE
 
         val orderObj = CreateOrderObj(latitude, longitude, postalCode, "1", id, "")
@@ -344,17 +482,28 @@ class CheckOutActivity : AppCompatActivity() {
         val updateDeliveryCall: Call<BooleanResponse> =
             retrofit.create(RetrofitAPIs::class.java).createOrder(orderObj)
         updateDeliveryCall.enqueue(object : Callback<BooleanResponse> {
-            override fun onResponse(call: Call<BooleanResponse>, response: Response<BooleanResponse>) {
+            override fun onResponse(
+                call: Call<BooleanResponse>,
+                response: Response<BooleanResponse>
+            ) {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful) {
-                    Toast.makeText(this@CheckOutActivity, resources.getString(R.string.order_created), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@CheckOutActivity,
+                        resources.getString(R.string.order_created),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     val mainIntent = Intent(this@CheckOutActivity, WasheeMainActivity::class.java)
                     startActivity(mainIntent)
                     this@CheckOutActivity.finish()
-                }else{
+                } else {
                     val gson = Gson()
-                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
-                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    val type = object :
+                        TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(
+                        response.errorBody()!!.charStream(),
+                        type
+                    ) // errorResponse is an instance of ErrorResponse that will contain details about the error
                     Toast.makeText(
                         this@CheckOutActivity,
                         errorResponse.status.massage.toString(),
@@ -364,11 +513,16 @@ class CheckOutActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
-                Toast.makeText(this@CheckOutActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@CheckOutActivity,
+                    resources.getString(R.string.internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
-    private fun getCurrentLocation(){
+
+    private fun getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -380,19 +534,19 @@ class CheckOutActivity : AppCompatActivity() {
             requestPermission()
             return
         }
-        fusedLocationProviderClient.lastLocation.addOnCompleteListener(this){ task ->
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
             val location: Location? = task.result
-            if (location != null){
-                latitude = ""+location.latitude
-                longitude = ""+location.longitude
+            if (location != null) {
+                latitude = "" + location.latitude
+                longitude = "" + location.longitude
                 getAddress(location.latitude, location.longitude)
-            }else{
+            } else {
                 Toast.makeText(this, "Null", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    private fun getAddress(latitude: Double, longitude: Double){
+    private fun getAddress(latitude: Double, longitude: Double) {
         val geocoder: Geocoder
         val addresses: List<Address>
         geocoder = Geocoder(this, Locale.getDefault())
@@ -404,26 +558,28 @@ class CheckOutActivity : AppCompatActivity() {
         ) as List<Address>// Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
 //        address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-        if (addresses[0].postalCode != null){
+        if (addresses[0].postalCode != null) {
             postalCode = addresses[0].postalCode
         }
     }
 
-    private fun requestPermission(){
+    private fun requestPermission() {
         ActivityCompat.requestPermissions(
             this, arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
             LOCATION_CODE
         )
     }
-    private fun setData(){
-        val taxPercent = AppDefs.deliveryInfoPrices[8].price.toDouble()*100
-        binding.paymentTaxLabel.text = resources.getString(R.string.tax)+" ("+taxPercent+"%)"
-        binding.paymentCurrentTotalText.text = ""+AppDefs.cartData.total_price
-        binding.paymentSubTotalText.text = ""+AppDefs.cartData.sub_total
-        binding.paymentTaxText.text = ""+AppDefs.cartData.taks
-        binding.paymentDiscountText.text = ""+AppDefs.cartData.discount
+
+    private fun setData() {
+        val taxPercent = AppDefs.deliveryInfoPrices[8].price.toDouble() * 100
+        binding.paymentTaxLabel.text = resources.getString(R.string.tax) + " (" + taxPercent + "%)"
+        binding.paymentCurrentTotalText.text = "" + AppDefs.cartData.total_price
+        binding.paymentSubTotalText.text = "" + AppDefs.cartData.sub_total
+        binding.paymentTaxText.text = "" + AppDefs.cartData.taks
+        binding.paymentDiscountText.text = "" + AppDefs.cartData.discount
 //        calculateTotal(0.00)
     }
 }

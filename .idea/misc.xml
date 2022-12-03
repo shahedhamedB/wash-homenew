@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gts/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_checkout.xml" value="0.1515625" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/accept_order_popup.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_courier_registration.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/delete_order_popup.xml" value="0.18385416666666668" />
@@ -13,7 +14,6 @@
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_delivery_service.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_manage_services.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_history.xml" value="0.18385416666666668" />
-
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_in_progress.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_placed.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_placed_overview.xml" value="0.18385416666666668" />
