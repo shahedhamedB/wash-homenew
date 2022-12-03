@@ -2,10 +2,11 @@ package com.washathomes.apputils.remote
 
 import com.washathomes.apputils.modules.*
 import com.washathomes.apputils.modules.payment.CustomerResponse
+import com.washathomes.apputils.modules.payment.ephemeral.EphemeralModel
+import com.washathomes.apputils.modules.payment.ephemeral.EphemeralResponse
+import com.washathomes.apputils.modules.payment.paymentintent.PaymentIntentResponse
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface RetrofitAPIs {
 
@@ -130,6 +131,15 @@ interface RetrofitAPIs {
 
     @POST("customers")
     fun createCustomers():Call<CustomerResponse>
+
+    @FormUrlEncoded
+    @POST("ephemeral_keys")
+    fun createPhemeralKeys(@FieldMap apiVersionMap: HashMap<String, String>):Call<EphemeralResponse>
+
+    @FormUrlEncoded
+    @POST("payment_intents")
+    fun createPaymentIntents(@FieldMap apiVersionMap: HashMap<String, Any>):Call<PaymentIntentResponse>
+
     @POST("get_ads")
     fun getAds(@Body locationObj: LocationObj):Call<Ads>
 
