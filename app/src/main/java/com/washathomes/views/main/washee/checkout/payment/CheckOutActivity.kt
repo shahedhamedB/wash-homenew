@@ -43,6 +43,7 @@ import com.washathomes.apputils.modules.payment.CustomerResponse
 import com.washathomes.apputils.modules.payment.ephemeral.EphemeralModel
 import com.washathomes.apputils.modules.payment.ephemeral.EphemeralResponse
 import com.washathomes.apputils.modules.payment.paymentintent.PaymentIntentResponse
+import com.washathomes.apputils.modules.payment.strips.StripsResponse
 import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.databinding.ActivityCheckoutBinding
 import com.washathomes.views.main.washee.WasheeMainActivity
@@ -76,11 +77,12 @@ class CheckOutActivity : AppCompatActivity() {
     private val LOAD_PAYMENT_DATA_REQUEST_CODE = 991
     lateinit var paymentSheet: PaymentSheet
     lateinit var customerConfig: PaymentSheet.CustomerConfiguration
+    lateinit var  paymentcargeId:String
 
 
-    lateinit var customerId: String
+    /*lateinit var customerId: String
     lateinit var ephemeralKeys: String
-    lateinit var clientSecret:String
+    lateinit var clientSecret:String*/
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,15 +105,19 @@ class CheckOutActivity : AppCompatActivity() {
             STRIPUPLISHTKEY
         )
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
-        getStripss()
-        binding.paymentCreditCardLayout.setOnClickListener {    PaymentFlow() }
+       // getStripss()
+        binding.paymentCreditCardLayout.setOnClickListener {
+
+
+            getStripsPayment()
+        }
 
 
     }
 
 
 
-    private fun getStripss() {
+   /* private fun getStripss() {
 
 
         val okHttpClient = OkHttpClient.Builder().apply {
@@ -281,13 +287,13 @@ class CheckOutActivity : AppCompatActivity() {
                 ).show()
             }
         })
-    }
+    }*/
 
-    private fun PaymentFlow() {
+    private fun PaymentFlow(paymentIntent:String,companyName:String,customerId:String,ephemeralKeys:String) {
         paymentSheet.presentWithPaymentIntent(
-            clientSecret,
+            paymentIntent,
             PaymentSheet.Configuration(
-                "abc company",
+                companyName,
                 PaymentSheet.CustomerConfiguration(
                     customerId,
                     ephemeralKeys
@@ -310,6 +316,8 @@ class CheckOutActivity : AppCompatActivity() {
             is PaymentSheetResult.Completed -> {
                 // Display for example, an order confirmation screen
                 print("Completed")
+                createOrder("2",paymentcargeId)
+
 
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
             }
@@ -403,7 +411,7 @@ class CheckOutActivity : AppCompatActivity() {
             val billingName = paymentMethodData.getJSONObject("info")
                 .getJSONObject("billingAddress").getString("name")
             Log.d("BillingName", paymentMethodData.toString())
-            createOrder("")
+            createOrder("1","")
             Toast.makeText(this, "Successfully received payment ", Toast.LENGTH_LONG).show()
 
             // Logging token string.
@@ -449,7 +457,7 @@ class CheckOutActivity : AppCompatActivity() {
                 approval.orderActions.capture { captureOrderResult ->
                     Log.i("CaptureOrder", "CaptureOrderResult: $captureOrderResult")
                     Log.i("CaptureOrder", approval.data.payerId.toString())
-                    createOrder(approval.data.payerId.toString())
+                    createOrder("1",approval.data.payerId.toString())
 
 
                 }
@@ -463,10 +471,10 @@ class CheckOutActivity : AppCompatActivity() {
         )
     }
 
-    private fun createOrder(id: String) {
+    private fun createOrder(typePayment:String,id: String) {
         binding.progressBar.visibility = View.VISIBLE
 
-        val orderObj = CreateOrderObj(latitude, longitude, postalCode, "1", id, "")
+        val orderObj = CreateOrderObj(latitude, longitude, postalCode, typePayment, id, "")
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
@@ -504,15 +512,59 @@ class CheckOutActivity : AppCompatActivity() {
                         response.errorBody()!!.charStream(),
                         type
                     ) // errorResponse is an instance of ErrorResponse that will contain details about the error
-                    Toast.makeText(
-                        this@CheckOutActivity,
-                        errorResponse.status.massage.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
+
                 }
             }
 
             override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
+                Toast.makeText(
+                    this@CheckOutActivity,
+                    resources.getString(R.string.internet_connection),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+    private fun getStripsPayment() {
+
+
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                  //  builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL2).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val updateDeliveryCall: Call<StripsResponse> =
+            retrofit.create(RetrofitAPIs::class.java).createStripePayment()
+        updateDeliveryCall.enqueue(object : Callback<StripsResponse> {
+            override fun onResponse(
+                call: Call<StripsResponse>,
+                response: Response<StripsResponse>
+            ) {
+
+                if (response.isSuccessful) {
+                    var result=response.body()
+                    paymentcargeId=result!!.paymentIntent
+                    PaymentFlow(result!!.paymentIntent,result.companyName,result.customer,result.ephemeralKey)
+                } else {
+                    val gson = Gson()
+                    val type = object :
+                        TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(
+                        response.errorBody()!!.charStream(),
+                        type
+                    ) // errorResponse is an instance of ErrorResponse that will contain details about the error
+
+                }
+            }
+
+            override fun onFailure(call: Call<StripsResponse>, t: Throwable) {
                 Toast.makeText(
                     this@CheckOutActivity,
                     resources.getString(R.string.internet_connection),
