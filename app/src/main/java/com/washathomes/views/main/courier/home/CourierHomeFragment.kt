@@ -104,6 +104,7 @@ class CourierHomeFragment : Fragment() {
         }
         binding.washerHomeWelcome.text = resources.getString(R.string.hey_there)+" "+ AppDefs.user.results!!.name
         binding.washerHomeSwitchAvailability.isChecked = AppDefs.user.results!!.dreiver_available == "1"
+
         getOrders("1")
     }
 
