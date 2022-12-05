@@ -5,6 +5,7 @@ import com.washathomes.apputils.modules.payment.CustomerResponse
 import com.washathomes.apputils.modules.payment.ephemeral.EphemeralModel
 import com.washathomes.apputils.modules.payment.ephemeral.EphemeralResponse
 import com.washathomes.apputils.modules.payment.paymentintent.PaymentIntentResponse
+import com.washathomes.apputils.modules.payment.strips.StripsResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -128,6 +129,9 @@ interface RetrofitAPIs {
 
     @POST("create_orders")
     fun createOrder(@Body orderObj: CreateOrderObj):Call<BooleanResponse>
+
+    @POST("Stripe_new/create_payment_intent")
+    fun createStripePayment():Call<StripsResponse>
 
     @POST("customers")
     fun createCustomers():Call<CustomerResponse>
