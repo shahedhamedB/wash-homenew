@@ -181,18 +181,20 @@ class ManageServicesFragment : Fragment() {
         servicesCall.enqueue(object : Callback<UserDocs> {
             override fun onResponse(call: Call<UserDocs>, response: Response<UserDocs>) {
                 if (response.isSuccessful){
-                    userDocuments = response.body()!!.results
-                    if (userDocuments.machine_image.isNotEmpty()){
-                        binding.uploadWashingMachineImageLayout.visibility = View.GONE
-                        Glide.with(washerMainActivity).load(userDocuments.machine_image).into(binding.washingMachineImage)
-                    }
-                    if (userDocuments.dryer_image.isNotEmpty()){
-                        binding.uploadExtraImageLayout2.visibility = View.GONE
-                        Glide.with(washerMainActivity).load(userDocuments.dryer_image).into(binding.extraImage2)
-                    }
-                    if (userDocuments.extra_image.isNotEmpty()){
-                        binding.uploadExtraImageLayout.visibility = View.GONE
-                        Glide.with(washerMainActivity).load(userDocuments.extra_image).into(binding.extraImage)
+                    if (response.body()!!.results != null){
+                        userDocuments = response.body()!!.results!!
+                        if (userDocuments.machine_image.isNotEmpty()){
+                            binding.uploadWashingMachineImageLayout.visibility = View.GONE
+                            Glide.with(washerMainActivity).load(userDocuments.machine_image).into(binding.washingMachineImage)
+                        }
+                        if (userDocuments.dryer_image.isNotEmpty()){
+                            binding.uploadExtraImageLayout2.visibility = View.GONE
+                            Glide.with(washerMainActivity).load(userDocuments.dryer_image).into(binding.extraImage2)
+                        }
+                        if (userDocuments.extra_image.isNotEmpty()){
+                            binding.uploadExtraImageLayout.visibility = View.GONE
+                            Glide.with(washerMainActivity).load(userDocuments.extra_image).into(binding.extraImage)
+                        }
                     }
                 }
             }
