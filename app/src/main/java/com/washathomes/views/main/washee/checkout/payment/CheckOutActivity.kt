@@ -48,6 +48,7 @@ import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.databinding.ActivityCheckoutBinding
 import com.washathomes.views.main.washee.WasheeMainActivity
 import com.washathomes.views.main.washee.checkout.payment.googlepayment.Constants.STRIPSSECRITKEY
+import com.washathomes.views.main.washee.checkout.payment.googlepayment.Constants.STRIPSlIVE
 import com.washathomes.views.main.washee.checkout.payment.googlepayment.Constants.STRIPUPLISHTKEY
 import com.washathomes.views.main.washee.checkout.payment.googlepayment.Constants.URLSTRIPS
 import com.washathomes.views.main.washee.checkout.payment.googlepayment.PaymentsUtil
@@ -102,7 +103,7 @@ class CheckOutActivity : AppCompatActivity() {
         binding.paymentGooglePayLayout.setOnClickListener { requestPayment() }
         PaymentConfiguration.init(
             applicationContext,
-            STRIPUPLISHTKEY
+            STRIPSlIVE
         )
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
        // getStripss()

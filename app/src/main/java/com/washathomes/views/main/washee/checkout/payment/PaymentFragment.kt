@@ -72,14 +72,16 @@ class PaymentFragment : Fragment() {
     private val LOCATION_CODE = 100
     lateinit var intentResponse: IntentResponse
     val clientKey = "AVq5k6xrbGYF5xyf3aWf6e4Nw-5En6A9cscPkRIWHMZK-iymZk0mDVxe-OmuG6S72YQJOkxvl8BII36q"
+    val clientKeyLive = "AXJJNjWsWVKJcqvHej47KyQwoxhPXRWrg4sjVK3wynuKbrmMNF1MqP_PO6ADlnqjRWxkSpyc9DTpnKRS"
+
     val PAYPAL_REQUEST_CODE = 123
 
     // Paypal Configuration Object
     private val config = PayPalConfiguration() // Start with mock environment.  When ready,
         // switch to sandbox (ENVIRONMENT_SANDBOX)
         // or live (ENVIRONMENT_PRODUCTION)
-        .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX) // on below line we are passing a client id.
-        .clientId(clientKey)
+        .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION) // on below line we are passing a client id.
+        .clientId(clientKeyLive)
 
     var latitude = ""
     var longitude = ""

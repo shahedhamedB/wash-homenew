@@ -56,4 +56,5 @@ object Constants {
     val URLSTRIPS = "https://api.stripe.com/v1/"
     const val STRIPSSECRITKEY="sk_test_51HqxCmGNvYMhrs1a7ExCpvTdnCCaEYVnTKxUBBZ59uFfhenzSK5kHw2feONhjGzxCsRdjRKAhX4PiZudBuVwXfCo00P5oArylZ"
     const val STRIPUPLISHTKEY="pk_test_51HqxCmGNvYMhrs1av0rfgi2UuVUxa5AEi4KPt7pD1tyWTd8O6Al0qPDTgSMdidKbcKTFJfANxczlvWxWrFT23WD200kTWhKq4G"
+    const val STRIPSlIVE="pk_live_51HqxCmGNvYMhrs1aR40MglH7IH11khbzfL93y8fd39NhMuYVgdHx988swtWvWkAK2jFqzU4CqbjhyquHR3n4ms4q00toAXwS9g"
 }

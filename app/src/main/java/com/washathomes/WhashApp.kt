@@ -14,6 +14,7 @@ import timber.log.Timber
 @HiltAndroidApp
 class WhashApp : Application() {
     val YOUR_CLIENT_ID = "AVq5k6xrbGYF5xyf3aWf6e4Nw-5En6A9cscPkRIWHMZK-iymZk0mDVxe-OmuG6S72YQJOkxvl8BII36q"
+    val YOUR_CLIENT_ID_Live = "AXJJNjWsWVKJcqvHej47KyQwoxhPXRWrg4sjVK3wynuKbrmMNF1MqP_PO6ADlnqjRWxkSpyc9DTpnKRS"
 
     override fun onCreate() {
         super.onCreate()
@@ -22,8 +23,8 @@ class WhashApp : Application() {
         }
         val config = CheckoutConfig(
             application = this,
-            clientId = YOUR_CLIENT_ID,
-            environment = Environment.SANDBOX,
+            clientId = YOUR_CLIENT_ID_Live,
+            environment = Environment.LIVE,
             //"${com.washathomes.BuildConfig.APPLICATION_ID}://paypalpay",
             currencyCode = CurrencyCode.USD,
             userAction = UserAction.PAY_NOW,
