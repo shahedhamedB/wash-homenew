@@ -314,5 +314,6 @@
     <string name="choose_services">Please select at least 1 service!</string>
     <string name="phone_exists">Phone already exists.</string>
     <string name="phone_number_format">Please enter a correct phone number!</string>
+    <string name="wrong_email_format">Wrong email format!</string>
 
 </resources>

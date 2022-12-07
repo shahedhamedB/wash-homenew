@@ -401,7 +401,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/paymentTaxLayout"
+                android:id="@+id/paymentDeliveryLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/view_overlined"
@@ -409,6 +409,43 @@
                 android:paddingBottom="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/paymentSubTotalLayout">
+
+                <TextView
+                    android:id="@+id/paymentDeliveryLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="@string/delivery_fees"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/gotham_rounded_light"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/paymentDeliveryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/paymentDeliveryLabel"
+                    app:layout_constraintTop_toTopOf="@id/paymentDeliveryLabel"
+                    tools:text="$15"
+                    android:fontFamily="@font/gotham_rounded_light"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10ssp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/paymentTaxLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/view_overlined"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/paymentDeliveryLayout">
 
                 <TextView
                     android:id="@+id/paymentTaxLabel"

@@ -632,6 +632,7 @@ class CheckOutActivity : AppCompatActivity() {
         binding.paymentSubTotalText.text = "" + AppDefs.cartData.sub_total
         binding.paymentTaxText.text = "" + AppDefs.cartData.taks
         binding.paymentDiscountText.text = "" + AppDefs.cartData.discount
+        binding.paymentDeliveryText.text = ""+AppDefs.cartData.delivery_pickup_amount
 //        calculateTotal(0.00)
     }
 }

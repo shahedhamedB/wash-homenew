@@ -6,7 +6,7 @@ data class Order(val id: String, val user_id: String, val buyer_dropoff: String,
     , val date: String, val time: String, val pickup_date: String, val pickup_time: String, val delivery_date: String, val delivery_time: String, val pickup_lat: String, val picku_long: String, val dropoff_lat: String, val dropoff_long: String, val is_delivery_pickup: String, val is_express: String, val total_amount: String, val sub_total: String, val tax: String, val discount: String
     , val status: String, val orders_items: ArrayList<OrderItem>)
 
-data class OrderItem(val id: String, val title: String, val price: String, val image: String, val status: String, val quantity: String, val servcie: ArrayList<ServiceItem>)
+data class OrderItem(val id: String, val title: String, val note: String, val price: String, val image: String, val status: String, val quantity: String, val servcie: ArrayList<ServiceItem>)
 
 data class ServiceItem(val id: String, val title: String)
 

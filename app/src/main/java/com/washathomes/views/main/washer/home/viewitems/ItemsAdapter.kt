@@ -40,6 +40,7 @@ class ItemsAdapter(
         }
 
         holder.services.text = services
+        holder.notes.text = item.note
 
     }
 
@@ -52,7 +53,7 @@ class ItemsAdapter(
         var services: TextView = itemView.findViewById(R.id.review_item_services)
         var itemIcon: ImageView = itemView.findViewById(R.id.item_icon)
         var price: TextView = itemView.findViewById(R.id.review_item_price)
-        var viewNotes: LinearLayoutCompat = itemView.findViewById(R.id.view_items_notes)
+        var notes: TextView = itemView.findViewById(R.id.notes)
     }
 
 }
