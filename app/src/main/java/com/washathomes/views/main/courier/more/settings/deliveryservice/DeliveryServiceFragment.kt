@@ -263,18 +263,20 @@ class DeliveryServiceFragment : Fragment() {
         servicesCall.enqueue(object : Callback<UserDocs> {
             override fun onResponse(call: Call<UserDocs>, response: Response<UserDocs>) {
                 if (response.isSuccessful){
-                    userDocuments = response.body()!!.results
-                    if (userDocuments.vehicle_image_id.isNotEmpty()){
-                        binding.uploadVehicleIDLayout.visibility = View.GONE
-                        Glide.with(courierMainActivity).load(userDocuments.vehicle_image_id).into(binding.vehicleIdImage)
-                    }
-                    if (userDocuments.vehicle_image.isNotEmpty()){
-                        binding.uploadVehicleImageLayout.visibility = View.GONE
-                        Glide.with(courierMainActivity).load(userDocuments.vehicle_image).into(binding.vehicleImageImage)
-                    }
-                    if (userDocuments.vehicle_licenses.isNotEmpty()){
-                        binding.uploadDrivingLicenseLayout.visibility = View.GONE
-                        Glide.with(courierMainActivity).load(userDocuments.vehicle_licenses).into(binding.drivingLicenseImage)
+                    if (response.body()!!.results != null){
+                        userDocuments = response.body()!!.results!!
+                        if (userDocuments.vehicle_image_id.isNotEmpty()){
+                            binding.uploadVehicleIDLayout.visibility = View.GONE
+                            Glide.with(courierMainActivity).load(userDocuments.vehicle_image_id).into(binding.vehicleIdImage)
+                        }
+                        if (userDocuments.vehicle_image.isNotEmpty()){
+                            binding.uploadVehicleImageLayout.visibility = View.GONE
+                            Glide.with(courierMainActivity).load(userDocuments.vehicle_image).into(binding.vehicleImageImage)
+                        }
+                        if (userDocuments.vehicle_licenses.isNotEmpty()){
+                            binding.uploadDrivingLicenseLayout.visibility = View.GONE
+                            Glide.with(courierMainActivity).load(userDocuments.vehicle_licenses).into(binding.drivingLicenseImage)
+                        }
                     }
                 }
             }

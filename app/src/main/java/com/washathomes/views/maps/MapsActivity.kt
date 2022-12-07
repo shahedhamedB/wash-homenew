@@ -37,6 +37,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
 import java.util.*
 @AndroidEntryPoint
@@ -157,6 +158,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
     public override fun onResume() {
         super.onResume()
         if (requestingLocationUpdates) {
+            submitAddressMaterialButton.isEnabled = true
             startLocationUpdates()
         }
     }
@@ -233,6 +235,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
             // All location settings are satisfied. The client can initialize
             // location requests here.
             // ...
+            submitAddressMaterialButton.isEnabled = true
             startLocationUpdates()
         }
         task.addOnFailureListener(
@@ -244,6 +247,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
+                    submitAddressMaterialButton.isEnabled = false
                     e.startResolutionForResult(
                         this,
                         REQUEST_CHECK_SETTINGS
@@ -318,28 +322,30 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
     }
 
     private fun attemptSaveAddress() {
-        var isValid = true
-        val latitude = java.lang.Double.toString(markerPosition!!.latitude)
-        val longitude = java.lang.Double.toString(markerPosition!!.longitude)
-        if (mAddress.isEmpty()) {
-            isValid = false
+        if (markerPosition != null){
+            var isValid = true
+            val latitude = java.lang.Double.toString(markerPosition!!.latitude)
+            val longitude = java.lang.Double.toString(markerPosition!!.longitude)
+            if (mAddress.isEmpty()) {
+                isValid = false
+            }
+            if (latitude.isEmpty()) {
+                isValid = false
+            }
+            if (longitude.isEmpty()) {
+                isValid = false
+            }
+            if (!isValid) {
+                Toast.makeText(this, "Please choose a more accurate address", Toast.LENGTH_SHORT).show()
+                return
+            }
+            val returnIntent = Intent()
+            returnIntent.putExtra("address", mAddress)
+            returnIntent.putExtra("latitude", latitude)
+            returnIntent.putExtra("longitude", longitude)
+            setResult(RESULT_OK, returnIntent)
+            finish()
         }
-        if (latitude.isEmpty()) {
-            isValid = false
-        }
-        if (longitude.isEmpty()) {
-            isValid = false
-        }
-        if (!isValid) {
-            Toast.makeText(this, "Please choose a more accurate address", Toast.LENGTH_SHORT).show()
-            return
-        }
-        val returnIntent = Intent()
-        returnIntent.putExtra("address", mAddress)
-        returnIntent.putExtra("latitude", latitude)
-        returnIntent.putExtra("longitude", longitude)
-        setResult(RESULT_OK, returnIntent)
-        finish()
     }
 
     override fun onRequestPermissionsResult(
@@ -363,8 +369,10 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CHECK_SETTINGS) {
             if (resultCode == RESULT_OK) {
+                submitAddressMaterialButton.isEnabled = true
                 startLocationUpdates()
             } else {
+                submitAddressMaterialButton.isEnabled = false
                 returnCancelledResult()
             }
         }
