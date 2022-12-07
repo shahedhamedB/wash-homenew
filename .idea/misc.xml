@@ -7,7 +7,9 @@
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/accept_order_popup.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_checkout.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_courier_registration.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_splash.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/delete_order_popup.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/dropped_off_order_popup.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_courier_driving_data.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_courier_home.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_courier_intro.xml" value="0.18385416666666668" />
@@ -39,6 +41,7 @@
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/item_review.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/order_item_layout.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/otp_popup.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/reject_order_popup.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/toolbar_layout.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/user1/.gradle/caches/transforms-3/8753732b02d132eebd0016810384042b/transformed/jetified-play-services-wallet-19.1.0/res/layout/wallet_test_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/user1/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_checkout.xml" value="0.253125" />

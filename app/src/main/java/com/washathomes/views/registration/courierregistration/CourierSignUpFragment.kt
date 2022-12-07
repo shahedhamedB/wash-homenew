@@ -237,7 +237,7 @@ class CourierSignUpFragment : Fragment() {
 //                        longitude = ""+location.longitude
 //                        getAddress(location.latitude, location.longitude)
 //                    }else{
-//                        Toast.makeText(washeeRegistrationActivity, "Null", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(washeeRegistrationActivity, "Please enable your location", Toast.LENGTH_LONG).show()
 //                    }
 //                }
 //            }else{
@@ -266,7 +266,7 @@ class CourierSignUpFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(courierRegistrationActivity, "Null", Toast.LENGTH_LONG).show()
+                Toast.makeText(courierRegistrationActivity, "Please enable your location", Toast.LENGTH_LONG).show()
             }
         }
     }

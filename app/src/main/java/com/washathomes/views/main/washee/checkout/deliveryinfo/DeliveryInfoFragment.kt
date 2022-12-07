@@ -519,7 +519,7 @@ class DeliveryInfoFragment : Fragment() {
                 getAddress(location.latitude, location.longitude, "")
                 getPrices()
             }else{
-                Toast.makeText(washeeMainActivity, "Null", Toast.LENGTH_LONG).show()
+                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
             }
         }
     }

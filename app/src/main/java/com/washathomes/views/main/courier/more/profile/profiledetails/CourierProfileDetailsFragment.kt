@@ -263,7 +263,7 @@ class CourierProfileDetailsFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-//                Toast.makeText(courierMainActivity, "Null", Toast.LENGTH_LONG).show()
+                Toast.makeText(courierMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
             }
         }
     }

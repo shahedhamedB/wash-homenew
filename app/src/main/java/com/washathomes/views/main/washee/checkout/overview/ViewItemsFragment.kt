@@ -97,7 +97,7 @@ class ViewItemsFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeMainActivity, "Null", Toast.LENGTH_LONG).show()
+                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
             }
         }
     }

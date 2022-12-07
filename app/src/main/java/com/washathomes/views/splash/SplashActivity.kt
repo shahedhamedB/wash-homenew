@@ -58,11 +58,15 @@ class SplashActivity : AppCompatActivity() {
                     AppDefs.whiteLogo = response.body()?.results?.get(2)?.image
                     AppDefs.background = response.body()?.results?.get(3)?.image
                     if (!response.body()?.results?.get(0)?.image?.isEmpty()!!){
+                        binding.logo.visibility = View.VISIBLE
+                        binding.shadow.visibility = View.VISIBLE
                         binding.videoView.visibility = View.GONE
                         binding.splashBackground.visibility = View.VISIBLE
                         Glide.with(applicationContext).load(response.body()?.results?.get(0)?.image).into(binding.splashBackground)
                         setSplash(2000)
                     }else{
+                        binding.logo.visibility = View.GONE
+                        binding.shadow.visibility = View.GONE
                         binding.videoView.visibility = View.VISIBLE
                         binding.splashBackground.visibility = View.GONE
                         setVideo()
