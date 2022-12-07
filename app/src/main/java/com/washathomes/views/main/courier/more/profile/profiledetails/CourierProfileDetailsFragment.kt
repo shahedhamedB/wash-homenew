@@ -341,6 +341,9 @@ class CourierProfileDetailsFragment : Fragment() {
             email.isEmpty() -> {
                 binding.emailAddressEdt.error = resources.getString(R.string.fill_feild)
             }
+            !email.contains("@") || !email.contains(".") -> {
+                binding.emailAddressEdt.error = resources.getString(R.string.wrong_email_format)
+            }
             phone.isEmpty() -> {
                 binding.phoneNumberEdt.error = resources.getString(R.string.fill_feild)
             }

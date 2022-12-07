@@ -227,7 +227,7 @@ class WasheeSignUpFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeRegistrationActivity, "Null", Toast.LENGTH_LONG).show()
+//                Toast.makeText(washeeRegistrationActivity, "Null", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -296,12 +296,19 @@ class WasheeSignUpFragment : Fragment() {
     private fun checkValidation(){
         fullName = binding.fullNameEdt.text.toString()
         email = binding.emailAddressEdt.text.toString()
-        if (fullName.isEmpty()){
-            binding.fullNameEdt.error = resources.getString(R.string.fill_feild)
-        }else if (email.isEmpty()){
-            binding.emailAddressEdt.error = resources.getString(R.string.fill_feild)
-        }else{
-            updateUser()
+        when {
+            fullName.isEmpty() -> {
+                binding.fullNameEdt.error = resources.getString(R.string.fill_feild)
+            }
+            email.isEmpty() -> {
+                binding.emailAddressEdt.error = resources.getString(R.string.fill_feild)
+            }
+            !email.contains("@") || !email.contains(".") -> {
+                binding.emailAddressEdt.error = resources.getString(R.string.wrong_email_format)
+            }
+            else -> {
+                updateUser()
+            }
         }
     }
 
