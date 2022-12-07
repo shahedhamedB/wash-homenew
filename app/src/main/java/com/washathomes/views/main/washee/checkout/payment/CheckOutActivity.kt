@@ -593,7 +593,7 @@ class CheckOutActivity : AppCompatActivity() {
                 longitude = "" + location.longitude
                 getAddress(location.latitude, location.longitude)
             } else {
-                Toast.makeText(this, "Null", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please enable your location", Toast.LENGTH_LONG).show()
             }
         }
     }

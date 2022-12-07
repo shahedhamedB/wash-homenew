@@ -607,7 +607,7 @@ class WasherHomeFragment : Fragment() {
 //                        longitude = ""+location.longitude
 //                        getAddress(location.latitude, location.longitude)
 //                    }else{
-//                        Toast.makeText(washeeRegistrationActivity, "Null", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(washeeRegistrationActivity, "Please enable your location", Toast.LENGTH_LONG).show()
 //                    }
 //                }
 //            }else{
@@ -636,7 +636,7 @@ class WasherHomeFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washerMainActivity, "Null", Toast.LENGTH_LONG).show()
+                Toast.makeText(washerMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
             }
         }
     }
