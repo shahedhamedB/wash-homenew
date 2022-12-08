@@ -46,6 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_4sdp"
         android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/review_item_name"
         app:layout_constraintTop_toBottomOf="@id/review_item_services"
         tools:text="$3.50"
@@ -64,6 +66,7 @@
         tools:text="Wash &amp; Dry, Iron, Hang"
         android:fontFamily="@font/gotham_rounded_light"
         android:textSize="@dimen/_10ssp"
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/_8sdp"
         android:textColor="@color/black"/>
 
