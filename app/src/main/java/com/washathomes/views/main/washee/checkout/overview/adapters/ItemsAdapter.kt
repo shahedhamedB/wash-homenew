@@ -43,6 +43,7 @@ class ItemsAdapter(
 
         holder.services.text = services
         holder.notes.text = cartItem.note
+
         holder.notes.visibility = View.GONE
 
     }
