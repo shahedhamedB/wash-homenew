@@ -112,7 +112,7 @@ class CheckOutActivity : AppCompatActivity() {
 
             getStripsPayment()
         }
-
+        binding.toolbarBackIcon.setOnClickListener { finish() }
 
     }
 
