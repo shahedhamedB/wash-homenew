@@ -111,11 +111,11 @@ class OrderHistoryFragment : Fragment() {
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
                     val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
-                    Toast.makeText(
-                        washeeMainActivity,
-                        errorResponse.status.massage.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        washeeMainActivity,
+//                        errorResponse.status.massage.toString(),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
             }
 

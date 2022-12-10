@@ -52,7 +52,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        //        Places.initialize(getApplicationContext(), getBaseContext().getString(R.string.google_places_key), Locale.US);
+                Places.initialize(applicationContext, baseContext.getString(R.string.google_places_key), Locale.US)
         val actionBar = actionBar
         actionBar?.hide()
 
@@ -67,19 +67,12 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
 
         // Initialize the AutocompleteSupportFragment.
         val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
 
 //        ((EditText)autocompleteFragment.getView().findViewById(R.id.places_autocomplete_search_input)).setTextSize(14.0f);
         //autocompleteFragment.setHint("اختر موقعك..");
 
-        // Specify the types of place data to return.
-        autocompleteFragment!!.setPlaceFields(
-            Arrays.asList(
-                Place.Field.ID,
-                Place.Field.NAME,
-                Place.Field.LAT_LNG
-            )
-        )
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
@@ -92,9 +85,36 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
 
             override fun onError(status: Status) {
                 // TODO: Handle the error.
-                Log.i("onError", "An error occurred: $status")
+                Log.i("Error: ", "An error occurred: $status")
             }
         })
+
+
+//        // Specify the types of place data to return.
+//        autocompleteFragment!!.setPlaceFields(
+//            Arrays.asList(
+//                Place.Field.ID,
+//                Place.Field.NAME,
+//                Place.Field.LAT_LNG
+//            )
+//        )
+//
+//        // Set up a PlaceSelectionListener to handle the response.
+//        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+//            override fun onPlaceSelected(place: Place) {
+//                if (place.latLng != null) {
+//                    placeMarkerOnMap(place.latLng)
+//                    markerPosition = place.latLng
+//                }
+//            }
+//
+//            override fun onError(status: Status) {
+//                // TODO: Handle the error.
+//                Log.i("onError", "An error occurred: $status")
+//            }
+//        })
+
+
         val submitAddressMaterialButton: MaterialButton =
             findViewById(R.id.submitAddressMaterialButton)
 

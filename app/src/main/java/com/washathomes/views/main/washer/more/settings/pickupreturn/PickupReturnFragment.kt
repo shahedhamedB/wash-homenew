@@ -119,7 +119,7 @@ class PickupReturnFragment : Fragment() {
     }
 
     private fun updateUser(){
-        val userParams = UpdatePickupReturn(AppDefs.user.results!!.dreiver_available, miles, express)
+        val userParams = UpdatePickupReturn(drivingAvailable, miles, express)
         binding.progressBar.visibility = View.VISIBLE
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(

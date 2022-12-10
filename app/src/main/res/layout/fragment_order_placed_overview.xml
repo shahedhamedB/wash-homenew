@@ -603,6 +603,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:fontFamily="@font/gotham_rounded_light"
                 android:textSize="@dimen/_12ssp"
+                android:visibility="gone"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -612,7 +613,8 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/pendingOverviewOrderAmountLabel"
-                tools:text="$20.00" />
+                tools:text="$20.00"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/pendingOverviewDeliveryPaymentLabel"
@@ -625,6 +627,7 @@
                 app:layout_constraintTop_toBottomOf="@id/pendingOverviewOrderAmountLabel"
                 android:fontFamily="@font/gotham_rounded_light"
                 android:textSize="@dimen/_12ssp"
+                android:visibility="gone"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -637,6 +640,7 @@
                 tools:text="$5.00"
                 android:fontFamily="@font/gotham_rounded_light"
                 android:textSize="@dimen/_12ssp"
+                android:visibility="gone"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -666,6 +670,7 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 android:background="@color/light_grey"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/pendingOverviewFeeLabel" />
 
             <TextView
@@ -673,7 +678,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:text="@string/total_earnings"
                 android:fontFamily="@font/gotham_rounded_light"
                 android:textSize="@dimen/_12ssp"
