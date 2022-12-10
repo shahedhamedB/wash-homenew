@@ -316,5 +316,6 @@
     <string name="phone_exists">Phone already exists.</string>
     <string name="phone_number_format">Please enter a correct phone number!</string>
     <string name="wrong_email_format">Wrong email format!</string>
+    <string name="your_account_is_deactivated_or_blocked">Your account is deactivated or blocked!</string>
 
 </resources>
