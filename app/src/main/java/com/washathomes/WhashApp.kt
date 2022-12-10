@@ -14,7 +14,7 @@ import timber.log.Timber
 @HiltAndroidApp
 class WhashApp : Application() {
     val YOUR_CLIENT_ID = "AVq5k6xrbGYF5xyf3aWf6e4Nw-5En6A9cscPkRIWHMZK-iymZk0mDVxe-OmuG6S72YQJOkxvl8BII36q"
-    val YOUR_CLIENT_ID_Live = "AXJJNjWsWVKJcqvHej47KyQwoxhPXRWrg4sjVK3wynuKbrmMNF1MqP_PO6ADlnqjRWxkSpyc9DTpnKRS"
+    val YOUR_CLIENT_ID_Live = "AbZjv6QmcSHa1L5bn42FPaCDd-3LaKE2jr5gDldX1hPNQUE3p9G0AxP90AFldUJttL1SMvlavoLNzDrD"
 
     override fun onCreate() {
         super.onCreate()

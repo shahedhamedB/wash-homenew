@@ -7,7 +7,9 @@
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/accept_order_popup.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_checkout.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_courier_registration.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_maps.xml" value="0.15091919623770841" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/activity_splash.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/basket_item_layout.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/delete_order_popup.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/dropped_off_order_popup.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_courier_driving_data.xml" value="0.18385416666666668" />
@@ -15,12 +17,18 @@
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_courier_intro.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_courier_more.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_courier_sign_up.xml" value="0.36770833333333336" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_delivery_info.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_delivery_service.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_manage_services.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_accepted.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_delivered.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_history.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_in_progress.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_in_progress2.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_placed.xml" value="0.1527777777777778" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_placed_overview.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_placed_overview2.xml" value="0.5" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_order_review.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_overview.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_payment.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_pickup_return.xml" value="0.3333333333333333" />
@@ -35,8 +43,10 @@
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_washer_home.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_washer_more.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_washer_profile.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_washer_services_data.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/fragment_washer_view_items.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/image_picker_dialog.xml" value="0.18385416666666668" />
+        <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/image_slider_layout.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/intro_slider_layout.xml" value="0.18385416666666668" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/item_review.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/hp/Documents/GitHub/wash-homenew/app/src/main/res/layout/order_item_layout.xml" value="0.18385416666666668" />

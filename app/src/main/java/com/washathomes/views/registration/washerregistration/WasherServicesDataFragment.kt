@@ -206,25 +206,21 @@ class WasherServicesDataFragment : Fragment() {
     }
 
     private fun checkValidation(){
-        if (serviceAvailable == "1"){
-            if (washingMachineImage.isEmpty() || dryerImage.isEmpty()){
-                Toast.makeText(washerRegistrationActivity, resources.getString(R.string.upload_images), Toast.LENGTH_SHORT).show()
-            }else{
-                val servicesAvailable: ArrayList<ServiceAvailable> = ArrayList()
-                for (service in services){
-                    if (service.isSelected!!){
-                        servicesAvailable.add(ServiceAvailable(service.id))
-                    }
-                }
-                if (servicesAvailable.isEmpty()){
-                    Toast.makeText(washerRegistrationActivity, resources.getString(R.string.choose_services), Toast.LENGTH_SHORT).show()
-                }else{
-                    updateUser(servicesAvailable)
-                }
-
-            }
+        if (washingMachineImage.isEmpty() || dryerImage.isEmpty()){
+            Toast.makeText(washerRegistrationActivity, resources.getString(R.string.upload_images), Toast.LENGTH_SHORT).show()
         }else{
-            Toast.makeText(washerRegistrationActivity, resources.getString(R.string.enable_services_availability), Toast.LENGTH_SHORT).show()
+            val servicesAvailable: ArrayList<ServiceAvailable> = ArrayList()
+            for (service in services){
+                if (service.isSelected!!){
+                    servicesAvailable.add(ServiceAvailable(service.id))
+                }
+            }
+            if (servicesAvailable.isEmpty()){
+                Toast.makeText(washerRegistrationActivity, resources.getString(R.string.choose_services), Toast.LENGTH_SHORT).show()
+            }else{
+                updateUser(servicesAvailable)
+            }
+
         }
     }
 
