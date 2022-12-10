@@ -1,22 +1,36 @@
 package com.washathomes.views.main.washee
 
+import android.app.AlertDialog
 import android.app.Application
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.washathomes.R
+import com.washathomes.apputils.appdefs.AppDefs
+import com.washathomes.apputils.appdefs.Urls
+import com.washathomes.apputils.modules.UserData
+import com.washathomes.apputils.modules.UserLogin
+import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.databinding.ActivityWasheeMainBinding
+import com.washathomes.views.introduction.VerificationFragmentDirections
+import com.washathomes.views.splash.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 import java.text.DecimalFormat
 @AndroidEntryPoint
@@ -47,6 +61,8 @@ class WasheeMainActivity : AppCompatActivity() {
                 bottomNavigationView.visibility = View.VISIBLE
             }
         }
+
+        login()
     }
 
     fun invisibleBottomBar(){
@@ -89,5 +105,55 @@ class WasheeMainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         unregisterReceiver(broadcastReceiver)
+    }
+
+    private fun login(){
+        val userParams = UserLogin(AppDefs.user.results!!.phone, AppDefs.lang, AppDefs.user.token, "1")
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val loginCall: Call<UserData> =
+            retrofit.create(RetrofitAPIs::class.java).login(userParams)
+        loginCall.enqueue(object : Callback<UserData> {
+            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
+                if (response.isSuccessful){
+                    AppDefs.user = response.body()!!
+                    if (response.body()!!.results!!.status != "1"){
+                        logoutPopUp()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<UserData>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun logoutPopUp(){
+        val alertView: View =
+            LayoutInflater.from(this).inflate(R.layout.blocked_popup, null)
+        val alertBuilder = AlertDialog.Builder(this).setView(alertView).show()
+        alertBuilder.show()
+        alertBuilder.setCancelable(false)
+
+        alertBuilder.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val logout: TextView = alertView.findViewById(R.id.logout)
+
+        logout.setOnClickListener {
+            alertBuilder.dismiss()
+            val preferences: SharedPreferences = this.getSharedPreferences(
+                AppDefs.SHARED_PREF_KEY,
+                Context.MODE_PRIVATE
+            )
+            val editor = preferences.edit()
+            editor.clear()
+            editor.apply()
+            val splashIntent = Intent(this, SplashActivity::class.java)
+            startActivity(splashIntent)
+            finish()
+
+        }
     }
 }
