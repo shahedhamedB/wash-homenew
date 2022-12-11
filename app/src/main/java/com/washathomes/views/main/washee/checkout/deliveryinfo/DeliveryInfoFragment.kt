@@ -120,8 +120,13 @@ class DeliveryInfoFragment : Fragment() {
             deliverySpeed = "0"
             binding.deliveryServiceSpeedNormalRadio.isChecked = true
             binding.deliveryServiceSpeedExpressRadio.isChecked = false
-            currentExpressValue = 0.00
-            calculateTotal()
+            if (AppDefs.cartData.is_express == "1"){
+                currentExpressValue = -1*expressValue
+                calculateTotal()
+            }else {
+                currentExpressValue = 0.00
+                calculateTotal()
+            }
         }
         binding.deliveryServiceSpeedExpress.setOnClickListener {
             deliverySpeed = "1"
@@ -171,16 +176,25 @@ class DeliveryInfoFragment : Fragment() {
         }
         binding.switchInsurance.setOnClickListener {
             if (insurance == "0"){
-
                 Glide.with(washeeMainActivity).load(R.drawable.switch_on).into(binding.switchInsurance)
                 insurance = "1"
-                currentInsuranceValue = insuranceValue
-                calculateTotal()
+                if (AppDefs.cartData.is_insurance == "0"){
+                    currentInsuranceValue = insuranceValue
+                    calculateTotal()
+                }else{
+                    currentInsuranceValue = 0.00
+                    calculateTotal()
+                }
             }else{
                 Glide.with(washeeMainActivity).load(R.drawable.switch_off_gray).into(binding.switchInsurance)
                 insurance = "0"
-                currentInsuranceValue = 0.0
-                calculateTotal()
+                if (AppDefs.cartData.is_insurance == "1"){
+                    currentInsuranceValue = -1*insuranceValue
+                    calculateTotal()
+                }else{
+                    currentInsuranceValue = 0.00
+                    calculateTotal()
+                }
             }
         }
         binding.switchSamePickUpDropOff.setOnClickListener {
