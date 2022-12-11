@@ -62,6 +62,7 @@ class WasherAvailabilityFragment : Fragment() {
         navController = Navigation.findNavController(view)
         isAvailable = AppDefs.user.results!!.washer_available!!
         binding.washerAvailabilitySwitchButton.isChecked = AppDefs.user.results!!.washer_available == "1"
+        isAvailable = AppDefs.user.results!!.washer_available!!
     }
 
     private fun onClick(){

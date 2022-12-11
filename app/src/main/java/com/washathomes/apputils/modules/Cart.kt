@@ -8,7 +8,7 @@ data class CartObj(val lat: String, val long: String, val zip_code: String)
 
 data class Cart(val status: Status, val results: CartData)
 
-data class CartData(val id: String, val sub_total: String, var total_price: String, val discount: String, val delivery_pickup_amount: String, val taks: String, val CartItem: ArrayList<CartItem>, val status: String)
+data class CartData(val id: String, val sub_total: String, var total_price: String, val discount: String, val delivery_pickup_amount: String, val taks: String, val is_express: String, val is_insurance: String, val is_delivery_pickup: String, val CartItem: ArrayList<CartItem>, val status: String)
 
 data class CartItem(val id: String, val title: String, val note: String, val price: String, val image: String, val status: String, val quantity: String, val servcie: ArrayList<CartItemService>)
 
