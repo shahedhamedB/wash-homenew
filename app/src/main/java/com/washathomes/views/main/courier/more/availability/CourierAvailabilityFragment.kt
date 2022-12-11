@@ -62,7 +62,7 @@ class CourierAvailabilityFragment : Fragment() {
         navController = Navigation.findNavController(view)
         isAvailable = AppDefs.user.results!!.dreiver_available!!
         binding.washerAvailabilitySwitchButton.isChecked = AppDefs.user.results!!.dreiver_available == "1"
-
+        isAvailable = AppDefs.user.results!!.dreiver_available!!
     }
 
     private fun onClick(){
@@ -76,7 +76,7 @@ class CourierAvailabilityFragment : Fragment() {
         }
 
         binding.washerAvailabilityNext.setOnClickListener {
-            if (isAvailable != AppDefs.user.results!!.washer_available!!){
+            if (isAvailable != AppDefs.user.results!!.dreiver_available!!){
                 changeAvailability()
             }else{
                 navController.popBackStack()

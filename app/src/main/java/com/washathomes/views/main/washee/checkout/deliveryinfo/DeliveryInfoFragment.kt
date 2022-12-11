@@ -127,8 +127,13 @@ class DeliveryInfoFragment : Fragment() {
             deliverySpeed = "1"
             binding.deliveryServiceSpeedExpressRadio.isChecked = true
             binding.deliveryServiceSpeedNormalRadio.isChecked = false
-            currentExpressValue = expressValue
-            calculateTotal()
+            if (AppDefs.cartData.is_express == "0"){
+                currentExpressValue = expressValue
+                calculateTotal()
+            }else{
+                currentExpressValue = 0.00
+                calculateTotal()
+            }
         }
         binding.deliveryOthersCollectLayout.setOnClickListener {
             deliveryOption = "1"
@@ -200,6 +205,93 @@ class DeliveryInfoFragment : Fragment() {
         binding.deliveryInfoNextButton.setOnClickListener { checkValidation() }
     }
 
+    private fun getCart(){
+        val cartObj = CartObj(latitude, longitude, postalCode)
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val getCartCall: Call<Cart> =
+            retrofit.create(RetrofitAPIs::class.java).getCart(cartObj)
+        getCartCall.enqueue(object : Callback<Cart> {
+            override fun onResponse(call: Call<Cart>, response: Response<Cart>) {
+                binding.progressBar.visibility = View.GONE
+                if (response.isSuccessful){
+                    AppDefs.cartData = response.body()!!.results
+                    setData()
+                }else{
+                    val gson = Gson()
+                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
+                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
+                    if (errorResponse.status.massage.toString() == "No Data"){
+                    }else {
+                        Toast.makeText(
+                            washeeMainActivity,
+                            errorResponse.status.massage.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Cart>, t: Throwable) {
+                binding.progressBar.visibility = View.GONE
+                Toast.makeText(washeeMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun setData(){
+        if (AppDefs.cartData.is_express == "0"){
+            deliverySpeed = "0"
+            binding.deliveryServiceSpeedNormalRadio.isChecked = true
+            binding.deliveryServiceSpeedExpressRadio.isChecked = false
+            currentExpressValue = 0.00
+            calculateTotal()
+        }else if (AppDefs.cartData.is_express == "1"){
+            deliverySpeed = "1"
+            binding.deliveryServiceSpeedExpressRadio.isChecked = true
+            binding.deliveryServiceSpeedNormalRadio.isChecked = false
+            currentExpressValue = 0.00
+            calculateTotal()
+        }
+
+        if (AppDefs.cartData.is_insurance == "1"){
+            Glide.with(washeeMainActivity).load(R.drawable.switch_on).into(binding.switchInsurance)
+            insurance = "1"
+            currentInsuranceValue = 0.0
+            calculateTotal()
+        }else if (AppDefs.cartData.is_insurance == "0"){
+            Glide.with(washeeMainActivity).load(R.drawable.switch_off_gray).into(binding.switchInsurance)
+            insurance = "0"
+            currentInsuranceValue = 0.0
+            calculateTotal()
+        }
+
+        if (AppDefs.cartData.is_delivery_pickup == "0"){
+            deliveryOption = "0"
+            binding.deliveryOthersCollectRadio.isChecked = false
+            binding.selfDropOffRadio.isChecked = true
+            currentDeliveryFee = 0.00
+            calculateTotal()
+        }else if (AppDefs.cartData.is_delivery_pickup == "1"){
+            deliveryOption = "1"
+            binding.deliveryOthersCollectRadio.isChecked = true
+            binding.selfDropOffRadio.isChecked = false
+            currentDeliveryFee = deliveryFee
+            calculateTotal()
+        }
+
+    }
+
     private fun getPrices(){
         val locationObj = LocationObj(latitude, longitude, postalCode)
         val okHttpClient = OkHttpClient.Builder().apply {
@@ -236,7 +328,8 @@ class DeliveryInfoFragment : Fragment() {
                     }
                     binding.deliveryFees.text = resources.getString(R.string.delivery_fee_for_every_5_miles_is)+" $"+washeeMainActivity.formatter.format(prices[4].price.toDouble())+
                             resources.getString(R.string.plus)+" $"+washeeMainActivity.formatter.format(prices[10].price.toDouble())+" "+resources.getString(R.string.for_every_mile)
-                    calculateTotal()
+//                    calculateTotal()
+                    getCart()
                 }else{
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
@@ -256,8 +349,8 @@ class DeliveryInfoFragment : Fragment() {
     }
 
     private fun calculateTotal(){
-        var total = AppDefs.subTotal.substring(0, AppDefs.subTotal.indexOf(" ")).toDouble()
-        val currency = AppDefs.subTotal.substring(AppDefs.subTotal.indexOf(" "))
+        var total = AppDefs.cartData.sub_total.substring(0, AppDefs.cartData.sub_total.indexOf(" ")).toDouble()
+        val currency = AppDefs.cartData.sub_total.substring(AppDefs.cartData.sub_total.indexOf(" "))
         total += currentExpressValue + currentDeliveryFee + currentInsuranceValue
         binding.deliveryCurrentTotalText.text = ""+total + currency
 
