@@ -2,22 +2,26 @@
     <string name="app_name">Wash@Home</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="uxcam_app_key" translatable="false">gf3gv459j6iqav3</string>
 <!--    <string name="google_places_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDbXBHvxxRJpsIMfvZEkVVkLdQ98IDQO-Q</string>-->
     <string name="google_places_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBdo6LUKoaiHfXqUPqg5J4H52_AYzLx6ks</string>
     <string name="stripe_publishable_key" translatable="false">pk_live_51HqxCmGNvYMhrs1aR40MglH7IH11khbzfL93y8fd39NhMuYVgdHx988swtWvWkAK2jFqzU4CqbjhyquHR3n4ms4q00toAXwS9g</string>
     <!--    <string name="stripe_publishable_key" translatable="false">pk_test_51HqxCmGNvYMhrs1av0rfgi2UuVUxa5AEi4KPt7pD1tyWTd8O6Al0qPDTgSMdidKbcKTFJfANxczlvWxWrFT23WD200kTWhKq4G</string>-->
-    <string name="facebook_app_id" translatable="false">664236841938762</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb664236841938762</string>
-    <string name="facebook_client_token" translatable="false">e04b2afbef4be8c6748cc5d377c56a1f</string>
+<!--    <string name="facebook_app_id" translatable="false">664236841938762</string>-->
+<!--    <string name="fb_login_protocol_scheme" translatable="false">fb664236841938762</string>-->
+<!--    <string name="facebook_client_token" translatable="false">e04b2afbef4be8c6748cc5d377c56a1f</string>-->
+    <string name="facebook_app_id" translatable="false">1589683401212172</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1589683401212172</string>
+    <string name="facebook_client_token" translatable="false">51316882fa4f915a4115f17c82b65967</string>
     <string name="privacy_policy_url" translatable="false">https://www.washathome.co/privacy-policy/</string>
     <string name="terms_url" translatable="false">https://www.washathome.co/terms-and-conditions/</string>
-    <string name="faq_url" translatable="false">https://wash.hudhudclient.com/content/faq/</string>
-    <string name="feedback_url" translatable="false">https://wash.hudhudclient.com/content/feedback/</string>
-    <string name="dispute_url" translatable="false">https://wash.hudhudclient.com/public/Dispute</string>
-    <string name="transaction_url" translatable="false">https://wash.hudhudclient.com/public/Transaction</string>
-    <string name="payout_url" translatable="false">https://wash.hudhudclient.com/public/Payout</string>
-    <string name="ratings_url" translatable="false">https://wash.hudhudclient.com/public/Review</string>
-    <string name="contact_url" translatable="false">https://wash.hudhudclient.com/content/contact/</string>
+    <string name="faq_url" translatable="false">https://washathome.info/content/faq/</string>
+    <string name="feedback_url" translatable="false">https://washathome.info/content/feedback/</string>
+    <string name="dispute_url" translatable="false">https://washathome.info/public/Dispute</string>
+    <string name="transaction_url" translatable="false">https://washathome.info/public/Transaction</string>
+    <string name="payout_url" translatable="false">https://washathome.info/public/Payout</string>
+    <string name="ratings_url" translatable="false">https://washathome.info/public/Review</string>
+    <string name="contact_url" translatable="false">https://washathome.info/content/contact/</string>
     <string name="welcome_to_our_app">Welcome to our app!</string>
     <string name="enter_your_phone_number_and_start_using_our_wide_range_of_services">Enter your phone number and start using our wide range of services.</string>
     <string name="phone_number">Phone Number</string>
@@ -80,7 +84,7 @@
     <string name="add_extra_image">Add Extra Image</string>
     <string name="enable_services_availability">Please enable services availability!</string>
     <string name="enable_availability">Please enable driving availability!</string>
-    <string name="search_hint">Search items (e.g. shirt)</string>
+    <string name="search_data">Search items (e.g. shirt)</string>
     <string name="order_now">Order Now</string>
     <string name="items_quantity">Items Quantity</string>
     <string name="wash_and_dry">Wash &amp; Dry</string>
@@ -172,7 +176,7 @@
     <string name="profile">Profile</string>
     <string name="sign_out">Sign Out</string>
     <string name="orders">Orders</string>
-    <string name="order_history">Order History</string>
+    <string name="order_history">Orders History</string>
     <string name="my_ratings">My Ratings</string>
     <string name="disputes">Disputes</string>
     <string name="help">Help</string>
@@ -282,14 +286,14 @@
     <string name="order_number">Order Number</string>
     <string name="date_">Date</string>
     <string name="next_redeem_date">Next redeem date:</string>
-    <string name="transaction_history">Transaction History</string>
+    <string name="transaction_history">Transactions History</string>
     <string name="how_was">How was</string>
     <string name="reviews_success">Order reviewed successfully!</string>
     <string name="picked_laundry_items">Picked up laundry items</string>
     <string name="delivery_service">Delivery Service</string>
     <string name="favorites">Favorites</string>
     <string name="delete_account">Delete Account</string>
-    <string name="delete_account_desc">Are you sure you want to delete your account?</string>
+    <string name="delete_account_desc">Once you delete your account all your information will be deleted forever, and we will not be able to restore you Data. Are you sure you wish to proceed?</string>
     <string name="selected_card_summary">ending in</string>
     <string name="payment_autharization_error_message">We are unable to authenticate your payment method. Please choose a different payment method and try again.</string>
     <string name="no_messages_available">No messages available</string>
@@ -317,5 +321,13 @@
     <string name="phone_number_format">Please enter a correct phone number!</string>
     <string name="wrong_email_format">Wrong email format!</string>
     <string name="your_account_is_deactivated_or_blocked">Your account is deactivated or blocked!</string>
+    <string name="location">Location</string>
+    <string name="update_version">Update version</string>
+    <string name="update_version_description">Please update the application version</string>
+    <string name="gps_network_not_enabled">GPS network is not enabled!</string>
+    <string name="open_location_settings">Open location settings</string>
+    <string name="logged_in">You are already logged in another device!</string>
+    <string name="verification_completed">Verification Completed</string>
+    <string name="verification_not_completed">Verification not completed! Try again</string>
 
 </resources>

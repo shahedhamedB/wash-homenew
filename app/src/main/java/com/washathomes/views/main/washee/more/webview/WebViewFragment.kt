@@ -33,7 +33,6 @@ class WebViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_web_view, container, false)
         binding = FragmentWebViewBinding.inflate(layoutInflater)
         return binding.root
     }

@@ -26,7 +26,6 @@ class OrderDeliveredFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_delivered, container, false)
         binding = FragmentOrderDeliveredBinding.inflate(layoutInflater)
         return binding.root
     }

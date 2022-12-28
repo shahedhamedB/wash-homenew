@@ -1,6 +1,9 @@
 package com.washathomes.views.splash
 
+import android.content.ActivityNotFoundException
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -8,8 +11,11 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.uxcam.UXCam
+import com.uxcam.datamodel.UXConfig
 import com.washathomes.apputils.appdefs.AppDefs
 import com.washathomes.apputils.appdefs.Urls
 import com.washathomes.apputils.helpers.LocaleHelper
@@ -17,12 +23,16 @@ import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.apputils.modules.DataList
 import com.washathomes.apputils.modules.UserData
 import com.washathomes.R
+import com.washathomes.apputils.modules.UpdateLocation
+import com.washathomes.apputils.modules.Version
 import com.washathomes.views.introduction.IntroductionActivity
 import com.washathomes.views.main.courier.CourierMainActivity
 import com.washathomes.views.main.washee.WasheeMainActivity
 import com.washathomes.views.main.washer.WasherMainActivity
 import com.washathomes.databinding.ActivitySplashBinding
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,6 +50,13 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        val config = UXConfig.Builder(resources.getString(R.string.uxcam_app_key))
+            .enableAutomaticScreenNameTagging(true)
+            .enableImprovedScreenCapture(true)
+            .build()
+
+        UXCam.startWithConfiguration(config)
 
         getAppData()
     }
@@ -129,4 +146,6 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

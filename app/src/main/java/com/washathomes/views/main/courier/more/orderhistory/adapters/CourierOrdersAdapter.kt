@@ -29,7 +29,7 @@ class CourierOrdersAdapter(
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val order = orders[position]
 
-        holder.date.text = order.date.toString()
+        holder.date.text = order.date
         holder.orderNo.text = "#"+order.id
         holder.price.text = ""+order.total_amount
 

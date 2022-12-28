@@ -251,7 +251,6 @@ class CourierDrivingDataFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

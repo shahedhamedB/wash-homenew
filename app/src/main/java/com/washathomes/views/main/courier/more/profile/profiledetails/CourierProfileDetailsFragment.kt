@@ -91,7 +91,6 @@ class CourierProfileDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_courier_profile_details, container, false)
         binding = FragmentCourierProfileDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -131,10 +130,7 @@ class CourierProfileDetailsFragment : Fragment() {
             }
 
             override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-                val code = phoneAuthCredential.smsCode
-                if (code != null) {
 
-                }
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
@@ -219,7 +215,7 @@ class CourierProfileDetailsFragment : Fragment() {
             if (d.length == 1){
                 d = "0$d"
             }
-            birthdate = "$year/$m/$d"
+            birthdate = "$d/$m/$year"
             binding.birthdate.text = birthdate
 
         }, year, month, day)
@@ -248,7 +244,7 @@ class CourierProfileDetailsFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 courierMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 courierMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -263,7 +259,7 @@ class CourierProfileDetailsFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(courierMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                courierMainActivity.locationEnabled()
             }
         }
     }
@@ -284,23 +280,8 @@ class CourierProfileDetailsFragment : Fragment() {
         if (addresses[0].postalCode != null){
             postalCode = addresses[0].postalCode
         }
-//        postalCode = addresses[0].postalCode
-//        Log.d("latitude", ""+latitude)
-//        Log.d("longitude", ""+longitude)
-//        Log.d("address", ""+address)
-//        Log.d("postalCode", ""+postalCode)
-//        Toast.makeText(courierMainActivity, ""+latitude+", "+longitude+", "+address, Toast.LENGTH_LONG).show()
     }
 
-    private fun checkPermissions(): Boolean{
-        if (ActivityCompat.checkSelfPermission(courierMainActivity,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(courierMainActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            return true
-        }
-        return false
-    }
 
     private fun requestPermission(){
         ActivityCompat.requestPermissions(
@@ -320,14 +301,10 @@ class CourierProfileDetailsFragment : Fragment() {
         if (requestCode == LOCATION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+            }else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                requestPermission()
             }
         }
-    }
-
-    private fun isLocationEnabled():Boolean{
-        val locationManager: LocationManager = courierMainActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER)
     }
 
     private fun checkValidation(){
@@ -402,7 +379,7 @@ class CourierProfileDetailsFragment : Fragment() {
     }
 
     private fun updateUser(){
-        val userParams = UpdateUser(fullName, phone, email, gender, birthdate, latitude, longitude, address, postalCode, "1", image, "")
+        val userParams = UpdateUser(fullName, phone, email, gender, birthdate, AppDefs.user.results!!.latitude, AppDefs.user.results!!.longitude, AppDefs.user.results!!.address, AppDefs.user.results!!.zip_code, "1", image, "")
         binding.progressBar.visibility = View.VISIBLE
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
@@ -426,7 +403,6 @@ class CourierProfileDetailsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -487,16 +463,14 @@ class CourierProfileDetailsFragment : Fragment() {
             courierMainActivity
         ) { task: Task<AuthResult?> ->
             if (task.isSuccessful) {
-                Toast.makeText(context, "Verification completed", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getString(R.string.verification_completed), Toast.LENGTH_LONG).show()
                 AppDefs.firebaseUser = task.result!!.user!!
-                Log.d("uId",AppDefs.firebaseUser.uid)
-                Log.d("uPhone", AppDefs.firebaseUser.phoneNumber!!)
                 updateUser()
             } else {
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     Toast.makeText(
                         context,
-                        "Verification not completed! Try again",
+                        resources.getString(R.string.verification_not_completed),
                         Toast.LENGTH_LONG
                     ).show()
                 }

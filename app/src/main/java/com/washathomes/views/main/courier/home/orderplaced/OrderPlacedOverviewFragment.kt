@@ -51,7 +51,6 @@ class OrderPlacedOverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_placed_overview2, container, false)
         binding = FragmentOrderPlacedOverview2Binding.inflate(layoutInflater)
         return binding.root
     }

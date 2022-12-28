@@ -19,6 +19,8 @@ import com.washathomes.apputils.helpers.LocaleHelper
 import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.apputils.modules.Languages
 import com.washathomes.R
+import com.washathomes.apputils.modules.BooleanResponse
+import com.washathomes.apputils.modules.Phone
 import com.washathomes.databinding.FragmentPhoneLanguageBinding
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
@@ -33,14 +35,13 @@ class PhoneLanguageFragment : Fragment() {
     lateinit var binding: FragmentPhoneLanguageBinding
     lateinit var introductionActivity: IntroductionActivity
     lateinit var navController: NavController
-
+    var phoneNum = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_phone_language, container, false)
         binding = FragmentPhoneLanguageBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -109,7 +110,6 @@ class PhoneLanguageFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Languages>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -121,7 +121,7 @@ class PhoneLanguageFragment : Fragment() {
     }
 
     private fun checkValidation(){
-        var phoneNum = binding.phoneNumEdt.text.toString()
+        phoneNum = binding.phoneNumEdt.text.toString()
         if (phoneNum.isEmpty()){
             binding.phoneNumEdt.error = resources.getString(R.string.fill_feild)
         }else if (phoneNum.startsWith("0")){
@@ -131,7 +131,7 @@ class PhoneLanguageFragment : Fragment() {
         }else{
             phoneNum = binding.phoneCcp.selectedCountryCodeWithPlus+phoneNum
             navController.navigate(PhoneLanguageFragmentDirections.actionPhoneLanguageFragmentToVerificationFragment(phoneNum))
-          //  findNavController().navigate(R.id.action_phoneLanguageFragment_to_verificationFragment)
         }
     }
+
 }

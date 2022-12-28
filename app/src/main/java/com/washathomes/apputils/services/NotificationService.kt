@@ -17,15 +17,9 @@ import java.util.*
 class NotificationService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        Log.d("received", "ahmad")
         val data = remoteMessage.data
         val title = data["title"]
         val body = data["body"]
-        //        if (title.equals("Orders")){
-//            SavedData.title = body;
-//        }
-//        SavedData.orderId = data.get("body");
-
         displayNotification(applicationContext, title, body)
 
         val intent = Intent("Push")

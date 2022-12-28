@@ -57,7 +57,6 @@ class BasketFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_basket, container, false)
         binding = FragmentBasketBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -242,41 +241,10 @@ class BasketFragment : Fragment() {
     }
 
     private fun getCurrentLocation(){
-//        if (checkPermissions()){
-//            if (isLocationEnabled()){
-//                if (ActivityCompat.checkSelfPermission(
-//                        washeeRegistrationActivity,
-//                        Manifest.permission.ACCESS_FINE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                        washeeRegistrationActivity,
-//                        Manifest.permission.ACCESS_COARSE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    requestPermission()
-//                    return
-//                }
-//                fusedLocationProviderClient.lastLocation.addOnCompleteListener(washeeRegistrationActivity){ task ->
-//                    val location: Location? = task.result
-//                    if (location != null){
-//                        latitude = ""+location.latitude
-//                        longitude = ""+location.longitude
-//                        getAddress(location.latitude, location.longitude)
-//                    }else{
-//                        Toast.makeText(washeeRegistrationActivity, "Please enable your location", Toast.LENGTH_LONG).show()
-//                    }
-//                }
-//            }else{
-//                Toast.makeText(washeeRegistrationActivity, resources.getString(R.string.turn_on_location), Toast.LENGTH_SHORT).show()
-//                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//                startActivity(intent)
-//            }
-//        }else{
-//            requestPermission()
-//        }
         if (ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -291,7 +259,7 @@ class BasketFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washeeMainActivity.locationEnabled()
             }
         }
     }
@@ -308,7 +276,6 @@ class BasketFragment : Fragment() {
         ) as List<Address>// Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
 
-//        address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         if (addresses[0].postalCode != null){
             postalCode = addresses[0].postalCode
         }
@@ -332,6 +299,8 @@ class BasketFragment : Fragment() {
         if (requestCode == LOCATION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+            }else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                requestPermission()
             }
         }
     }

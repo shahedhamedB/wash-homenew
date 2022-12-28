@@ -185,7 +185,7 @@ class WasheeSignUpFragment : Fragment() {
             if (d.length == 1){
                 d = "0$d"
             }
-            birthdate = "$year/$m/$d"
+            birthdate = "$d/$m/$year"
             binding.birthdate.text = birthdate
 
         }, year, month, day)
@@ -212,7 +212,7 @@ class WasheeSignUpFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 washeeRegistrationActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeRegistrationActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -284,6 +284,8 @@ class WasheeSignUpFragment : Fragment() {
         if (requestCode == LOCATION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+            }else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                requestPermission()
             }
         }
     }

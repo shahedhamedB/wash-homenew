@@ -6,7 +6,6 @@ import com.bumptech.glide.Priority
 import com.google.firebase.auth.FirebaseUser
 import com.washathomes.R
 import com.washathomes.apputils.modules.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class AppDefs {
@@ -24,6 +23,7 @@ class AppDefs {
         var blueLogo: String? = ""
         var whiteLogo: String? = ""
         var background: String? = ""
+        var updateLocation = false
         lateinit var user: UserData
         var subTotal = ""
         lateinit var firebaseUser: FirebaseUser
@@ -38,16 +38,6 @@ class AppDefs {
         lateinit var washeeActiveOrder: WasheeActiveOrder
         var times: ArrayList<String> = ArrayList()
 
-
-
-        @JvmName("getLanguage1")
-        fun getLanguage(): String? {
-            return if (Locale.getDefault().displayLanguage == "Spanish") {
-                "es"
-            } else {
-                "en"
-            }
-        }
         fun setImage(imageUrl: String?, view: ImageView) {
             if (imageUrl == null)
                 return

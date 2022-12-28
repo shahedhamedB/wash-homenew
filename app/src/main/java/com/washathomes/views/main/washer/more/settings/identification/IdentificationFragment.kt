@@ -58,7 +58,6 @@ class IdentificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_identification, container, false)
         binding = FragmentIdentificationBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -148,11 +147,9 @@ class IdentificationFragment : Fragment() {
                 AppDefs.user = response.body()!!
                 binding.progressBar.visibility = View.GONE
                 navController.popBackStack()
-//                navController.navigate(WasherSignUpFragmentDirections.actionWasherSignUpFragmentToWasherDrivingDataFragment())
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

@@ -32,7 +32,6 @@ class CourierOrderDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_courier_order_details, container, false)
         binding = FragmentCourierOrderDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -82,23 +81,11 @@ class CourierOrderDetailsFragment : Fragment() {
         binding.dropOffDate.text = AppDefs.orderHistory.delivery_date
         binding.pickUpTime.text = AppDefs.orderHistory.pickup_time
         binding.dropOffTime.text = AppDefs.orderHistory.delivery_time
-//        val taxPercent = AppDefs.deliveryInfoPrices[8].price.toDouble()*100
-//        binding.paymentTaxLabel.text = resources.getString(R.string.tax)+" ("+taxPercent+"%)"
         binding.paymentCurrentTotalText.text = ""+AppDefs.orderHistory.total_amount
         binding.paymentSubTotalText.text = ""+AppDefs.orderHistory.sub_total
         binding.paymentTaxText.text = ""+AppDefs.orderHistory.tax
         binding.paymentDiscountText.text = ""+AppDefs.orderHistory.discount
     }
-
-//    private fun calculateTotal(discount: Double){
-//        val discountValue = discount*subTotal
-//        if (discount != 0.00){
-//            binding.paymentDiscountLabel.text = resources.getString(R.string.discount)+" "+discount+"%"
-//            binding.paymentDiscountText.text = ""+courierMainActivity.formatter.format(discountValue)
-//        }
-//        val total = subTotal+taxValue-discountValue
-//        binding.paymentCurrentTotalText.text = ""+courierMainActivity.formatter.format(total)
-//    }
 
     private fun getAddress(latitude: Double, longitude: Double, isPickUp: Boolean){
         val geocoder: Geocoder

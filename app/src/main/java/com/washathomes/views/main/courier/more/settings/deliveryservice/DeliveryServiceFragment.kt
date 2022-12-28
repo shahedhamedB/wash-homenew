@@ -69,7 +69,6 @@ class DeliveryServiceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_delivery_service, container, false)
         binding = FragmentDeliveryServiceBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -144,11 +143,9 @@ class DeliveryServiceFragment : Fragment() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // you can probably leave this empty
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // you can probably leave this empty
             }
         })
         binding.uploadVehicleID.setOnClickListener {
@@ -201,7 +198,6 @@ class DeliveryServiceFragment : Fragment() {
         try {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         } catch (e: ActivityNotFoundException) {
-            // display error state to the user
         }
     }
 
@@ -282,7 +278,6 @@ class DeliveryServiceFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserDocs>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -313,7 +308,6 @@ class DeliveryServiceFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

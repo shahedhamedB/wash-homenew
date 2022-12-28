@@ -41,7 +41,6 @@ class WasherNotificationsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_washer_notifications, container, false)
         binding = FragmentWasherNotificationsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -156,7 +155,6 @@ class WasherNotificationsFragment : Fragment() {
     }
 
     fun readNotification(notification: Notification){
-//        binding.progressBar.visibility = View.VISIBLE
         val notificationId = NotificationId(notification.id)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(

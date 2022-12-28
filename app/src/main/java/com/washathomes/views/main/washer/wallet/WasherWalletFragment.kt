@@ -41,7 +41,6 @@ class WasherWalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_washer_wallet, container, false)
         binding = FragmentWasherWalletBinding.inflate(layoutInflater)
         return binding.root
     }

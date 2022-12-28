@@ -63,7 +63,7 @@
     <string name="add_extra_image">Agregar imagen adicional</string>
     <string name="enable_services_availability">Por favor, ¡Habilite la disponibilidad de los servicios!</string>
     <string name="enable_availability">Por favor, ¡Habilite la disponibilidad de conducción!</string>
-    <string name="search_hint">Buscar artículos (por ejemplo, camisa)</string>
+    <string name="search_data">Buscar artículos (por ejemplo, camisa)</string>
     <string name="order_now">Ordenar ahora</string>
     <string name="items_quantity">Cantidad de artículos</string>
     <string name="wash_and_dry">Lavar y Secar</string>

@@ -219,7 +219,7 @@ class WasherProfileDetailsFragment : Fragment() {
             if (d.length == 1){
                 d = "0$d"
             }
-            birthdate = "$year/$m/$d"
+            birthdate = "$d/$m/$year"
             binding.birthdate.text = birthdate
 
         }, year, month, day)
@@ -248,7 +248,7 @@ class WasherProfileDetailsFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 washerMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washerMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -263,7 +263,7 @@ class WasherProfileDetailsFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washerMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washerMainActivity.locationEnabled()
             }
         }
     }
@@ -320,6 +320,8 @@ class WasherProfileDetailsFragment : Fragment() {
         if (requestCode == LOCATION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+            }else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                requestPermission()
             }
         }
     }

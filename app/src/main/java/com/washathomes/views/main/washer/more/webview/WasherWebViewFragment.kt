@@ -33,7 +33,6 @@ class WasherWebViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_washer_web_view, container, false)
         binding = FragmentWasherWebViewBinding.inflate(layoutInflater)
         return binding.root
     }

@@ -55,7 +55,6 @@ class OrderInProgressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_in_progress2, container, false)
         binding = FragmentOrderInProgress2Binding.inflate(layoutInflater)
         return binding.root
     }
@@ -279,7 +278,8 @@ class OrderInProgressFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         startActivity(intent)
     }
-    fun openChatScreen() {
+
+    private fun openChatScreen() {
 
         viewModel.getSellerOrdersChat(AppDefs.user.token!!)
 

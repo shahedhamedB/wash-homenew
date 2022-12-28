@@ -44,7 +44,6 @@ class CourierWalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_courier_wallet, container, false)
         binding = FragmentCourierWalletBinding.inflate(layoutInflater)
         return binding.root
     }

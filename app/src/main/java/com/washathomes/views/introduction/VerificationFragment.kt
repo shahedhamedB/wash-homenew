@@ -31,6 +31,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import com.onesignal.OneSignal
 import com.washathomes.R
+import com.washathomes.apputils.modules.BooleanResponse
+import com.washathomes.apputils.modules.Phone
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
 import retrofit2.converter.gson.GsonConverterFactory
@@ -59,7 +61,6 @@ class VerificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_verification, container, false)
         binding = FragmentVerificationBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -76,7 +77,6 @@ class VerificationFragment : Fragment() {
         FirebaseApp.initializeApp(introductionActivity)
         initViews(view)
         onClick()
-        sendVerification()
         getToken()
     }
 
@@ -157,11 +157,6 @@ class VerificationFragment : Fragment() {
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task: Task<String?> ->
                 if (!task.isSuccessful) {
-                    Log.w(
-                        "FAILED",
-                        "Fetching FCM registration token failed",
-                        task.exception
-                    )
                     return@addOnCompleteListener
                 }
                 token = task.result!!
@@ -195,7 +190,6 @@ class VerificationFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -212,16 +206,15 @@ class VerificationFragment : Fragment() {
             introductionActivity
         ) { task: Task<AuthResult?> ->
             if (task.isSuccessful) {
-                Toast.makeText(context, "Verification completed", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getString(R.string.verification_completed), Toast.LENGTH_LONG).show()
                 AppDefs.firebaseUser = task.result!!.user!!
-                Log.d("uId",AppDefs.firebaseUser.uid)
-                Log.d("uPhone", AppDefs.firebaseUser.phoneNumber!!)
                 login()
             } else {
+                binding.progressBar.visibility = View.GONE
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     Toast.makeText(
                         context,
-                        "Verification not completed! Try again",
+                        resources.getString(R.string.verification_not_completed),
                         Toast.LENGTH_LONG
                     ).show()
                 }

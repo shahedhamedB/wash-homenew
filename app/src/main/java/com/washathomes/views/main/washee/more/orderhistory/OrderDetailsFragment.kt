@@ -33,7 +33,6 @@ class OrderDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_details, container, false)
         binding = FragmentOrderDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -83,10 +82,6 @@ class OrderDetailsFragment : Fragment() {
         binding.pickUpTime.text = order.pickup_time
         binding.dropOffTime.text = order.delivery_time
         binding.paymentTaxLabel.text = resources.getString(R.string.tax)+" "+AppDefs.deliveryInfoPrices[8].price+"%"
-//        subTotal = order.total_amount.toDouble()
-//        taxValue = AppDefs.deliveryInfoPrices[8].price.toDouble()*subTotal
-//        binding.paymentSubTotalText.text = ""+washeeMainActivity.formatter.format(subTotal)
-//        binding.paymentTaxText.text = ""+washeeMainActivity.formatter.format(taxValue)
         binding.viewItems.text = resources.getString(R.string.view_items)+" ("+order.orders_items.size+")"
         calculateTotal()
     }

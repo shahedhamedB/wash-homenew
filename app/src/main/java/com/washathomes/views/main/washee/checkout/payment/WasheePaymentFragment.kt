@@ -426,7 +426,7 @@ class WasheePaymentFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -441,7 +441,7 @@ class WasheePaymentFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washeeMainActivity.locationEnabled()
             }
         }
     }
