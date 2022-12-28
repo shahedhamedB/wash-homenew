@@ -3,11 +3,13 @@ package com.washathomes.views.main.washee.checkout.overview
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,8 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.washathomes.R
@@ -28,6 +32,7 @@ import com.washathomes.apputils.remote.RetrofitAPIs
 import com.washathomes.databinding.FragmentOverviewBinding
 import com.washathomes.views.main.washee.WasheeMainActivity
 import com.washathomes.views.main.washee.checkout.payment.CheckOutActivity
+import com.washathomes.views.splash.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -53,13 +58,13 @@ class OverviewFragment : Fragment() {
     var longitude = ""
     var postalCode = ""
     var promoId = ""
+    var token = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_overview, container, false)
         binding = FragmentOverviewBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -77,6 +82,7 @@ class OverviewFragment : Fragment() {
         onClick()
         getCurrentLocation()
         getCart()
+        getToken()
     }
 
     private fun initViews(view: View){
@@ -127,7 +133,6 @@ class OverviewFragment : Fragment() {
         binding.paymentTaxText.text = ""+AppDefs.cartData.taks
         binding.paymentDiscountText.text = ""+AppDefs.cartData.discount
         binding.paymentDeliveryText.text = ""+AppDefs.cartData.delivery_pickup_amount
-//        calculateTotal(0.00)
     }
 
     private fun getCart(){
@@ -174,16 +179,6 @@ class OverviewFragment : Fragment() {
                 Toast.makeText(washeeMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-    private fun calculateTotal(discount: Double){
-        val discountValue = discount*subTotal
-        if (discount != 0.00){
-            binding.paymentDiscountLabel.text = resources.getString(R.string.discount)+" "+discount+"%"
-            binding.paymentDiscountText.text = ""+washeeMainActivity.formatter.format(discountValue)
-        }
-        val total = subTotal+taxValue-discountValue
-        binding.paymentCurrentTotalText.text = ""+washeeMainActivity.formatter.format(total)
     }
 
     private fun getPromoCode(promo: String){
@@ -252,17 +247,11 @@ class OverviewFragment : Fragment() {
             override fun onResponse(call: Call<BooleanResponse>, response: Response<BooleanResponse>) {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful) {
-//                    createOrder()
-                    if (AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" ")) == "0"){
+                    if (AppDefs.cartData.total_price.substring(AppDefs.cartData.total_price.indexOf(" ")+1) == "0"){
                         createOrder()
                     }else{
-
-                      //  navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToWasheePaymentFragment())
-                      // navController.navigate(OverviewFragmentDirections.actionOverviewFragmentToPaymentFragment())
                         val intent = Intent(requireContext(), CheckOutActivity::class.java)
                         startActivity(intent)
-
-
                     }
                 }else{
                     val gson = Gson()
@@ -309,14 +298,7 @@ class OverviewFragment : Fragment() {
                     startActivity(mainIntent)
                     washeeMainActivity.finish()
                 }else{
-                    val gson = Gson()
-                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
-                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
-                    Toast.makeText(
-                        washeeMainActivity,
-                        errorResponse.status.massage.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
+
                 }
             }
 
@@ -326,11 +308,84 @@ class OverviewFragment : Fragment() {
         })
     }
 
+    private fun getToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task: Task<String?> ->
+                if (!task.isSuccessful) {
+
+                    return@addOnCompleteListener
+                }
+                token = task.result!!
+                checkFCMToken()
+            }
+    }
+
+    private fun checkFCMToken(){
+        val userParams = FCMToken(token)
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val loginCall: Call<BooleanResponse> =
+            retrofit.create(RetrofitAPIs::class.java).checkToken(userParams)
+        loginCall.enqueue(object : Callback<BooleanResponse>{
+            override fun onResponse(call: Call<BooleanResponse>, response: Response<BooleanResponse>) {
+                if (response.isSuccessful){
+                    if (!response.body()!!.results){
+                        val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                            AppDefs.SHARED_PREF_KEY,
+                            Context.MODE_PRIVATE
+                        )
+                        val editor = preferences.edit()
+                        editor.clear()
+                        editor.apply()
+                        val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                        startActivity(splashIntent)
+                        washeeMainActivity.finish()
+                    }
+                } else{
+                    val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                        AppDefs.SHARED_PREF_KEY,
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = preferences.edit()
+                    editor.clear()
+                    editor.apply()
+                    val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                    startActivity(splashIntent)
+                    washeeMainActivity.finish()
+                }
+            }
+
+            override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
+                val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                    AppDefs.SHARED_PREF_KEY,
+                    Context.MODE_PRIVATE
+                )
+                val editor = preferences.edit()
+                editor.clear()
+                editor.apply()
+                val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                startActivity(splashIntent)
+                washeeMainActivity.finish()
+            }
+
+        })
+    }
+
     private fun getCurrentLocation(){
         if (ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -345,7 +400,7 @@ class OverviewFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washeeMainActivity.locationEnabled()
             }
         }
     }

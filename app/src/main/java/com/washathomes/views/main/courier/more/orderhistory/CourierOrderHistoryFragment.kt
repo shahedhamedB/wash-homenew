@@ -144,8 +144,6 @@ class CourierOrderHistoryFragment : Fragment() {
         val sortAdapter: ArrayAdapter<*> = ArrayAdapter<Any?>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items as List<Any?>)
         sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = sortAdapter
-
-//        getTodayOrders()
     }
 
     fun navigateToDetails(order: OrderHistoryObject){

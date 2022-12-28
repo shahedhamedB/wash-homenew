@@ -1,8 +1,10 @@
 package com.washathomes.views.main.washee.home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -38,6 +40,7 @@ import com.washathomes.views.main.washee.home.adapters.CategoryItemsAdapter
 import com.washathomes.views.main.washee.home.adapters.ImagesAdapter
 import com.washathomes.views.main.washee.WasheeMainActivity
 import com.washathomes.databinding.FragmentWasheeHomeBinding
+import com.washathomes.views.splash.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -64,6 +67,7 @@ class WasheeHomeFragment : Fragment() {
     var latitude = ""
     var longitude = ""
     var postalCode = ""
+    var address = ""
     var token = ""
     var selectedCategory = ""
     var isOptionsVisible = false
@@ -73,7 +77,6 @@ class WasheeHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_washee_home, container, false)
         binding = FragmentWasheeHomeBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -133,7 +136,8 @@ class WasheeHomeFragment : Fragment() {
         binding.toolbarLayout.toolbarNotifyBadge.setOnClickListener { navController.navigate(WasheeHomeFragmentDirections.actionNavigationHomeToWasheeNotificationsFragment()) }
         binding.toolbarLayout.clLeft.setOnClickListener { navController.navigate(WasheeHomeFragmentDirections.actionNavigationHomeToWasheeNotificationsFragment()) }
 
-        binding.homeSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+        binding.homeSearchView.setOnQueryTextListener(@SuppressLint("NewApi")
+        object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(qString: String): Boolean {
@@ -268,41 +272,10 @@ class WasheeHomeFragment : Fragment() {
     }
 
     private fun getCurrentLocation(){
-//        if (checkPermissions()){
-//            if (isLocationEnabled()){
-//                if (ActivityCompat.checkSelfPermission(
-//                        washeeRegistrationActivity,
-//                        Manifest.permission.ACCESS_FINE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                        washeeRegistrationActivity,
-//                        Manifest.permission.ACCESS_COARSE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    requestPermission()
-//                    return
-//                }
-//                fusedLocationProviderClient.lastLocation.addOnCompleteListener(washeeRegistrationActivity){ task ->
-//                    val location: Location? = task.result
-//                    if (location != null){
-//                        latitude = ""+location.latitude
-//                        longitude = ""+location.longitude
-//                        getAddress(location.latitude, location.longitude)
-//                    }else{
-//                        Toast.makeText(washeeRegistrationActivity, "Please enable your location", Toast.LENGTH_LONG).show()
-//                    }
-//                }
-//            }else{
-//                Toast.makeText(washeeRegistrationActivity, resources.getString(R.string.turn_on_location), Toast.LENGTH_SHORT).show()
-//                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//                startActivity(intent)
-//            }
-//        }else{
-//            requestPermission()
-//        }
         if (ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -317,7 +290,7 @@ class WasheeHomeFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washeeMainActivity.locationEnabled()
             }
         }
     }
@@ -333,10 +306,15 @@ class WasheeHomeFragment : Fragment() {
             1
         ) as List<Address>// Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
+        address = addresses[0].getAddressLine(0)
 
 //        address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         if (addresses[0].postalCode != null){
             postalCode = addresses[0].postalCode
+        }
+
+        if (AppDefs.user.results!!.latitude!!.isEmpty() || AppDefs.user.results!!.longitude!!.isEmpty()){
+            updateLocation()
         }
     }
 
@@ -510,7 +488,6 @@ class WasheeHomeFragment : Fragment() {
             override fun onFailure(call: Call<Cart>, t: Throwable) {
                 Toast.makeText(washeeMainActivity, t.message, Toast.LENGTH_SHORT).show()
                 binding.progressBar.visibility = View.GONE
-//                Toast.makeText(washeeMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -567,7 +544,6 @@ class WasheeHomeFragment : Fragment() {
     }
     
     fun addFavorite(itemId: String){
-//        binding.progressBar.visibility = View.VISIBLE
         val itemsObj = Favorite(itemId)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
@@ -588,7 +564,6 @@ class WasheeHomeFragment : Fragment() {
                 binding.homeLayout.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful){
-//                    getCategoryItems(selectedCategory)
                 }else{
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
@@ -606,7 +581,6 @@ class WasheeHomeFragment : Fragment() {
     }
 
     fun removeFavorite(itemId: String){
-//        binding.progressBar.visibility = View.VISIBLE
         val itemsObj = Favorite(itemId)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
@@ -682,16 +656,6 @@ class WasheeHomeFragment : Fragment() {
         })
     }
 
-    private fun appInstalledOrNot(uri: String): Boolean {
-        val pm = requireActivity().packageManager
-        return try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
-            true
-        } catch (e: PackageManager.NameNotFoundException) {
-            false
-        }
-    }
-
     private fun getNotifications(){
         notifications.clear()
         val userTypeObj = UserTypeObj("1")
@@ -748,20 +712,15 @@ class WasheeHomeFragment : Fragment() {
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task: Task<String?> ->
                 if (!task.isSuccessful) {
-                    Log.w(
-                        "FAILED",
-                        "Fetching FCM registration token failed",
-                        task.exception
-                    )
                     return@addOnCompleteListener
                 }
                 token = task.result!!
-                updateToken()
+                checkFCMToken()
             }
     }
 
-    private fun updateToken(){
-        val token = Token(token, "1")
+    private fun checkFCMToken(){
+        val userParams = FCMToken(token)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
@@ -774,23 +733,77 @@ class WasheeHomeFragment : Fragment() {
         }.build()
         val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create()).build()
-        val notificationsCall: Call<UserData> =
-            retrofit.create(RetrofitAPIs::class.java).updateToken(token)
-        notificationsCall.enqueue(object : Callback<UserData> {
-            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
+        val loginCall: Call<BooleanResponse> =
+            retrofit.create(RetrofitAPIs::class.java).checkToken(userParams)
+        loginCall.enqueue(object : Callback<BooleanResponse>{
+            override fun onResponse(call: Call<BooleanResponse>, response: Response<BooleanResponse>) {
                 if (response.isSuccessful){
-                    AppDefs.user = response.body()!!
-                    saveUserToSharedPreferences()
-                }else{
-                    val gson = Gson()
-                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
-                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
-                    Toast.makeText(washeeMainActivity, errorResponse.status.massage.toString(), Toast.LENGTH_SHORT).show()
+                    if (!response.body()!!.results){
+                        val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                            AppDefs.SHARED_PREF_KEY,
+                            Context.MODE_PRIVATE
+                        )
+                        val editor = preferences.edit()
+                        editor.clear()
+                        editor.apply()
+                        val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                        startActivity(splashIntent)
+                        washeeMainActivity.finish()
+                    }
+                } else{
+                    val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                        AppDefs.SHARED_PREF_KEY,
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = preferences.edit()
+                    editor.clear()
+                    editor.apply()
+                    val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                    startActivity(splashIntent)
+                    washeeMainActivity.finish()
                 }
             }
 
+            override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
+                val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                    AppDefs.SHARED_PREF_KEY,
+                    Context.MODE_PRIVATE
+                )
+                val editor = preferences.edit()
+                editor.clear()
+                editor.apply()
+                val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                startActivity(splashIntent)
+                washeeMainActivity.finish()
+            }
+
+        })
+    }
+
+    private fun updateLocation(){
+        val userParams = UpdateLocation(latitude, longitude, address, postalCode)
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val updateUserCall: Call<UserData> =
+            retrofit.create(RetrofitAPIs::class.java).updateLocation(userParams)
+        updateUserCall.enqueue(object : Callback<UserData> {
+            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
+                AppDefs.user = response.body()!!
+                binding.progressBar.visibility = View.GONE
+                saveUserToSharedPreferences()
+            }
+
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                Toast.makeText(washeeMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -827,6 +840,8 @@ class WasheeHomeFragment : Fragment() {
         if (requestCode == LOCATION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+            }else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                requestPermission()
             }
         }
     }

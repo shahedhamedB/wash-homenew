@@ -93,7 +93,6 @@ class ProfileDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_profile_details, container, false)
         binding = FragmentProfileDetailsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -220,7 +219,7 @@ class ProfileDetailsFragment : Fragment() {
             if (d.length == 1){
                 d = "0$d"
             }
-            birthdate = "$year/$m/$d"
+            birthdate = "$d/$m/$year"
             binding.birthdate.text = birthdate
 
         }, year, month, day)
@@ -249,7 +248,7 @@ class ProfileDetailsFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -264,7 +263,7 @@ class ProfileDetailsFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washeeMainActivity.locationEnabled()
             }
         }
     }
@@ -285,22 +284,6 @@ class ProfileDetailsFragment : Fragment() {
         if (addresses[0].postalCode != null){
             postalCode = addresses[0].postalCode
         }
-//        postalCode = addresses[0].postalCode
-//        Log.d("latitude", ""+latitude)
-//        Log.d("longitude", ""+longitude)
-//        Log.d("address", ""+address)
-//        Log.d("postalCode", ""+postalCode)
-//        Toast.makeText(washeeMainActivity, ""+latitude+", "+longitude+", "+address, Toast.LENGTH_LONG).show()
-    }
-
-    private fun checkPermissions(): Boolean{
-        if (ActivityCompat.checkSelfPermission(washeeMainActivity,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(washeeMainActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            return true
-        }
-        return false
     }
 
     private fun requestPermission(){
@@ -321,14 +304,10 @@ class ProfileDetailsFragment : Fragment() {
         if (requestCode == LOCATION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+            }else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                requestPermission()
             }
         }
-    }
-
-    private fun isLocationEnabled():Boolean{
-        val locationManager: LocationManager = washeeMainActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER)
     }
 
     private fun checkValidation(){
@@ -427,7 +406,6 @@ class ProfileDetailsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -504,16 +482,14 @@ class ProfileDetailsFragment : Fragment() {
             washeeMainActivity
         ) { task: Task<AuthResult?> ->
             if (task.isSuccessful) {
-                Toast.makeText(context, "Verification completed", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getString(R.string.verification_completed), Toast.LENGTH_LONG).show()
                 AppDefs.firebaseUser = task.result!!.user!!
-                Log.d("uId",AppDefs.firebaseUser.uid)
-                Log.d("uPhone", AppDefs.firebaseUser.phoneNumber!!)
                 updateUser()
             } else {
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     Toast.makeText(
                         context,
-                        "Verification not completed! Try again",
+                        resources.getString(R.string.verification_completed),
                         Toast.LENGTH_LONG
                     ).show()
                 }

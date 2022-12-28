@@ -49,7 +49,6 @@ class OrdersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_orders, container, false)
         binding = FragmentOrdersBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -194,7 +193,7 @@ class OrdersFragment : Fragment() {
         }
     }
 
-    fun toMapper(data: WasheeActiveOrder): Order {
+    private fun toMapper(data: WasheeActiveOrder): Order {
         /*  roomKey = this.id.toString(),
           buyerId = this.buyer_user_id.toString(),
           sellerId = this.seller_user_id.toString(),

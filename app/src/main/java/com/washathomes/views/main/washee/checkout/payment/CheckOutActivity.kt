@@ -358,8 +358,11 @@ class CheckOutActivity : AppCompatActivity() {
     private fun requestPayment() {
 
         binding.paymentGooglePayLayout.isClickable = false
+//        val amount: Double =
+//            AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
+//                .toDouble()
         val amount: Double =
-            AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
+            AppDefs.cartData.total_price.substring(AppDefs.cartData.total_price.indexOf(" ")+1)
                 .toDouble()
         val paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(amount.toLong())
         if (paymentDataRequestJson == null) {
@@ -433,8 +436,10 @@ class CheckOutActivity : AppCompatActivity() {
     }
 
     fun getPayPal() {
+//        val amount: String =
+//            AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
         val amount: String =
-            AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
+            AppDefs.cartData.total_price.substring(AppDefs.cartData.total_price.indexOf(" ")+1)
         binding.paymentButtonContainer.setup(
             createOrder =
             CreateOrder { createOrderActions ->
@@ -579,7 +584,7 @@ class CheckOutActivity : AppCompatActivity() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED

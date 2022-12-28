@@ -13,7 +13,7 @@ buildscript {
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.42'
         classpath 'com.google.gms:google-services:4.3.10'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.0-rc01"
-
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
         classpath 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0'
     }
     repositories {
@@ -43,7 +43,9 @@ allprojects {
         maven {
             url "https://zendesk.jfrog.io/artifactory/repo"
         }
-
+        maven{
+            url 'https://sdk.uxcam.com/android/'
+        }
 
     }
 }
@@ -82,8 +84,8 @@ subprojects {
             minSdkVersion 24
             targetSdkVersion 33
 
-            versionCode 9
-            versionName "1.0"
+            versionCode 26
+            versionName "2.6"
             vectorDrawables.useSupportLibrary = true
             multiDexEnabled true
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

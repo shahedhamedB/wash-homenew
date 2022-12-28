@@ -31,7 +31,6 @@ class ViewItemsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_view_items2, container, false)
         binding = FragmentViewItems2Binding.inflate(layoutInflater)
         return binding.root
     }

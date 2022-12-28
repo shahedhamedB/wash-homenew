@@ -46,7 +46,6 @@ class CourierSwitchAccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_courier_switch_account, container, false)
         binding = FragmentCourierSwitchAccountBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -94,15 +93,6 @@ class CourierSwitchAccountFragment : Fragment() {
         }
         binding.nextBtn.setOnClickListener {
             checkAccount()
-//            if (accountType == "1"){
-//                val registrationIntent = Intent(washeeMainActivity, WasheeRegistrationActivity::class.java)
-//                startActivity(registrationIntent)
-//                washeeMainActivity.finish()
-//            }else if (accountType == "2"){
-//                val registrationIntent = Intent(washeeMainActivity, WasherRegistrationActivity::class.java)
-//                startActivity(registrationIntent)
-//                washeeMainActivity.finish()
-//            }
         }
     }
 
@@ -146,7 +136,6 @@ class CourierSwitchAccountFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<AccountTypes>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -198,7 +187,6 @@ class CourierSwitchAccountFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

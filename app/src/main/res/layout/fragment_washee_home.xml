@@ -89,7 +89,7 @@
                         android:theme="@style/Theme.WashHomeApplication.SearchViewTheme"
                         app:iconifiedByDefault="false"
                         app:queryBackground="@color/colorTransparent"
-                        app:queryHint="@string/search_hint" />
+                        app:queryHint="@string/search_data" />
                 </LinearLayout>
 
                 <androidx.core.widget.NestedScrollView

@@ -49,7 +49,6 @@ class CourierIdentificationFragment : Fragment() {
     lateinit var navController: NavController
     private val REQUEST_IMAGE_GALLERY = 101
     private val REQUEST_IMAGE_CAPTURE = 111
-    private val LOCATION_CODE = 100
     private val REQUEST_CODE = 110
     var idImage = ""
     
@@ -58,7 +57,6 @@ class CourierIdentificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_courier_identification, container, false)
         binding = FragmentCourierIdentificationBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -151,7 +149,6 @@ class CourierIdentificationFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

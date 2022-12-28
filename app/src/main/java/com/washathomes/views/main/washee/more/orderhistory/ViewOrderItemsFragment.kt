@@ -28,7 +28,6 @@ class ViewOrderItemsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_view_order_items, container, false)
         binding = FragmentViewOrderItemsBinding.inflate(layoutInflater)
         return binding.root
     }

@@ -5,11 +5,13 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +24,8 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.washathomes.apputils.appdefs.AppDefs
@@ -33,6 +37,7 @@ import com.washathomes.views.main.washee.checkout.deliveryinfo.adapters.TimesAda
 import com.washathomes.views.main.washee.WasheeMainActivity
 import com.washathomes.views.maps.MapsActivity
 import com.washathomes.databinding.FragmentDeliveryInfoBinding
+import com.washathomes.views.splash.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -81,13 +86,13 @@ class DeliveryInfoFragment : Fragment() {
     var currentDeliveryFee = 0.00
     var currentInsuranceValue = 0.00
     var total = 0.0
+    var token = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_delivery_info, container, false)
         binding = FragmentDeliveryInfoBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -104,7 +109,7 @@ class DeliveryInfoFragment : Fragment() {
         initViews(view)
         onClick()
         getCurrentLocation()
-
+        getToken()
         openTimePicker()
         setTimes()
     }
@@ -342,7 +347,6 @@ class DeliveryInfoFragment : Fragment() {
                     }
                     binding.deliveryFees.text = resources.getString(R.string.delivery_fee_for_every_5_miles_is)+" $"+washeeMainActivity.formatter.format(prices[4].price.toDouble())+
                             resources.getString(R.string.plus)+" $"+washeeMainActivity.formatter.format(prices[10].price.toDouble())+" "+resources.getString(R.string.for_every_mile)
-//                    calculateTotal()
                     getCart()
                 }else{
                     val gson = Gson()
@@ -363,10 +367,10 @@ class DeliveryInfoFragment : Fragment() {
     }
 
     private fun calculateTotal(){
-        var total = AppDefs.cartData.sub_total.substring(0, AppDefs.cartData.sub_total.indexOf(" ")).toDouble()
-        val currency = AppDefs.cartData.sub_total.substring(AppDefs.cartData.sub_total.indexOf(" "))
+        var total = AppDefs.cartData.sub_total.substring(AppDefs.cartData.sub_total.indexOf(" ")+1).toDouble()
+        val currency = AppDefs.cartData.sub_total.substring(0,AppDefs.cartData.sub_total.indexOf(" "))
         total += currentExpressValue + currentDeliveryFee + currentInsuranceValue
-        binding.deliveryCurrentTotalText.text = ""+total + currency
+        binding.deliveryCurrentTotalText.text = "$currency $total"
 
     }
 
@@ -512,24 +516,6 @@ class DeliveryInfoFragment : Fragment() {
     }
 
     private fun openTimePicker(){
-//        val mTimePicker: TimePickerDialog
-//        val mcurrentTime = Calendar.getInstance()
-//        val hour = mcurrentTime.get(Calendar.HOUR_OF_DAY)
-//        val minute = mcurrentTime.get(Calendar.MINUTE)
-//
-//        mTimePicker = TimePickerDialog(washeeMainActivity, object : TimePickerDialog.OnTimeSetListener {
-//            override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-//                if (isPickUp){
-//                    pickUpTime = String.format("%d : %d", hourOfDay, minute)
-//                    binding.pickUpTime.text = pickUpTime
-//                }else{
-//                    dropOffTime = String.format("%d : %d", hourOfDay, minute)
-//                    binding.dropOffTime.text = dropOffTime
-//                }
-//            }
-//        }, hour, minute, false)
-//
-//        mTimePicker.show()
         val sdf = SimpleDateFormat("yyyy:MM:dd:HH:mm")
         val currentDateAndTime: String = sdf.format(Date())
 
@@ -540,7 +526,6 @@ class DeliveryInfoFragment : Fragment() {
 
         val sdf2 = SimpleDateFormat("HH:mm")
         currentTime = sdf2.format(calendar.time)
-        println("Time here $currentTime")
     }
 
     private fun setTimesSpinner(isPickUp: Boolean){
@@ -599,6 +584,7 @@ class DeliveryInfoFragment : Fragment() {
     }
 
     private fun startMapsActivity() {
+        AppDefs.updateLocation = false
         val intent = Intent(context, MapsActivity::class.java)
         startActivityForResult(
             intent,
@@ -610,7 +596,7 @@ class DeliveryInfoFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -626,7 +612,7 @@ class DeliveryInfoFragment : Fragment() {
                 getAddress(location.latitude, location.longitude, "")
                 getPrices()
             }else{
-                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washeeMainActivity.locationEnabled()
             }
         }
     }
@@ -695,7 +681,6 @@ class DeliveryInfoFragment : Fragment() {
                 if (response.isSuccessful) {
                     AppDefs.deliveryInfo = DeliveryInfoObj(deliverySpeed, deliveryOption, pickUpAddress, dropOffAddress, pickUpDate, pickUpTime, dropOffDate, dropOffTime, insurance)
                     navController.navigate(DeliveryInfoFragmentDirections.actionDeliveryInfoFragmentToOverviewFragment())
-//                    AppDefs.cartData.total_price = total.toString()
                 }else{
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
@@ -711,6 +696,78 @@ class DeliveryInfoFragment : Fragment() {
             override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
                 Toast.makeText(washeeMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
             }
+        })
+    }
+
+    private fun getToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task: Task<String?> ->
+                if (!task.isSuccessful) {
+                    return@addOnCompleteListener
+                }
+                token = task.result!!
+                checkFCMToken()
+            }
+    }
+
+    private fun checkFCMToken(){
+        val userParams = FCMToken(token)
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val loginCall: Call<BooleanResponse> =
+            retrofit.create(RetrofitAPIs::class.java).checkToken(userParams)
+        loginCall.enqueue(object : Callback<BooleanResponse>{
+            override fun onResponse(call: Call<BooleanResponse>, response: Response<BooleanResponse>) {
+                if (response.isSuccessful){
+                    if (!response.body()!!.results){
+                        val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                            AppDefs.SHARED_PREF_KEY,
+                            Context.MODE_PRIVATE
+                        )
+                        val editor = preferences.edit()
+                        editor.clear()
+                        editor.apply()
+                        val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                        startActivity(splashIntent)
+                        washeeMainActivity.finish()
+                    }
+                } else{
+                    val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                        AppDefs.SHARED_PREF_KEY,
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = preferences.edit()
+                    editor.clear()
+                    editor.apply()
+                    val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                    startActivity(splashIntent)
+                    washeeMainActivity.finish()
+                }
+            }
+
+            override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
+                val preferences: SharedPreferences = washeeMainActivity.getSharedPreferences(
+                    AppDefs.SHARED_PREF_KEY,
+                    Context.MODE_PRIVATE
+                )
+                val editor = preferences.edit()
+                editor.clear()
+                editor.apply()
+                val splashIntent = Intent(washeeMainActivity, SplashActivity::class.java)
+                startActivity(splashIntent)
+                washeeMainActivity.finish()
+            }
+
         })
     }
 

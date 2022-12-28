@@ -127,7 +127,6 @@ class WasherMoreFragment : Fragment() {
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
             startActivity(Intent.createChooser(shareIntent, "choose one"))
         } catch (e: Exception) {
-            Log.d("er", e.message!!)
         }
     }
 

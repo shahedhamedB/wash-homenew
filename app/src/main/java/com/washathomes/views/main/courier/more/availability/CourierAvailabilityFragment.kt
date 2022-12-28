@@ -40,7 +40,6 @@ class CourierAvailabilityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_courier_availability, container, false)
         binding = FragmentCourierAvailabilityBinding.inflate(layoutInflater)
         return binding.root
     }

@@ -36,6 +36,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.button.MaterialButton
+import com.washathomes.apputils.appdefs.AppDefs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
@@ -55,6 +56,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
                 Places.initialize(applicationContext, baseContext.getString(R.string.google_places_key), Locale.US)
         val actionBar = actionBar
         actionBar?.hide()
+
 
 //        if(Helpers.getLocale().equals("ar")){
 //            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -117,6 +119,10 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
 
         val submitAddressMaterialButton: MaterialButton =
             findViewById(R.id.submitAddressMaterialButton)
+
+        if (AppDefs.updateLocation){
+            submitAddressMaterialButton.text = resources.getString(R.string.update)
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -232,11 +238,19 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback {
                     // Got last known location. In some rare situations this can be null.
                     if (location != null) {
                         // Logic to handle location object
-                        val latLng =
-                            LatLng(location.latitude, location.longitude)
-                        requestingLocationUpdates = false
-                        placeMarkerOnMap(latLng)
-                        markerPosition = latLng
+                        if (AppDefs.updateLocation){
+                            val latLng =
+                                LatLng(AppDefs.user.results!!.latitude!!.toDouble(), AppDefs.user.results!!.longitude!!.toDouble())
+                            requestingLocationUpdates = false
+                            placeMarkerOnMap(latLng)
+                            markerPosition = latLng
+                        }else{
+                            val latLng =
+                                LatLng(location.latitude, location.longitude)
+                            requestingLocationUpdates = false
+                            placeMarkerOnMap(latLng)
+                            markerPosition = latLng
+                        }
                     } else {
                         requestLocationUpdates()
                     }

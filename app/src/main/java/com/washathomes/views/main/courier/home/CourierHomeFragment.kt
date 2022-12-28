@@ -3,6 +3,7 @@ package com.washathomes.views.main.courier.home
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -35,6 +36,8 @@ import com.washathomes.views.main.courier.CourierMainActivity
 import com.washathomes.views.main.courier.home.adapters.ActiveOrdersAdapter
 import com.washathomes.views.main.courier.home.adapters.PendingOrdersAdapter
 import com.washathomes.databinding.FragmentCourierHomeBinding
+import com.washathomes.views.introduction.PhoneLanguageFragmentDirections
+import com.washathomes.views.splash.SplashActivity
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -62,6 +65,7 @@ class CourierHomeFragment : Fragment() {
     var latitude = ""
     var longitude = ""
     var postalCode = ""
+    var address = ""
     var isOptionsVisible = false
 
     override fun onCreateView(
@@ -69,7 +73,6 @@ class CourierHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_courier_home, container, false)
         binding = FragmentCourierHomeBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -284,10 +287,6 @@ class CourierHomeFragment : Fragment() {
                     }
                     setActiveOrdersAdapter()
                 }else{
-//                    val gson = Gson()
-//                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
-//                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
-//                    Toast.makeText(courierMainActivity, errorResponse.status.massage.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -403,7 +402,6 @@ class CourierHomeFragment : Fragment() {
     }
 
     private fun getOrders(status: String){
-//        binding.progressBar.visibility = View.VISIBLE
         val statusStr = StatusStr(status)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
@@ -499,20 +497,15 @@ class CourierHomeFragment : Fragment() {
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task: Task<String?> ->
                 if (!task.isSuccessful) {
-                    Log.w(
-                        "FAILED",
-                        "Fetching FCM registration token failed",
-                        task.exception
-                    )
                     return@addOnCompleteListener
                 }
                 token = task.result!!
-                updateToken()
+                checkFCMToken()
             }
     }
 
-    private fun updateToken(){
-        val token = Token(token, "1")
+    private fun checkFCMToken(){
+        val userParams = FCMToken(token)
         val okHttpClient = OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
@@ -525,64 +518,58 @@ class CourierHomeFragment : Fragment() {
         }.build()
         val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create()).build()
-        val notificationsCall: Call<UserData> =
-            retrofit.create(RetrofitAPIs::class.java).updateToken(token)
-        notificationsCall.enqueue(object : Callback<UserData> {
-            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
+        val loginCall: Call<BooleanResponse> =
+            retrofit.create(RetrofitAPIs::class.java).checkToken(userParams)
+        loginCall.enqueue(object : Callback<BooleanResponse>{
+            override fun onResponse(call: Call<BooleanResponse>, response: Response<BooleanResponse>) {
                 if (response.isSuccessful){
-                    AppDefs.user = response.body()!!
-                    saveUserToSharedPreferences()
-                }else{
-                    val gson = Gson()
-                    val type = object : TypeToken<ErrorResponse>() {}.type //ErrorResponse is the data class that matches the error response
-                    val errorResponse = gson.fromJson<ErrorResponse>(response.errorBody()!!.charStream(), type) // errorResponse is an instance of ErrorResponse that will contain details about the error
-                    Toast.makeText(courierMainActivity, errorResponse.status.massage.toString(), Toast.LENGTH_SHORT).show()
+                    if (!response.body()!!.results){
+                        val preferences: SharedPreferences = courierMainActivity.getSharedPreferences(
+                            AppDefs.SHARED_PREF_KEY,
+                            Context.MODE_PRIVATE
+                        )
+                        val editor = preferences.edit()
+                        editor.clear()
+                        editor.apply()
+                        val splashIntent = Intent(courierMainActivity, SplashActivity::class.java)
+                        startActivity(splashIntent)
+                        courierMainActivity.finish()
+                    }
+                } else{
+                    val preferences: SharedPreferences = courierMainActivity.getSharedPreferences(
+                        AppDefs.SHARED_PREF_KEY,
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = preferences.edit()
+                    editor.clear()
+                    editor.apply()
+                    val splashIntent = Intent(courierMainActivity, SplashActivity::class.java)
+                    startActivity(splashIntent)
+                    courierMainActivity.finish()
                 }
             }
 
-            override fun onFailure(call: Call<UserData>, t: Throwable) {
-                Toast.makeText(courierMainActivity, resources.getString(R.string.internet_connection), Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<BooleanResponse>, t: Throwable) {
+                val preferences: SharedPreferences = courierMainActivity.getSharedPreferences(
+                    AppDefs.SHARED_PREF_KEY,
+                    Context.MODE_PRIVATE
+                )
+                val editor = preferences.edit()
+                editor.clear()
+                editor.apply()
+                val splashIntent = Intent(courierMainActivity, SplashActivity::class.java)
+                startActivity(splashIntent)
+                courierMainActivity.finish()
             }
 
         })
     }
 
     private fun getCurrentLocation(){
-//        if (checkPermissions()){
-//            if (isLocationEnabled()){
-//                if (ActivityCompat.checkSelfPermission(
-//                        washeeRegistrationActivity,
-//                        Manifest.permission.ACCESS_FINE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                        washeeRegistrationActivity,
-//                        Manifest.permission.ACCESS_COARSE_LOCATION
-//                    ) != PackageManager.PERMISSION_GRANTED
-//                ) {
-//                    requestPermission()
-//                    return
-//                }
-//                fusedLocationProviderClient.lastLocation.addOnCompleteListener(washeeRegistrationActivity){ task ->
-//                    val location: Location? = task.result
-//                    if (location != null){
-//                        latitude = ""+location.latitude
-//                        longitude = ""+location.longitude
-//                        getAddress(location.latitude, location.longitude)
-//                    }else{
-//                        Toast.makeText(washeeRegistrationActivity, "Please enable your location", Toast.LENGTH_LONG).show()
-//                    }
-//                }
-//            }else{
-//                Toast.makeText(washeeRegistrationActivity, resources.getString(R.string.turn_on_location), Toast.LENGTH_SHORT).show()
-//                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//                startActivity(intent)
-//            }
-//        }else{
-//            requestPermission()
-//        }
         if (ActivityCompat.checkSelfPermission(
                 courierMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 courierMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -597,7 +584,7 @@ class CourierHomeFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(courierMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                courierMainActivity.locationEnabled()
             }
         }
     }
@@ -613,11 +600,45 @@ class CourierHomeFragment : Fragment() {
             1
         ) as List<Address>// Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
+        address = addresses[0].getAddressLine(0)
 
 //        address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         if (addresses[0].postalCode != null){
             postalCode = addresses[0].postalCode
         }
+
+        if (AppDefs.user.results!!.latitude!!.isEmpty() || AppDefs.user.results!!.longitude!!.isEmpty()){
+            updateLocation()
+        }
+    }
+
+    private fun updateLocation(){
+        val userParams = UpdateLocation(latitude, longitude, address, postalCode)
+        val okHttpClient = OkHttpClient.Builder().apply {
+            addInterceptor(
+                Interceptor { chain ->
+                    val builder = chain.request().newBuilder()
+                    builder.header("Content-Type", "application/json; charset=UTF-8")
+                    builder.header("Authorization", AppDefs.user.token!!)
+                    return@Interceptor chain.proceed(builder.build())
+                }
+            )
+        }.build()
+        val retrofit: Retrofit = Retrofit.Builder().baseUrl(Urls.BASE_URL).client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val updateUserCall: Call<UserData> =
+            retrofit.create(RetrofitAPIs::class.java).updateLocation(userParams)
+        updateUserCall.enqueue(object : Callback<UserData> {
+            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
+                AppDefs.user = response.body()!!
+                binding.progressBar.visibility = View.GONE
+                saveUserToSharedPreferences()
+            }
+
+            override fun onFailure(call: Call<UserData>, t: Throwable) {
+            }
+
+        })
     }
 
     private fun requestPermission(){
@@ -638,6 +659,8 @@ class CourierHomeFragment : Fragment() {
         if (requestCode == LOCATION_CODE){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+            }else if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                requestPermission()
             }
         }
     }

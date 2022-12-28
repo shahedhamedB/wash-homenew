@@ -49,7 +49,6 @@ class MoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_more, container, false)
         binding = FragmentMoreBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -126,7 +125,6 @@ class MoreFragment : Fragment() {
             shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
             startActivity(Intent.createChooser(shareIntent, "choose one"))
         } catch (e: Exception) {
-            Log.d("er", e.message!!)
         }
     }
 

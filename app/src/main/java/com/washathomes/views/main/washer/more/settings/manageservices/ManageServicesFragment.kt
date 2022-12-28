@@ -150,7 +150,6 @@ class ManageServicesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Services>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -200,7 +199,6 @@ class ManageServicesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserDocs>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -270,7 +268,6 @@ class ManageServicesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

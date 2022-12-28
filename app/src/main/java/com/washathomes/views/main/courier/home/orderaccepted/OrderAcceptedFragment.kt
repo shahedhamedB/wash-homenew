@@ -52,7 +52,6 @@ class OrderAcceptedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_accepted2, container, false)
         binding = FragmentOrderAccepted2Binding.inflate(layoutInflater)
         return binding.root
     }
@@ -128,17 +127,15 @@ class OrderAcceptedFragment : Fragment() {
     }
 
     private fun getAddress(latitude: Double, longitude: Double){
-        val geocoder: Geocoder
         val addresses: List<Address>
-        geocoder = Geocoder(courierMainActivity, Locale.getDefault())
+        val geocoder = Geocoder(courierMainActivity, Locale.getDefault())
 
         addresses = geocoder.getFromLocation(
             latitude,
             longitude,
             1
-        ) as List<Address> // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        ) as List<Address>
 
-        // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
         deliveryAddress = addresses[0].getAddressLine(0)
 
     }

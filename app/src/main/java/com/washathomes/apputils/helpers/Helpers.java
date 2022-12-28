@@ -35,10 +35,4 @@ public class Helpers {
         return Locale.getDefault().getLanguage();
     }
 
-    public static float convertValuesRange(float value, float oldMax, float oldMin, float newMax, float newMin){
-        float oldRange = oldMax - oldMin;
-        float newRange = newMax - newMin;
-        return (((value - oldMin) * newRange) / oldRange) + newMin;
-    }
-
 }

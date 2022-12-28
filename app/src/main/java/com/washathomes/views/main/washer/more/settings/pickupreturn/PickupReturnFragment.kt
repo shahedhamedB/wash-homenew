@@ -46,7 +46,6 @@ class PickupReturnFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_pickup_return, container, false)
         binding = FragmentPickupReturnBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -143,7 +142,6 @@ class PickupReturnFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

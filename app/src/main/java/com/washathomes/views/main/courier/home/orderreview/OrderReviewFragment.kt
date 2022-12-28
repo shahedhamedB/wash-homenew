@@ -45,7 +45,6 @@ class OrderReviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_review3, container, false)
         binding = FragmentOrderReview3Binding.inflate(layoutInflater)
         return binding.root
     }

@@ -44,7 +44,6 @@ class LanguageSelectionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_language_selection, container, false)
         binding = FragmentLanguageSelectionBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -114,7 +113,6 @@ class LanguageSelectionFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -153,7 +151,6 @@ class LanguageSelectionFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Languages>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -163,12 +160,12 @@ class LanguageSelectionFragment : Fragment() {
         val adapter = LanguagesAdapter(washeeMainActivity, AppDefs.languages)
         binding.languagesSpinner.adapter = adapter
 
-        if (AppDefs.lang == "es"){
+        lang = if (AppDefs.lang == "es"){
             binding.languagesSpinner.setSelection(1)
-            lang = "es"
+            "es"
         }else{
             binding.languagesSpinner.setSelection(0)
-            lang = "en"
+            "en"
         }
     }
 

@@ -443,7 +443,7 @@ class PaymentFragment : Fragment() {
         if (ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
                 washeeMainActivity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -458,7 +458,7 @@ class PaymentFragment : Fragment() {
                 longitude = ""+location.longitude
                 getAddress(location.latitude, location.longitude)
             }else{
-                Toast.makeText(washeeMainActivity, "Please enable your location", Toast.LENGTH_LONG).show()
+                washeeMainActivity.locationEnabled()
             }
         }
     }
@@ -496,7 +496,8 @@ class PaymentFragment : Fragment() {
     private fun paypalPayment() {
 
         // Getting the amount from editText
-        val amount: String = AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
+//        val amount: String = AppDefs.cartData.total_price.substring(0, AppDefs.cartData.total_price.indexOf(" "))
+        val amount: String = AppDefs.cartData.total_price.substring(AppDefs.cartData.total_price.indexOf(" ")+1)
 
         // Creating a paypal payment on below line.
         val payment = PayPalPayment(

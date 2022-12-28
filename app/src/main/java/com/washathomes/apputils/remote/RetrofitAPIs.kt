@@ -21,6 +21,15 @@ interface RetrofitAPIs {
     @POST("register_phone")
     fun login(@Body userParams: UserLogin): Call<UserData>
 
+    @POST("check_user_login")
+    fun checkLoggedIn(@Body phone: Phone): Call<BooleanResponse>
+
+    @POST("check_user_fcm_token")
+    fun checkToken(@Body fcmToken: FCMToken): Call<BooleanResponse>
+
+    @POST("logout_user")
+    fun logout(): Call<BooleanResponse>
+
     @GET("get_user_type")
     fun getAccountTypes(): Call<AccountTypes>
 
@@ -35,6 +44,12 @@ interface RetrofitAPIs {
 
     @POST("update_data")
     fun updateUser(@Body userParams: UpdateUser): Call<UserData>
+
+    @POST("update_data")
+    fun updateLocation(@Body location: UpdateLocation): Call<UserData>
+
+    @GET("version")
+    fun getVersion(): Call<Version>
 
     @POST("driving_data")
     fun updateDrivingData(@Body userParams: UpdateDrivingData): Call<UserData>

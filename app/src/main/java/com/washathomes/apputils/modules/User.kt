@@ -21,3 +21,5 @@ data class UpdateServicesData(val washer_available: String?, val express: String
 , val dryer_image: String?, val extra_image: String?)
 
 data class UpdatePickupReturn(val dreiver_available: String?, val dreiver_miles: String?, val express: String?)
+
+data class UpdateLocation(val latitude: String?, val longitude: String?, val address: String?, val zip_code: String?)

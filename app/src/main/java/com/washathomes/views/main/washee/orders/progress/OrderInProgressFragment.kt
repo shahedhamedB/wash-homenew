@@ -56,7 +56,6 @@ class OrderInProgressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_in_progress, container, false)
         binding = FragmentOrderInProgressBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -110,8 +109,6 @@ class OrderInProgressFragment : Fragment() {
                 binding.directionsActionBtn.visibility = View.VISIBLE
             }else{
                 binding.headerSubDescription.visibility = View.GONE
-//                binding.driverLabel.visibility = View.VISIBLE
-//                binding.driverName.visibility = View.VISIBLE
                 binding.directionsBtn.visibility = View.GONE
                 binding.directionsActionBtn.visibility = View.GONE
             }
@@ -183,7 +180,8 @@ class OrderInProgressFragment : Fragment() {
 
         })
     }
-    fun openChatScreen() {
+
+    private fun openChatScreen() {
 
         viewModel.getBuyerOrdersChat(AppDefs.user.token!!)
 

@@ -48,7 +48,6 @@ class AccountTypesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_account_types, container, false)
         binding = FragmentAccountTypesBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -92,15 +91,6 @@ class AccountTypesFragment : Fragment() {
         }
         binding.nextBtn.setOnClickListener {
             checkAccount()
-//            if (accountType == "1"){
-//                val registrationIntent = Intent(introductionActivity, WasheeRegistrationActivity::class.java)
-//                startActivity(registrationIntent)
-//                introductionActivity.finish()
-//            }else if (accountType == "2"){
-//                val registrationIntent = Intent(introductionActivity, WasherRegistrationActivity::class.java)
-//                startActivity(registrationIntent)
-//                introductionActivity.finish()
-//            }
         }
     }
 
@@ -144,7 +134,6 @@ class AccountTypesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<AccountTypes>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })

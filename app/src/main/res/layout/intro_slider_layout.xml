@@ -23,6 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:src="@color/white"
         android:alpha="0.85"
+        android:visibility="gone"
         android:scaleType="fitXY"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

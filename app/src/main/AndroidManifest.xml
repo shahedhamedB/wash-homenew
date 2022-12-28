@@ -105,6 +105,10 @@
             android:name="com.facebook.sdk.CodelessDebugLogEnabled"
             android:value="true" />
 
+        <meta-data
+            android:name="com.mixpanel.android.MPConfig.EnableDebugLogging"
+            android:value="true" />
+
         <service
             android:name=".apputils.services.NotificationService"
             android:exported="false">

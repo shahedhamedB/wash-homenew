@@ -58,7 +58,6 @@ class OrderInProgressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_order_in_progress3, container, false)
         binding = FragmentOrderInProgress3Binding.inflate(layoutInflater)
         return binding.root
     }
@@ -410,7 +409,8 @@ class OrderInProgressFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
         startActivity(intent)
     }
-    fun openChatScreen() {
+
+    private fun openChatScreen() {
 
         viewModel.getDriverOrdersChat(AppDefs.user.token!!)
 
@@ -421,7 +421,6 @@ class OrderInProgressFragment : Fragment() {
 
 
                     val navController = Navigation.findNavController(binding.root)
-                   // action_orderInProgressFragment3_to_washeeChatFragment3
                     navController.navigate(
                        com.washathomes.views.main.courier.home.orderInprogress.OrderInProgressFragmentDirections.actionOrderInProgressFragment3ToWasheeChatFragment3(
                             ChatRoom(orderId=result!!.id, roomKey=result!!.id, buyerId=result!!.washee_id, sellerId=result!!.washer_id, driverId=result!!.courier_id, messages=ArrayList())
